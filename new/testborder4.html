@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style>
+    body {
+      background-color:#E7E9EB;
+      font-family: Helvetica;
+      font-size: 12px;
+    }
+
+    td {
+      font-family: Helvetica;
+    }
+
+
+    #ShowTimeButt{
+      border-radius: 10px;
+    }
+
+    #menuDiv {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 320px;
+      display: none;
+      opacity: 0;
+      background-color:#007E9F;
+      border: 1px solid none;
+      border-radius:0px 0px 0px 0px;
+      padding-left: 0px;
+      padding-bottom:0px;
+      padding-top:0px;
+      color:#ffffff;
+      font-size:18px;
+      font-weight: normal;
+      font-family: Helvetica;
+    }
+
+    #myDIV {
+      position: absolute;
+      height:35px;
+      left:5px;
+      top:150px;
+      margin-left:5px;
+      min-width: 363px;
+      background-color:#007E9F;
+      border: 1px solid none;
+      border-radius:10px 10px 0px 0px;
+      padding-left: 10px;
+      padding-bottom:0px;
+      padding-top:10px;
+      color:#ffffff;
+      font-size:15px;
+      font-weight: 100;
+      font-family: Arial Black;
+      display: inline-block;
+      cursor: pointer;
+      border-color: blue;
+      border-width: 1px;
+    }
+
+    #mySearchElements {
+      position: absolute;
+      height:250px;
+      left:5px;
+      top:185px;
+      margin-left:5px;
+      min-width: 317px;
+      background-color:#ffffff;
+      border: 1px solid none;
+      border-radius:0px 0px 0px 0px;
+      padding-left: 10px;
+      padding-bottom:0px;
+      padding-top: 10px;
+      font-size:12px;
+      font-weight: normal;
+      font-family: Helvetica;
+      display: inline-block;
+      border-color: blue;
+      border-width: 1px;
+    }
+
+    .myDIV2 {
+      position: absolute;
+      height:30px;
+      left:0px;
+      top:0px;
+      margin-left:0px;
+      width: 80%;
+      background-color:#007E9F;
+      border: 1px solid none;
+      border-radius:10px 10px 0px 0px;
+      padding-left: 10px;
+      padding-bottom:0px;
+      padding-top:12px;
+      font-size:18px;
+      font-weight: normal;
+      font-family: Helvetica;
+      display: inline-block;
+    }
+
+    #myButtons {
+      position: absolute;
+      height:95px;
+      left:281px;
+      top:0px;
+      margin-left:75px;width: 80%;
+      padding-left: 10px;
+      padding-bottom:20px;
+      padding-top:75px;
+      font-size:11px;
+      font-weight: normal;
+      font-family: Helvetica;
+      display: none;
+      cursor: pointer;
+    }
+
+    .buttspan {
+      border-radius: 20px;
+      background-color: #ffffff;
+      padding: 10px 20px 10px 19px;
+    }
+
+    .activeButt {
+      background-color: #007E9F;
+      color:#ffffff;
+    }
+
+
+    .mylabel {
+      color: #000000;
+      font-size: 14px;
+    }
+
+    .datebox {
+    }
+
+    .btnOverall {
+      width: 25px;
+      height: 25px;
+    }
+
+    #btnOverall {
+      position: relative;
+      top: 6px;
+      width: 25px;
+      height: 25px;
+      display: inline-block;
+    }
+
+    #dtDateS {color: #000000;}
+    #dtDateE {color: #000000;}
+
+    .imglink {
+      position: relative;
+      width: 25px;
+      height: 25px;
+      display: inline-block;
+    }
+
+    .imgbutton {
+      width: 20px;
+      height: 20px;
+      position: relative;
+      top: 3px;
+    }
+
+    .daterange {
+      position: relative;
+      top: 0px;
+      display: inline-block;
+      color: gray;
+      border-style: solid;
+      border-width: 1px;
+      border-color: darkgray;
+      border-radius: 20px;
+      background-color: #ffffff;
+      padding: 5px 10px 5px 10px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+
+    .searchButton {
+      position: relative;
+      top: 0px;
+      display: inline-block;
+      color: #ffffff;
+      border-style: solid;
+      border-width: 1px;
+      border-color: darkgray;
+      border-radius: 20px;
+      background-color: #007E9F;
+      padding: 5px 10px 5px 10px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+
+    .curlyborder {
+      border-radius: 5px;
+    }
+
+    #selected_ticketx {
+      width: 180px;
+      color: black;
+      border-style: solid;
+      border-radius: 5px;
+    }
+
+    #selected_accountx {
+      width: 180px;
+      color: black;
+      border-style: solid;
+      border-radius: 5px;      
+    }
+
+    #selected_BetTypex {
+      width: 180px;
+      color: black;
+      border-style: solid;
+      border-radius: 5px;      
+    }
+
+    #btnOverall { cursor: pointer; }
+    #btnTicket { cursor: pointer; }
+    #btnAccounts { cursor: pointer; }
+    #btnBetTypes { cursor: pointer; }
+
+    .burger {
+      position: fixed;
+      left:320px;
+      top:50px;
+      width: 23px;
+      height: 23px;
+      padding: 7px 7px 7px 7px;
+      background-color: #007E9F;
+      border-radius:0px 5px 5px 0px;
+      cursor: pointer;
+      display: none;
+    }
+
+    #copyright2 {
+      color: #926800;
+      padding: 0;
+      display: block;
+      position: absolute;
+      top: 820px;
+      left:15px;
+      text-align:center;
+      font-size: 12px;
+    }
+
+    #footer .copyright {
+      display: none;
+    }
+
+    .col {
+      display: none;
+    }
+
+    #CheckingArea {
+      position: absolute;
+      top: 180px;
+      height: 20%;
+      width:80%;
+      left: 5px;
+      margin-left: 83px;
+      background: blue;
+      display: none;
+
+    }
+
+    #browsertype {
+      display: none;
+    }
+
+    #L1Area {
+      position: absolute;
+      top: 110px;
+      left: 0px;
+      margin-left: 15px;
+      display: inline-block;
+      padding-left: 5px;
+      overflow: scroll;
+
+    }
+
+    #L2Area {
+      position: absolute;
+      top: 110px;
+      
+      left: 0px;
+      margin-left: 15px;
+      display: inline-block;
+      padding-left: 5px;
+      overflow: scroll;
+    }
+
+    #L3Area {
+      position: absolute;
+      top: 110px;
+      left: 0px;
+      margin-left: 15px;
+      display: inline-block;
+      padding-left: 5px;
+      overflow: scroll;
+    }
+
+    #L4Area {
+      position: absolute;
+      top: 110px;
+      left: 0px;
+      margin-left: 15px;
+      display: inline-block;
+      padding-left: 5px;
+      overflow: scroll;
+    }
+
+    #closebutton2 {
+      position: absolute;
+      top: 90px;
+      border-radius: 10px;
+      left: 1500px;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      border: 1px solid;
+      padding: 0px;
+      box-shadow: 3px 2px #888888;
+      border-radius:15px;  
+      cursor: pointer; 
+    }
+
+    #copybutton2 {
+      position: absolute;
+      top: 118px;
+      border-radius: 10px;
+      left: 1500px;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      border: 1px solid;
+      padding: 0px;
+      box-shadow: 3px 2px #888888;
+      border-radius:15px;   
+      cursor: pointer;       
+    }
+
+    #printbutton2 {
+      position: absolute;
+      top: 146px;
+      border-radius: 10px;
+      left: 1500px;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;      
+      border-style: none;
+      border: 1px solid;
+      padding: 0px;
+      box-shadow: 3px 2px #888888;
+      border-radius:15px;       
+      cursor: pointer;       
+    }
+
+    #excelbutton2 {
+      position: absolute;
+      top: 174px;
+      border-radius: 10px;
+      left: 1500px;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;      
+      border-style: none;
+      border: 1px solid;
+      padding: 0px;
+      box-shadow: 3px 2px #888888;
+      border-radius:15px;   
+      cursor: pointer; 
+    }
+
+    #downloadbutton2 {
+      position: absolute;
+      top: 202px;
+      border-radius: 10px;
+      left: 1500px;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      padding-left: 10px;
+      padding-right: 0px;
+      padding-top: 15px;
+      padding-bottom: 0px;  
+      border-style: none;
+      border: 1px solid;
+      padding: 0px;
+      box-shadow: 3px 2px #888888;
+      border-radius:15px;   
+      cursor: pointer; 
+      text-align: center;          
+    }
+
+    #prevbutton2 {
+      position: absolute;
+      top: 230px;
+      border-radius: 10px;
+      left: 1500px;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      border-style: none;
+      border: 1px solid;
+      padding: 0px;
+      box-shadow: 3px 2px #888888;
+      border-radius:15px;     
+      cursor: pointer;         
+    }
+
+    .TableTitle {
+      background: #0099FF;
+    }
+
+    .TableBack {background: #CCFFFF}
+
+    .cellborder {
+        font-family: Montserrat,'Noto Sans TC','Microsoft JhengHei',Arial,Helvetica,sans-serif;
+        font-weight: 900;
+        font-size: 11px;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #ebe9e9;
+        background: #007E9F;
+        color: #ffffff;
+        padding-left: 6px;
+        padding-right: 3px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .celldata {
+        color: #333;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #ebe9e9;
+        background: #ffffff;
+        padding-left: 6px;
+        padding-right: 3px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-family: Montserrat,'Noto Sans TC','Microsoft JhengHei',Arial,Helvetica,sans-serif;
+        font-weight: 900;
+        font-size: 11px;
+    }
+
+    .cellcenter {
+        text-align: center;
+    }
+
+    .cellright {
+        text-align: right;
+    }
+
+    .cellleft {
+        text-align: left;
+    }
+
+    .bckPink {
+        background: #f863ba;
+        border-style: none;
+    }
+
+    .cellgrey {
+      background-color: #ebe9e9;
+      border-style: solid;
+      border-width: 1px;
+      border-color: #ebe9e9;
+      padding-left: 6px;
+      padding-right: 3px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      font-family: Montserrat,'Noto Sans TC','Microsoft JhengHei',Arial,Helvetica,sans-serif;
+      font-weight: 900;
+      font-size: 11px;
+    }
+
+    .sumcell {
+      color: #333;
+      border-style: solid;
+      border-width: 1px;
+      border-color: #ebe9e9;
+      padding-left: 6px;
+      padding-right: 3px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      font-family: 'Arial Black';
+      font-weight: 900;
+      font-size: 11px;
+    }
+
+    .bckPeal {
+        color: #1888af;
+        border-style: none;
+        cursor: pointer;
+        font-family: 'Arial Black';
+        font-weight: 300;
+        font-size: 10px;
+    }
+
+    .Report2 {
+        background: #ffffff;
+        border-style: solid;
+        border-width: 4px;
+        border-radius: 5px;
+        border-color: darkgreen;
+    }
+
+    .isnegative {
+      color: red;
+      font-weight: bolder;
+      border-style: solid;
+      border-width: 1px;
+      border-color: blue;
+      padding-left: 3px;
+      padding-right: 3px;
+  }
+
+    .negativecell {
+      font-weight: normal;
+      color: red;
+      border-style: solid;
+      border-width: 1px;
+      border-color: #ebe9e9;
+      padding-left: 3px;
+      padding-right: 3px;
+  }
+
+  	#pickbutt1 #pickbutt2 {
+    cursor: pointer;
+  }
+
+  </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div id="myDIV" onclick="hidemenu()" data-viewstate="small">
+      <span>Search Condition</span>
+    </div>
+    <div id="mySearchElements"  data-viewstate="small">
+      <div style="display: inline-block;">
+        <label class="mylabel">DateS</label><br>
+        <input id="dtDateS" type="date" placeholder="" class="datebox curlyborder" onchange="showdate()"><div style="width:8px;display:inline-block;opacity: 0;"></div>
+        
+      </div>
+      <div style="display: inline-block;">
+        <label class="mylabel">DateE</label><br>
+        <input id="dtDateE" type="date" placeholder=""  class="datebox curlyborder">
+      </div>
+
+      <div style="display: inline-block;">
+        <a onclick="GenOverallReport()" id="btnOverall" style="opacity: 0;"><img style="opacity: 0;" src='http://103.209.157.30:5106/report.png' class="btnOverall"></a>
+        <div style="width:10px;display:inline-block;opacity: 0;"></div>
+      </div> 
+
+      <div style="display: inline-block;">
+        <span id="today" class="daterange" onclick="getToday()">Today</span><div style="width:3px;display:inline-block;opacity: 0;"></div>
+        <span id="yesterday" class="daterange" onclick="getYesterday()">Yesterday</span><div style="width:3px;display:inline-block;opacity: 0;"></div>
+        <span id="7days" class="daterange" onclick="get7Days()">Last 7 Days</span><div style="width:3px;display:inline-block;opacity: 0;"></div>
+        <span id="14days" class="daterange" onclick="get14Days()">Last 14 Days</span><div style="width:3px;display:inline-block;opacity: 0;"></div>
+      </div>
+
+      <div style="width:50px;display:inline-block;opacity: 0;"></div>
+      <div style="display: inline-block;">
+        <label class="mylabel">Ticket</label><br>
+        <input type="text" id="selected_ticketx">
+        <div style="width:8px;display:inline-block;opacity: 0;"></div>
+      </div>
+      <div style="display: inline-block;">
+        <label class="mylabel">Account</label><br>
+        <input type="text" id="selected_accountx" >
+        <div style="width:8px;display:inline-block;opacity: 0;"></div>
+      </div>
+
+      <div style="display: inline-block;">
+        <label class="mylabel">Bet Type</label><br>
+        <input type="text" id="selected_BetTypex" >
+      </div>
+
+      <div style="width:5px;display:inline-block;opacity: 0;"></div>
+      <div style="display: inline-block;">
+        <span class="daterange" onclick="clearTextbox()">Clear</span><div style="width:5px;display:inline-block;opacity: 0;"></div>
+        <span class="searchButton" onclick="GenOverallReport()">Search</span><div style="width:5px;display:inline-block;opacity: 0;"></div>
+      </div>
+      <table>
+        <tr>
+          <td>
+            <input id="appt-time" type="time" name="appt-time" step="2" />
+          </td>
+          <td style="padding-left: 5px;padding-right: 5px;"></td>
+          <td>
+            <input id="appt-time2" type="time" name="appt-time2" step="2" />
+          </td>
+         </tr>
+      </table>
+  </div>
+</div>
+</body>
+</html>

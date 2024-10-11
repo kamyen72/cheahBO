@@ -1,0 +1,98 @@
+﻿<div>
+  <div ng-if="dataSource.pageStatus == 'searchView'">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+      </div>
+      <div class="panel-body">
+        <div class="col-md-3 col-sm-12 col-xs-12">
+          <label class="control-label">{{ 'PlatformSetting_PlatformName' | translate }}:</label>
+          <input type="text" placeholder="" class="form-control input-md"
+            ng-model="dataSource.searchCondition.PageTitle">
+        </div>
+        <div class="col-md-8 col-sm-12 col-xs-12 ">
+          <div class="btn_area">
+            <ul class="text-left">
+              <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}" ng-click="showAdd()" /></li>
+              <li><input type="button" class="btn btn-default btn-block" value="{{ 'Clear' | translate }}" ng-click="clear()" /></li>
+              <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /> </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="css_table">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>{{ 'PlatformSetting_PlatformCode' | translate }}</th>
+              <th>{{ 'PlatformSetting_PlatformName' | translate }}</th>
+              <th>{{ 'PlatformSetting_Url' | translate }}</th>
+              <th width="5%">{{ 'PlatformSetting_IsMaintain' | translate }}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="data in dataSource.listData">
+              <td>{{data.ShortName}}</td>
+              <td>{{data.PlatformName}}</td>
+              <td>{{data.URL}}</td>
+              <td><input class="form-control" type="checkbox" ng-model="data.IsMaintain" disabled></td>
+              <td>
+                <input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEdit(data)">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin:0px auto;">
+        <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)">
+        </pagination>
+      </div>
+    </div>
+  </div>
+  <div class="" ng-if="dataSource.pageStatus == 'addView' || dataSource.pageStatus == 'editView'">
+    <div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12 personal-info">
+      <div class="row">
+        <h3>{{ 'PlatformSetting' | translate }}</h3>
+        <hr>
+        <form name="form" class="form-horizontal" role="form">
+          <div class="list_area">
+            <div class="list_style">
+              <ul>
+                <li class="col-xs-6">
+                  <label>{{ 'PlatformSetting_PlatformCode' | translate }}:</label>
+                  <input name="ShortName" langkey="PlatformSetting_PlatformCode" class="form-control" type="text" 
+                    ng-model="dataSource.platform.ShortName" ng-disabled="dataSource.pageStatus == 'editView'" required>
+                </li>
+                <li class="col-xs-6">
+                  <label>{{ 'PlatformSetting_PlatformName' | translate }}:</label>
+                  <input name="PlatformName" langkey="PlatformSetting_PlatformName" class="form-control" type="text" ng-model="dataSource.platform.PlatformName" required>
+                </li>
+                <li class="col-xs-12">
+                  <label>{{ 'PlatformSetting_Url' | translate }}:</label>
+                  <input name="URL" langkey="PlatformSetting_Url" class="form-control" type="text" ng-model="dataSource.platform.URL" 
+                    my-validator="url" required>
+                </li>
+                <li class="col-xs-12" ng-if="dataSource.pageStatus == 'editView'">
+                  <label class="mr-5 pt-5">{{ 'PlatformSetting_IsMaintain' | translate }}:</label>
+                  <input class="form-control" type="checkbox" ng-model="dataSource.platform.IsMaintain">
+                </li>
+              </ul>
+              <div class="col-md-12 col-sm-12 col-xs-12" ng-if="dataSource.pageStatus == 'editView'">
+                <input type="button" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-click="update(form)">
+                <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12" ng-if="dataSource.pageStatus == 'addView'">
+                <input type="button" class="btn btn-primary" value="{{ 'Add' | translate }}" ng-click="add(form)">
+                <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

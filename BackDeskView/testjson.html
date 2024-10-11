@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+   <title>Test Json to Array</title>
+</head>
+<body>
+   <div class="container-fluid">
+      <div class="row">
+         <div class="col-md-12 col-sm-12">
+            <div id="result"></div>
+         </div>
+      </div>
+   </div>
+   <script type="text/javascript">
+      var s ="[{'id':1,'name':'Test1'},{'id':2,'name':'Test2'}]";
+      // var myObject = eval('(' + s + ')');
+      var myObject = JSON.parse(s);
+      var txt = "";
+      for (i in myObject)
+      {
+         txt = txt + "<label>" + myObject[i]["name"] + "</label><br>";
+      }
+      $("#result").html(txt);
+   </script>
+</body>
+</html>
+

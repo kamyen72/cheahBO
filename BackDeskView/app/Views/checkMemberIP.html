@@ -1,0 +1,85 @@
+﻿<div>
+    <div ng-if="dataSource.pageStatus == 'searchView'">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+            </div>
+            <div class="panel-body">
+               
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label class="control-label" for="Customer:">{{ 'MemberIP_UserName' | translate }}:</label>
+                    <input type="text" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.UserName">
+                </div>
+            
+            
+                <div class="btn_area">
+                    <ul class="text-left">
+                        <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /></li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+        <br>
+
+        <div class="css_table">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>{{ 'MemberIP_UserName' | translate }}</th>
+                            <th>{{ 'MemberIP_IP' | translate }}</th>
+                            <th>{{ 'MemberIP_LoginTime' | translate }}</th>
+                            <th>{{ 'MemberIP_PlateForm' | translate }}</th>
+                            <th>{{ 'MemberIP_OS' | translate }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="login in dataSource.listData">
+                            <td>{{login.MemberID}}</td>
+                            <td>{{login.LoginIP}}</td>
+                            <td>{{login.LoginTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>{{login.Platform}}</td>
+                            <td>{{login.ActionOS}}({{login.OSVersion}})</td>
+                            <td><input type="button" class="btn btn-primary btn-block" value="{{ 'MemberIP_Details' | translate }}" ng-click="showIPDialog(login)" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin:0px auto;">
+                <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+            </div>
+        </div>
+    </div>
+    <button id="ShowIPDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#IPDialog" style="display:none"></button>
+    <div class="modal fade" id="IPDialog" tabindex="-1" role="dialog" aria-labelledby="IPDialogTitle" aria-hidden="true"
+         ng-click="modalMsgConfirmEvent(false)">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{dataSource.modalMsg.title | translate }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <label class="col-xs-12 p-0 control-label">{{ 'MemberIP_IPAddressLocation' | translate }}:</label>
+                    <div class="col-xs-12 p-0">
+                        <span>{{dataSource.loginInfo.LoginIP}}</span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="col-xs-12">
+                        <div>map</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(false)">Cancel</button>-->
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(true)">{{ 'Confirm' | translate }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

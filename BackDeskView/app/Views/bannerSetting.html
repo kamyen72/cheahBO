@@ -1,0 +1,199 @@
+﻿<div>
+    <div ng-if="dataSource.pageStatus == 'searchView'">
+        <!-- <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 p-0 mb-10">
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <label class="control-label">{{ 'DateS' | translate }}:</label>
+                        <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateS">
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <label class="control-label">{{ 'DateE' | translate }}:</label>
+                        <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateE">
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <label class="control-label">{{ 'BannerSetting_BannerNotice' | translate }}</label>
+                        <input type="text" placeholder="" class="form-control input-md"
+                               ng-model="dataSource.searchCondition.BannerNotice">
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <label class="control-label">{{ 'BannerSetting_Type' | translate }}</label>
+                        <input type="text" placeholder="" class="form-control input-md"
+                               ng-model="dataSource.searchCondition.Type">
+                    </div>
+                </div>
+                <br />
+                <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                    <div class="btn_area">
+                        <ul class="text-left">
+                            <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}" ng-click="showAdd()" /></li>
+                            <li><input type="button" class="btn btn-default btn-block" value="{{ 'Clear' | translate }}" ng-click="clear()" /></li>
+                            <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br> -->
+        <div>
+            <div class="col-lg-1 col-lg-offset-11 col-md-2 col-md-offset-10 col-sm-3 col-xs-6 mb-10">
+                <div class="row">
+                    <input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}" ng-click="showAdd()" />
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="css_table">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>{{ 'BannerSetting_ID' | translate }}</th>
+                            <th>{{ 'BannerSetting_BannerNotice' | translate }}</th>
+                            <!--<th>IsEnable</th>-->
+                            <th>{{ 'DateS' | translate }}</th>
+                            <th>{{ 'DateE' | translate }}</th>
+                            <th>{{ 'BannerSetting_Type' | translate }}</th>
+                            <!--<th>{{ 'BannerSetting_FamilyBigID' | translate }}</th>
+                            <th>{{ 'BannerSetting_FamilyMiddleID' | translate }}</th>-->
+                            <th>{{ 'BannerSetting_CreateBy' | translate }}</th>
+                            <th>{{ 'BannerSetting_CreateDate' | translate }}</th>
+                            <th>{{ 'BannerSetting_Status' | translate }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="banner in dataSource.listData">
+                            <td>{{banner.ID}}</td>
+                            <td>{{banner.BannerNotice}}</td>
+                            <!--<td>
+                                <input class="form-control" type="checkbox" ng-model="banner.IsEnable"
+                                       ng-change="changeAndSave(banner)" />
+                            </td>-->
+                            <td>{{banner.DateS | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>{{banner.DateE | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>{{banner.Type}}</td>
+                            <!--<td>{{banner.FamilyBigID}}</td>
+                            <td>{{banner.FamilyMiddleID}}</td>-->
+                            <td>{{banner.UserName | userName}}</td>
+                            <td>{{banner.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>
+                                <input class="form-control" type="checkbox" ng-model="banner.IsEnable"
+                                       ng-change="changeAndSave(banner)" />
+                            </td>
+                            <td>
+                                <input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEdit(banner)">
+                                <input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}" ng-click="delete(banner)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin:0px auto;">
+                <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)">
+                </pagination>
+            </div>
+        </div>
+    </div>
+
+    <div class="" ng-if="dataSource.pageStatus == 'addView' || dataSource.pageStatus == 'editView'">
+        <!-- left column -->
+        <!-- <div class="col-md-3">
+                <div class="text-center">
+                    <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+                    <h6>Upload a different photo...</h6>
+
+                    <input type="file" class="form-control">
+                </div>
+            </div> -->
+        <!-- edit form column -->
+        <div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12 personal-info">
+            <!-- <div class="alert alert-info alert-dismissable">
+                      <a class="panel-close close" data-dismiss="alert">×</a>
+                      <i class="fa fa-coffee"></i>
+                      This is an <strong>.alert</strong>. Use this to show important messages to the user.
+                  </div> -->
+            <div class="row">
+                <h3>{{ 'Banner' | translate }}</h3>
+                <hr>
+                <div class="list_area">
+                    <form name="form" class="form-horizontal" role="form">
+                        <div class="list_style ">
+                            <ul>
+                                <li class="col-md-2 col-sm-2 col-xs-12">
+                                    <label class="">{{ 'BannerSetting_IsEnable' | translate }}:</label>
+                                    <input class="form-control" type="checkbox" ng-model="dataSource.PostData.IsEnable" />
+                                </li>
+                                <li class="col-md-3 col-sm-5 col-xs-6">
+                                    <label class="">{{ 'DateS' | translate }}:</label>
+                                    <input name="DateS" class="form-control" type="date" ng-model="dataSource.PostData.DateS" required>
+                                </li>
+                                <li class="col-md-3 col-sm-5 col-xs-6">
+                                    <label class="">{{ 'DateE' | translate }}:</label>
+                                    <input name="DateE" class="form-control" type="date" ng-model="dataSource.PostData.DateE" required>
+                                </li>
+                                <li class="col-md-3 col-sm-6 col-xs-6">
+                                    <label class="">{{ 'BannerSetting_Type' | translate }}:</label>
+                                    <select class="form-control" ng-model="dataSource.PostData.Type">
+                                        <option value="">Please Choose</option>
+                                        <option value="home">home</option>
+                                        <option value="lobby">lobby</option>
+                                        <option value="promotion">promotion</option>
+                                    </select>
+                                </li>
+                                <li class="col-md-4 col-sm-6 col-xs-6">
+                                    <label class="">{{ 'BannerSetting_BannerNotice' | translate }}:</label>
+                                    <input name="BannerNotice" class="form-control" type="text" ng-model="dataSource.PostData.BannerNotice"
+                                           required>
+                                </li>
+                                <!--<li class="col-md-4 col-sm-6 col-xs-6">
+                                    <label class="">{{ 'BannerSetting_FamilyBigID' | translate }}:</label>
+                                    <input name="FamilyBigID" class="form-control" type="text" ng-model="dataSource.PostData.FamilyBigID">
+                                </li>
+                                <li class="col-md-4 col-sm-6 col-xs-6">
+                                    <label class="">{{ 'BannerSetting_FamilyMiddleID' | translate }}:</label>
+                                    <select class="form-control" ng-model="dataSource.PostData.FamilyMiddleID">
+                                        <option value="">Please Choose</option>
+                                        <option value="Front">Front</option>
+                                        <option value="Back">Back</option>
+                                    </select>
+                                </li>-->
+                                <li class="col-xs-12">
+                                    <label class="">{{ 'BannerSetting_Content' | translate }}:</label>
+                                    <div name="BannerContent" ckeditor ng-model="dataSource.PostData.BannerContent"></div>
+                                </li>
+                                <li class="col-xs-10 mt-10">
+                                    <label class="">{{ 'BannerSetting_UploadImage' | translate }}:</label>
+                                    <div ng-if="dataSource.pageStatus == 'addView'">
+                                        <input-upload-base64 file-model="imageModel" multiple></input-upload-base64>
+                                    </div>
+                                    <div ng-if="dataSource.pageStatus != 'addView'">
+                                        <input-upload-base64 file-model="imageModel"></input-upload-base64>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="col-xs-12">
+                                <div class="btn_area" ng-if="dataSource.pageStatus == 'editView'">
+                                    <ul>
+                                        <li><input type="button" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-click="update(form)"></li>
+                                        <li><input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()"></li>
+                                    </ul>
+                                </div>
+                                <div class="btn_area" ng-if="dataSource.pageStatus == 'addView'">
+                                    <ul>
+                                        <li><input type="button" class="btn btn-primary" value="{{ 'Add' | translate }}" ng-click="add(form)"></li>
+                                        <li><input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

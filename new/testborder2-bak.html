@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+  <!-- Include Moment.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+  <!-- Include Bootstrap DateTimePicker CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+  <style>
+    body {
+      background-color:#E7E9EB;
+      font-family: Helvetica;
+      font-size: 12px;
+    }
+
+    td {
+      font-family: Helvetica;
+    }
+
+
+    #ShowTimeButt{
+      border-radius: 10px;
+    }
+
+    #menuDiv {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 320px;
+      display: none;
+      opacity: 0;
+      background-color:#007E9F;
+      border: 1px solid none;
+      border-radius:0px 0px 0px 0px;
+      padding-left: 0px;
+      padding-bottom:0px;
+      padding-top:0px;
+      color:#ffffff;
+      font-size:18px;
+      font-weight: normal;
+      font-family: Helvetica;
+    }
+
+    #myDIV {
+      position: absolute;
+      height:35px;
+      left:13px;
+      top:150px;
+      margin-left:5px;
+      width: 89%;
+      background-color:#007E9F;
+      border: 1px solid none;
+      border-radius:10px 10px 0px 0px;
+      padding-left: 10px;
+      padding-bottom:0px;
+      padding-top:10px;
+      color:#ffffff;
+      font-size:15px;
+      font-weight: 100;
+      font-family: Arial Black;
+      display: inline-block;
+      cursor: pointer;
+      border-color: blue;
+      border-width: 1px;
+    }
+
+    #mySearchElements {
+      position: absolute;
+      height:250px;
+      left:13px;
+      top:185px;
+      margin-left:5px;
+      width: 89%;
+      background-color:#ffffff;
+      border: 1px solid none;
+      border-radius:0px 0px 0px 0px;
+      padding-left: 10px;
+      padding-bottom:0px;
+      padding-top: 10px;
+      font-size:12px;
+      font-weight: normal;
+      font-family: Helvetica;
+      display: inline-block;
+      border-color: blue;
+      border-width: 1px;
+    }
+
+    .myDIV2 {
+      position: absolute;
+      height:30px;
+      left:0px;
+      top:0px;
+      margin-left:0px;
+      width: 80%;
+      background-color:#007E9F;
+      border: 1px solid none;
+      border-radius:10px 10px 0px 0px;
+      padding-left: 10px;
+      padding-bottom:0px;
+      padding-top:12px;
+      font-size:18px;
+      font-weight: normal;
+      font-family: Helvetica;
+      display: inline-block;
+    }
+
+    #myButtons {
+      position: absolute;
+      height:95px;
+      left:281px;
+      top:0px;
+      margin-left:75px;width: 80%;
+      padding-left: 10px;
+      padding-bottom:20px;
+      padding-top:75px;
+      font-size:11px;
+      font-weight: normal;
+      font-family: Helvetica;
+      display: none;
+      cursor: pointer;
+    }
+
+    .buttspan {
+      border-radius: 20px;
+      background-color: #ffffff;
+      padding: 10px 20px 10px 19px;
+    }
+
+    .activeButt {
+      background-color: #007E9F;
+      color:#ffffff;
+    }
+
+
+    .mylabel {
+      color: #000000;
+      font-size: 14px;
+    }
+
+    .datebox {
+    }
+
+    .btnOverall {
+      width: 25px;
+      height: 25px;
+    }
+
+    #btnOverall {
+      position: relative;
+      top: 6px;
+      width: 25px;
+      height: 25px;
+      display: inline-block;
+    }
+
+    #dtDateS {color: #000000;}
+    #dtDateE {color: #000000;}
+
+    .imglink {
+      position: relative;
+      width: 25px;
+      height: 25px;
+      display: inline-block;
+    }
+
+    .imgbutton {
+      width: 20px;
+      height: 20px;
+      position: relative;
+      top: 3px;
+    }
+
+    .daterange {
+      position: relative;
+      top: 0px;
+      display: inline-block;
+      color: gray;
+      border-style: solid;
+      border-width: 1px;
+      border-color: darkgray;
+      border-radius: 20px;
+      background-color: #ffffff;
+      padding: 5px 10px 5px 10px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+
+    .searchButton {
+      position: relative;
+      top: 0px;
+      display: inline-block;
+      color: #ffffff;
+      border-style: solid;
+      border-width: 1px;
+      border-color: darkgray;
+      border-radius: 20px;
+      background-color: #007E9F;
+      padding: 5px 10px 5px 10px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+
+    .curlyborder {
+      border-radius: 5px;
+    }
+
+    #selected_ticketx {
+      width: 180px;
+      color: black;
+      border-style: solid;
+      border-radius: 5px;
+    }
+
+    #selected_accountx {
+      width: 180px;
+      color: black;
+      border-style: solid;
+      border-radius: 5px;      
+    }
+
+    #selected_BetTypex {
+      width: 180px;
+      color: black;
+      border-style: solid;
+      border-radius: 5px;      
+    }
+
+    #btnOverall { cursor: pointer; }
+    #btnTicket { cursor: pointer; }
+    #btnAccounts { cursor: pointer; }
+    #btnBetTypes { cursor: pointer; }
+
+    .burger {
+      position: fixed;
+      left:320px;
+      top:50px;
+      width: 23px;
+      height: 23px;
+      padding: 7px 7px 7px 7px;
+      background-color: #007E9F;
+      border-radius:0px 5px 5px 0px;
+      cursor: pointer;
+      display: none;
+    }
+
+    #copyright2 {
+      color: #926800;
+      padding: 0;
+      display: block;
+      position: absolute;
+      top: 820px;
+      left:15px;
+      text-align:center;
+      font-size: 12px;
+    }
+
+    #footer .copyright {
+      display: none;
+    }
+
+    .col {
+      display: none;
+    }
+
+    #CheckingArea {
+      position: absolute;
+      top: 180px;
+      height: 20%;
+      width:80%;
+      left: 5px;
+      margin-left: 83px;
+      background: blue;
+      display: none;
+
+    }
+
+    #browsertype {
+      display: none;
+    }
+
+    #L1Area {
+      position: absolute;
+      top: 110px;
+      width:90%;
+      left: 0px;
+      margin-left: 15px;
+      display: inline-block;
+      padding-left: 5px;
+      overflow: scroll;
+
+    }
+
+    #L2Area {
+      position: absolute;
+      top: 110px;
+      width:90%;
+      left: 0px;
+      margin-left: 15px;
+      display: inline-block;
+      padding-left: 5px;
+      overflow: scroll;
+    }
+
+    #L3Area {
+      position: absolute;
+      top: 110px;
+      width:90%;
+      left: 0px;
+      margin-left: 15px;
+      display: inline-block;
+      padding-left: 5px;
+      overflow: scroll;
+    }
+
+    #L4Area {
+      position: absolute;
+      top: 110px;
+      width:90%;
+      left: 0px;
+      margin-left: 15px;
+      display: inline-block;
+      padding-left: 5px;
+      overflow: scroll;
+    }
+
+    #closebutton2 {
+      position: absolute;
+      top: 90px;
+      border-radius: 10px;
+      left: 1500px;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      border: 1px solid;
+      padding: 0px;
+      box-shadow: 3px 2px #888888;
+      border-radius:15px;  
+      cursor: pointer; 
+    }
+
+    #copybutton2 {
+      position: absolute;
+      top: 118px;
+      border-radius: 10px;
+      left: 1500px;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      border: 1px solid;
+      padding: 0px;
+      box-shadow: 3px 2px #888888;
+      border-radius:15px;   
+      cursor: pointer;       
+    }
+
+    #printbutton2 {
+      position: absolute;
+      top: 146px;
+      border-radius: 10px;
+      left: 1500px;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;      
+      border-style: none;
+      border: 1px solid;
+      padding: 0px;
+      box-shadow: 3px 2px #888888;
+      border-radius:15px;       
+      cursor: pointer;       
+    }
+
+    #excelbutton2 {
+      position: absolute;
+      top: 174px;
+      border-radius: 10px;
+      left: 1500px;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;      
+      border-style: none;
+      border: 1px solid;
+      padding: 0px;
+      box-shadow: 3px 2px #888888;
+      border-radius:15px;   
+      cursor: pointer; 
+    }
+
+    #downloadbutton2 {
+      position: absolute;
+      top: 202px;
+      border-radius: 10px;
+      left: 1500px;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      padding-left: 10px;
+      padding-right: 0px;
+      padding-top: 15px;
+      padding-bottom: 0px;  
+      border-style: none;
+      border: 1px solid;
+      padding: 0px;
+      box-shadow: 3px 2px #888888;
+      border-radius:15px;   
+      cursor: pointer; 
+      text-align: center;          
+    }
+
+    #prevbutton2 {
+      position: absolute;
+      top: 230px;
+      border-radius: 10px;
+      left: 1500px;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      border-style: none;
+      border: 1px solid;
+      padding: 0px;
+      box-shadow: 3px 2px #888888;
+      border-radius:15px;     
+      cursor: pointer;         
+    }
+
+    .TableTitle {
+      background: #0099FF;
+    }
+
+    .TableBack {background: #CCFFFF}
+
+    .cellborder {
+        font-family: Montserrat,'Noto Sans TC','Microsoft JhengHei',Arial,Helvetica,sans-serif;
+        font-weight: 900;
+        font-size: 11px;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #ebe9e9;
+        background: #007E9F;
+        color: #ffffff;
+        padding-left: 6px;
+        padding-right: 3px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .celldata {
+        color: #333;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #ebe9e9;
+        background: #ffffff;
+        padding-left: 6px;
+        padding-right: 3px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-family: Montserrat,'Noto Sans TC','Microsoft JhengHei',Arial,Helvetica,sans-serif;
+        font-weight: 900;
+        font-size: 11px;
+    }
+
+    .cellcenter {
+        text-align: center;
+    }
+
+    .cellright {
+        text-align: right;
+    }
+
+    .cellleft {
+        text-align: left;
+    }
+
+    .bckPink {
+        background: #f863ba;
+        border-style: none;
+    }
+
+    .cellgrey {
+      background-color: #ebe9e9;
+      color: #333;
+      border-style: solid;
+      border-width: 1px;
+      border-color: #ebe9e9;
+      padding-left: 6px;
+      padding-right: 3px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      font-family: Montserrat,'Noto Sans TC','Microsoft JhengHei',Arial,Helvetica,sans-serif;
+      font-weight: 900;
+      font-size: 11px;
+    }
+
+    .sumcell {
+      color: #333;
+      border-style: solid;
+      border-width: 1px;
+      border-color: #ebe9e9;
+      padding-left: 6px;
+      padding-right: 3px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      font-family: 'Arial Black';
+      font-weight: 900;
+      font-size: 11px;
+    }
+
+    .bckPeal {
+        color: #1888af;
+        border-style: none;
+        cursor: pointer;
+        font-family: 'Arial Black';
+        font-weight: 300;
+        font-size: 10px;
+    }
+
+    .Report2 {
+        background: #ffffff;
+        border-style: solid;
+        border-width: 4px;
+        border-radius: 5px;
+        border-color: darkgreen;
+    }
+
+    .isnegative {
+      color: red;
+      font-weight: bolder;
+      border-style: solid;
+      border-width: 1px;
+      border-color: blue;
+      padding-left: 3px;
+      padding-right: 3px;
+  }
+
+    .negativecell {
+      font-weight: normal;
+      color: red;
+      border-style: solid;
+      border-width: 1px;
+      border-color: #ebe9e9;
+      padding-left: 3px;
+      padding-right: 3px;
+  }
+
+  #pickbutt1 #pickbutt2 {
+    cursor: pointer;
+  }
+
+  </style>
+
+  <script>
+    function CopyToClipboard(containerid) {
+      if (document.selection) {
+        var range = document.body.createTextRange();
+        range.moveToElementText(document.getElementById(containerid));
+        range.select().createTextRange();
+        document.execCommand("copy");
+      } 
+      else if (window.getSelection) {
+        var range = document.createRange();
+        range.selectNode(document.getElementById(containerid));
+        window.getSelection().addRange(range);
+        document.execCommand("copy");
+        alert("Text has been copied, now paste into the target area");
+      }
+    }
+  </script>
+
+  <script>
+    function print(fileName) {
+      alert("printing ...");
+      var el = document.getElementById(fileName);
+
+      var win = window.open('', '', 'height=700,width=700');
+      win.document.write(el.outerHTML);
+      win.document.close();
+      win.print();
+  }
+  </script>
+
+  <script>
+    function clearTextbox(){
+      document.getElementById("selected_BetTypex").value = "";
+      document.getElementById("selected_accountx").value = "";
+      document.getElementById("selected_ticketx").value = "";
+    }
+  </script>
+
+  <script>
+    function GenOverall_Excel_L1() {
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            url: "http://localhost:5106/API/GenExcel_OverallL1",
+            data: JSON.stringify({ "InputText": document.getElementById("jsondata").innerText }),
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                console.log("original file name: " + response);
+
+                var converted = JSON.parse(response);
+                console.log("converted: " + converted[0].FileName);
+
+                document.getElementById("downloadbutton2").href = "http://localhost:5106/ExcelFiles/" + converted[0].FileName;
+                document.getElementById("downloadbutton2").style.display = "block";
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+        
+        console.log("done");
+        
+    }
+  </script>
+
+  <script>
+      function GenOverall_Excel_L2() {
+          $.ajax({
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+              },
+              type: "POST",
+              url: "http://localhost:5106/API/GenExcel_OverallL2",
+              data: JSON.stringify({ "InputText": document.getElementById("jsondataL2").innerText }),
+              dataType: "json",
+              crossDomain: true,
+              success: function (response) {
+                  var converted = JSON.parse(response);
+
+                  document.getElementById("downloadbutton2").href = "http://localhost:5106/ExcelFiles/" + converted[0].FileName;
+                  document.getElementById("downloadbutton2").style.display = "block";
+              },
+              failure: function (response) {
+                  console.log("failure");
+              },
+              error: function (response, status) {
+                  console.log("error");
+              }
+          });
+          
+          console.log("done");
+      }
+  </script>
+
+  <script>
+      function GenOverall_Excel_L3() {
+          $.ajax({
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+              },
+              type: "POST",
+              url: "http://localhost:5106/API/GenExcel_OverallL3",
+              data: JSON.stringify({ "InputText": document.getElementById("jsondataL3").innerText }),
+              dataType: "json",
+              crossDomain: true,
+              success: function (response) {
+                  console.log("success");
+                  console.log("original file name: " + response);
+
+                  var converted = JSON.parse(response);
+                  console.log("converted: " + converted[0].FileName);
+
+                  document.getElementById("downloadbutton2").href = "http://localhost:5106/ExcelFiles/" + converted[0].FileName;
+                  document.getElementById("downloadbutton2").style.display = "block";
+              },
+              failure: function (response) {
+                  console.log("failure");
+              },
+              error: function (response, status) {
+                  console.log("error");
+              }
+          });
+
+          console.log("done");
+      }
+  </script>
+
+  <script>
+      function GenOverall_Excel_L4() {
+          $.ajax({
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+              },
+              type: "POST",
+              url: "http://localhost:5106/API/GenExcel_OverallL4",
+              data: JSON.stringify({ "InputText": document.getElementById("jsondataL4").innerText }),
+              dataType: "json",
+              crossDomain: true,
+              success: function (response) {
+                  console.log("success");
+                  console.log("original file name: " + response);
+
+                  var converted = JSON.parse(response);
+                  console.log("converted: " + converted[0].FileName);
+                  document.getElementById("downloadbutton2").href = "http://localhost:5106/ExcelFiles/" + converted[0].FileName;
+                  document.getElementById("downloadbutton2").style.display = "block";
+                  console.log(document.getElementById("downloadlink2").href);
+              },
+              failure: function (response) {
+                  console.log("failure");
+              },
+              error: function (response, status) {
+                  console.log("error");
+              }
+          });
+        
+          console.log("done");
+      }
+  </script>
+
+  <script>
+    $(document).ready(function(){
+      checkbrowser();
+      var browser_tboxwidth = "190px";
+      if (document.getElementById("browsertype").value == "Firefox") {
+        browser_tboxwidth = "180px";
+      }
+
+      document.getElementById("selected_BetTypex").style.width = browser_tboxwidth;
+      document.getElementById("selected_accountx").style.width = browser_tboxwidth;
+      document.getElementById("selected_ticketx").style.width = browser_tboxwidth;
+
+      var closebuttleft = screen.width - 480;
+
+      document.getElementById("closebutton2").style.left = closebuttleft + "px";
+      document.getElementById("excelbutton2").style.left = closebuttleft + "px";
+      document.getElementById("downloadbutton2").style.left = closebuttleft + "px";
+      document.getElementById("prevbutton2").style.left = closebuttleft + "px";
+
+      document.getElementById("copybutton2").style.left = closebuttleft + "px";
+      document.getElementById("printbutton2").style.left = closebuttleft + "px";      
+      getToday();
+    })
+  </script>
+
+  <script>
+    function showArea(area){
+      if (area == "L1") {
+        document.getElementById("L1Area").style.display = "inline-block";
+        document.getElementById("L2Area").style.display = "none";
+        document.getElementById("L3Area").style.display = "none";
+        document.getElementById("L4Area").style.display = "none";
+      }
+      else if (area == "L2") {
+        document.getElementById("L1Area").style.display = "none";
+        document.getElementById("L2Area").style.display = "inline-block";
+        document.getElementById("L3Area").style.display = "none";
+        document.getElementById("L4Area").style.display = "none";
+        document.getElementById('prevbutton2').setAttribute("onclick", "showArea('L1')");
+      }
+      else if (area == "L3") {
+        document.getElementById("L1Area").style.display = "none";
+        document.getElementById("L2Area").style.display = "none";
+        document.getElementById("L3Area").style.display = "inline-block";
+        document.getElementById("L4Area").style.display = "none";
+        document.getElementById('prevbutton2').setAttribute("onclick", "showArea('L2')");
+      }
+      else if (area == "L4") {
+        document.getElementById("L1Area").style.display = "none";
+        document.getElementById("L2Area").style.display = "none";
+        document.getElementById("L3Area").style.display = "none";
+        document.getElementById("L4Area").style.display = "inline-block";
+        document.getElementById('prevbutton2').setAttribute("onclick", "showArea('L3')");
+      }
+    }
+  </script>
+
+  <script>
+    function getToday(){
+      var today = new Date();
+      var sdate = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + today.getDate() ;
+      var edate = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + today.getDate() ;
+
+      document.getElementById("dtDateS").value = sdate;
+      document.getElementById("dtDateE").value = edate;
+
+    }
+  </script>
+
+  <script>
+    function getYesterday(){
+      $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/GetYesterday",
+            data: JSON.stringify({ "InputText": "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+              var today = response.ReturnText;
+              var sdate = today ;
+              var edate = today ;
+
+              document.getElementById("dtDateS").value = sdate;
+              document.getElementById("dtDateE").value = edate;
+
+              GenOverallReport();
+
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+    }
+  </script>
+
+
+  <script>
+    function get7Days(){
+      alert("get7Days");
+      $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/Get7Days",
+            data: JSON.stringify({ "InputText": "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+              var sdate = response.StartDate ;
+              var edate = response.EndDate ;
+
+              document.getElementById("dtDateS").value = sdate;
+              document.getElementById("dtDateE").value = edate;
+
+              GenOverallReport();
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+    }
+  </script>
+
+  <script>
+    function get14Days(){
+      $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/Get14Days",
+            data: JSON.stringify({ "InputText": "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+              var sdate = response.StartDate ;
+              var edate = response.EndDate ;
+
+              document.getElementById("dtDateS").value = sdate;
+              document.getElementById("dtDateE").value = edate;
+
+              GenOverallReport();
+
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+    }
+  </script>
+
+  <script>
+    function hidemenu(){
+      checkbrowser();
+
+      var browser_tboxwidth = "200px";
+
+      if (document.getElementById("browsertype").value == "Firefox") {
+        browser_tboxwidth = "180px";
+      }
+
+        var brleft = "5px";
+        var brmleft = "5px";
+        var brburleft = "5px";
+
+        var brbtnleft = "35px";
+        var brbtnmleft = "10px";
+
+        document.getElementById("menuDiv").style.display = "none";
+        document.getElementById("myDIV").style.left = brleft;
+        document.getElementById("myDIV").style.position = "absolute";
+        document.getElementById("myDIV").style.width = "85%";
+        document.getElementById("myDIV").style.marginLeft  = brmleft;
+        document.getElementById("mySearchElements").style.width = "85%";
+        document.getElementById("mySearchElements").style.left = brleft;
+        document.getElementById("mySearchElements").style.marginLeft  = brmleft;
+        document.getElementById("myDIV").setAttribute("data-viewstate", "big");
+
+        document.getElementById("L1Area").style.width = "85%";
+        document.getElementById("L1Area").style.left = brleft;
+        document.getElementById("L1Area").style.marginLeft  = brmleft;
+
+        document.getElementById("L2Area").style.width = "85%";
+        document.getElementById("L2Area").style.left = brleft;
+        document.getElementById("L2Area").style.marginLeft  = brmleft;
+
+        document.getElementById("L3Area").style.width = "85%";
+        document.getElementById("L3Area").style.left = brleft;
+        document.getElementById("L3Area").style.marginLeft  = brmleft;
+
+        document.getElementById("L4Area").style.width = "85%";
+        document.getElementById("L4Area").style.left = brleft;
+        document.getElementById("L4Area").style.marginLeft  = brmleft;
+
+        document.getElementById("myButtons").style.left = brbtnleft;
+        document.getElementById("myButtons").style.marginLeft  = brbtnmleft;
+
+        document.getElementById("selected_BetType").style.width = browser_tboxwidth;
+        document.getElementById("selected_account").style.width = browser_tboxwidth;
+        document.getElementById("selected_ticket").style.width = browser_tboxwidth;
+    }
+  </script>
+
+  <script>
+    function checkbrowser(){
+      var uag = navigator.userAgent;
+      var browsertype = "";
+
+      if (uag.search("Firefox") != -1) {
+        browsertype = "Firefox";
+      }
+      if ((uag.search("Chrome") != -1)) {
+        browsertype = "Chrome";
+      }
+      if ((uag.search("Edg/") != -1)) {
+        browsertype = "Edge";
+      }
+      if ((uag.search("OPR/") != -1)) {
+        browsertype = "Opera";
+      }
+      if ((uag.search("safari") != -1)) {
+        browsertype = "Safari";
+      }
+      if ((uag.search("Android") != -1)) {
+        browsertype = "Android";
+      }
+      
+      document.getElementById("browsertype").value = browsertype;
+
+      var output = 'Detecting browsers:<hr>';
+      output += document.getElementById("browsertype").value;
+      document.getElementById("CheckingArea").innerHTML = output;
+
+      if (browsertype == "Android") {
+        // when on phone
+        document.getElementById("myDIV").style.top = "150px";
+        document.getElementById("mySearchElements").style.top = "185px";
+        document.getElementById("mySearchElements").style.height = "250px";
+
+        document.getElementById("L1Area").style.top = "435px";
+        document.getElementById("L2Area").style.top = "435px";
+        document.getElementById("L3Area").style.top = "435px";
+        document.getElementById("L4Area").style.top = "435px";
+
+        document.getElementById("L1Area").style.maxHeight = "370px";
+        document.getElementById("L2Area").style.maxHeight = "350px";
+        document.getElementById("L3Area").style.maxHeight = "350px";
+        document.getElementById("L4Area").style.maxHeight = "350px";
+
+        document.getElementById("L1Area").style.maxWidth = "530px";
+        document.getElementById("L2Area").style.maxWidth = "530px";
+        document.getElementById("L3Area").style.maxWidth = "530px";
+        document.getElementById("L4Area").style.maxWidth = "530px";
+
+        var copyrightleft = parseInt( window.innerWidth / 2) - 200;
+        document.getElementById("copyright2").style.left = copyrightleft + "px";
+        var hh = document.getElementById("L1Area").offsetHeight;
+        var tt = document.getElementById("L1Area").offsetTop;
+
+        document.getElementById("copyright2").style.position = "absolute";
+        document.getElementById("copyright2").style.display = "block";
+        document.getElementById("copyright2").style.top = window.innerHeight + "px";
+      }
+      else {
+        document.getElementById("myDIV").style.top = "0px";
+        document.getElementById("mySearchElements").style.top = "40px";
+        document.getElementById("mySearchElements").style.height = "90px";
+
+        document.getElementById("L1Area").style.top = "135px";
+        document.getElementById("L2Area").style.top = "135px";
+        document.getElementById("L3Area").style.top = "135px";
+        document.getElementById("L4Area").style.top = "135px";
+
+        document.getElementById("L1Area").style.maxHeight = "570px";
+        document.getElementById("L2Area").style.maxHeight = "570px";
+        document.getElementById("L3Area").style.maxHeight = "570px";
+        document.getElementById("L4Area").style.maxHeight = "570px";
+
+        var copyrightleft = parseInt( window.innerWidth / 2) - 500;
+        document.getElementById("copyright2").style.position = "absolute";
+        document.getElementById("copyright2").style.left = copyrightleft + "px";
+        var hh = document.getElementById("L1Area").offsetHeight;
+        var tt = document.getElementById("L1Area").offsetTop;
+
+        document.getElementById("copyright2").style.position = "absolute";
+        document.getElementById("copyright2").style.display = "block";
+        document.getElementById("copyright2").style.top = window.innerHeight + "px";
+      }
+    }
+  </script>
+
+  <script>
+      function EnableButtons() {
+          document.getElementById("btnOverall").disabled = false; 
+          document.getElementById("btnTicket").disabled = false; 
+          document.getElementById("btnAccounts").disabled = false;
+          document.getElementById("btnBetTypes").disabled = false;
+
+          document.getElementById("btnOverall").style.cursor = "pointer";
+          document.getElementById("btnTicket").style.cursor = "pointer";
+          document.getElementById("btnAccounts").style.cursor = "pointer";
+          document.getElementById("btnBetTypes").style.cursor = "pointer";
+      }
+  </script>
+
+  <script>
+      function DisableButtons() {
+          document.getElementById("btnOverall").disabled = true; 
+          document.getElementById("btnTicket").disabled = true; 
+          document.getElementById("btnAccounts").disabled = true;
+          document.getElementById("btnBetTypes").disabled = true;
+
+          document.getElementById("btnOverall").style.cursor = "none";
+          document.getElementById("btnTicket").style.cursor = "none";
+          document.getElementById("btnAccounts").style.cursor = "none";
+          document.getElementById("btnBetTypes").style.cursor = "none";          
+      }
+  </script>
+
+  <script>
+      function GenOverallReport() {
+          document.getElementById("CheckingArea").style.display = "none";
+
+          var txt = "<img src='http://localhost:5106/clock.gif' />";
+          document.getElementById("L1Area").style.textAlign = "center";
+          document.getElementById("L1Area").innerHTML = txt;
+
+          document.getElementById("L1Area").style.display = "inline-block";
+          document.getElementById("L2Area").style.display = "none";
+          document.getElementById("L3Area").style.display = "none";
+          document.getElementById("L4Area").style.display = "none";
+
+          document.getElementById("prevbutton2").disabled = true;
+          document.getElementById("prevbutton2").style.cursor = "none";
+
+          document.getElementById("downloadbutton2").style.display = "none";
+
+          var today = new Date();
+          var sdate = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+          var edate = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+          
+          var StartDate = document.getElementById("dtDateS").value;
+          var EndDate = document.getElementById("dtDateE").value;
+
+          var CurrentPeriod = document.getElementById("selected_ticketx").value;
+          var UserName = document.getElementById("selected_accountx").value;
+          var BetType = document.getElementById("selected_BetTypex").value;
+
+          var StartTime = $('#appt-time').val();
+          var EndTime = $('#appt-time2').val();
+
+          if (StartTime == "") {
+            StartTime = "00:00:00";
+          }
+
+          if (EndTime == "") {
+            EndTime = "23:59:59";
+          }
+
+          if (CurrentPeriod != "") {
+            GetCurrentPeriodDates(CurrentPeriod);
+          }
+
+          $.ajax({
+              type: "POST",
+              url: "http://localhost:5106/API/GetOverallReport",
+              data: JSON.stringify({ "StartDate": StartDate, "EndDate": EndDate, "CurrentPeriod": CurrentPeriod, "UserName": UserName, "BetType": BetType, "StartTime": StartTime, "EndTime": EndTime }),
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              crossDomain: true,
+              success: function (response) {
+                  document.getElementById("L1Area").style.textAlign = "left";
+                  document.getElementById("jsondata").innerText = JSON.stringify(response);
+                  var mydata = JSON.parse(document.getElementById("jsondata").innerText);
+
+                  var myrows = mydata.length;
+                  var TotalTOver = 0;
+                  var TotalPending = 0;
+                  var TotalMemberWL = 0;
+                  var TotalAgentWL = 0;
+                  var TotalComWL = 0;
+                  var TotalMAWL = 0;
+                  var TotalSMWL = 0;
+                  txt = "<table width='1400px' style='font-size:12px;' cellpadding=0 cellspacing=0>";
+                  txt = txt + "<tr>";
+                  txt = txt + "<td class='cellborder cellleft'>TypeName</td>";
+                  txt = txt + "<td class='cellborder cellleft'>TOver</td>";
+                  txt = txt + "<td class='cellborder cellleft'>Pending</td>";
+                  txt = txt + "<td class='cellborder cellleft'>Member W/L Total</td>";
+                  txt = txt + "<td class='cellborder cellleft'>Agent W/L Total</td>";
+                  
+                  txt = txt + "<td class='cellborder cellleft'>MA W/L Total</td>";
+                  txt = txt + "<td class='cellborder cellleft'>SM W/L Total</td>";
+
+                  txt = txt + "<td class='cellborder cellleft'>Com W/L Total</td>";
+                  txt = txt + "</tr>";
+                  for (let i = 0; i < myrows; i++) {
+                    var cellclass = "";
+
+                    if (i % 2 != 0) {
+                      cellclass = "cellgrey";
+                    }
+                    else {
+                      cellclass = "";
+                    }
+
+                    txt = txt + "<tr>";
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "'><span class='bckPeal cellleft' style='font-weight:bold;' onclick='DrillBetType(this)' data-BetType='" + mydata[i].BetType + "'>" + mydata[i].BetType + "</span></td>";
+
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + formatcomma( Number(mydata[i].TOver).toFixed(4))  + "</td>";
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + formatcomma( Number(mydata[i].Pending).toFixed(4))  + "</td>";
+                    if (Number(mydata[i].MemberWinLose) < 0) {
+                        txt = txt + "<td class='negativecell celldata cellleft " + cellclass + "'>" + formatcomma(Number(mydata[i].MemberWinLose).toFixed(4)) + "</td>";
+                    }
+                    else {
+                        txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + formatcomma(Number(mydata[i].MemberWinLose).toFixed(4)) + "</td>";
+                    }
+
+                    if (Number(mydata[i].AgentWinLose) >= 0) {
+                        txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + formatcomma( Number(mydata[i].AgentWinLose).toFixed(4) ) + "</td>";
+                    }
+                    else {
+                        txt = txt + "<td class='negativecell celldata cellleft " + cellclass + "'>" + formatcomma( Number(mydata[i].AgentWinLose).toFixed(4) ) + "</td>";
+                    }
+
+                    
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + formatcomma( Number(mydata[i].MAWinLose).toFixed(4) ) + "</td>";
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + formatcomma( Number(mydata[i].SMWinLose).toFixed(4) ) + "</td>";
+
+                    if (Number(mydata[i].ComWinLose) >= 0) {
+                        txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + formatcomma( Number(mydata[i].ComWinLose).toFixed(4) ) + "</td>";
+                    }
+                    else {
+                        txt = txt + "<td class='negativecell celldata cellleft " + cellclass + "'>" + formatcomma( Number(mydata[i].ComWinLose).toFixed(4) ) + "</td>";
+                    }
+
+                    txt = txt + "</tr>";
+                    TotalTOver = TotalTOver + Number(mydata[i].TOver.toString());
+                    TotalPending = TotalPending + Number(mydata[i].Pending.toString());
+                    TotalMemberWL = TotalMemberWL + Number(mydata[i].MemberWinLose.toString());
+                    TotalAgentWL = TotalAgentWL + Number(mydata[i].AgentWinLose.toString());
+                    TotalComWL = TotalComWL + Number(mydata[i].ComWinLose.toString());
+                    TotalMAWL = TotalMAWL + Number(mydata[i].MAWinLose.toString());
+                    TotalSMWL = TotalSMWL + Number(mydata[i].SMWinLose.toString());
+                  }
+                  
+                  if (myrows % 2 != 0) {
+                    cellclass = "cellgrey";
+                  }
+                  else {
+                    cellclass = "celldata";
+                  }
+                  txt = txt + "<tr>";
+                  txt = txt + "<td class='sumcell cellleft " + cellclass + "'><span style='font-weight:500;'>Total</span></td>";
+                  txt = txt + "<td class='sumcell cellleft " + cellclass + "'>" + formatcomma(TotalTOver.toFixed(4)) + "</td>";
+                  txt = txt + "<td class='sumcell cellleft " + cellclass + "'>" + formatcomma(TotalPending.toFixed(4)) + "</td>";
+                  if (TotalMemberWL < 0) {
+                      txt = txt + "<td class='negativecell sumcell cellleft " + cellclass + "'>" + formatcomma(TotalMemberWL.toFixed(4)) + "</td>";
+                  }
+                  else {
+                      txt = txt + "<td class='sumcell cellleft " + cellclass + "'>" + formatcomma(TotalMemberWL.toFixed(4)) + "</td>";
+                  }
+                  txt = txt + "<td class='sumcell cellleft " + cellclass + "'>" + formatcomma(TotalAgentWL.toFixed(4)) + "</td>";
+                  
+                  txt = txt + "<td class='sumcell cellleft " + cellclass + "'>" + formatcomma(TotalMAWL.toFixed(4)) + "</td>";
+                  txt = txt + "<td class='sumcell cellleft " + cellclass + "'>" + formatcomma(TotalSMWL.toFixed(4)) + "</td>";
+
+                  txt = txt + "<td class='sumcell cellleft " + cellclass + "'>" + formatcomma(TotalComWL.toFixed(4)) + "</td>";
+                  txt = txt + "</tr>";
+                  
+                  document.getElementById("jsondata").innerText = '{ "ReportTitle": "Win/Lose Report by Game - Overall View (Level 1)", "Data" : ' + document.getElementById("jsondata").innerText + '}';
+
+                  checkbrowser();
+
+                  document.getElementById("L1Area").innerHTML = txt;
+                  document.getElementById("excelbutton2").setAttribute("onclick", "GenOverall_Excel_L1()");
+
+                  document.getElementById("copybutton2").setAttribute("onclick", "CopyToClipboard('L1Area')"); // PrintContent
+                  document.getElementById("printbutton2").setAttribute("onclick", "print('L1Area')");
+
+                  var h = document.getElementById("L1Area").offsetHeight + 150;
+                  document.getElementById("HistoryL1").innerHTML = txt;
+              },
+              failure: function (response) {
+                  console.log("failure");
+              },
+              error: function (response, status) {
+                  console.log("error");
+              }
+          });
+      }
+  </script>
+
+  <script>
+      function DrillBetType(me) {
+        // alert("am ok woh");
+          document.getElementById("CheckingArea").style.display = "none";
+
+          document.getElementById("L2Area").style.textAlign = "center";
+          var txt = "<img src='http://localhost:5106/clock.gif' />";
+          document.getElementById("L2Area").innerHTML = txt;
+
+          document.getElementById("L1Area").style.display = "none";
+          document.getElementById("L2Area").style.display = "inline-block";
+          document.getElementById("L3Area").style.display = "none";
+          document.getElementById("L4Area").style.display = "none";
+
+          document.getElementById("prevbutton2").disabled = false;
+          document.getElementById("prevbutton2").style.cursor = "pointer";
+
+          document.getElementById("downloadbutton2").style.display = "none";
+          
+          var BetType = $(me).attr("data-BetType");
+          var StartDate = document.getElementById("dtDateS").value;
+          var EndDate = document.getElementById("dtDateE").value;
+
+          var CurrentPeriod = document.getElementById("selected_ticketx").value;
+          var UserName = document.getElementById("selected_accountx").value;
+
+          var StartTime = $('#appt-time').val();
+          var EndTime = $('#appt-time2').val();
+
+          if (StartTime == "") {
+            StartTime = "00:00:00";
+          }
+
+          if (EndTime == "") {
+            EndTime = "23:59:59";
+          }
+
+          if (CurrentPeriod != "") {
+            GetCurrentPeriodDates(CurrentPeriod);
+          }
+
+          document.getElementById("selected_BetTypex").value = BetType;
+          
+          $.ajax({
+              type: "POST",
+              url: "http://localhost:5106/API/GetOverallByBetType",
+              data: JSON.stringify({ "BetType": BetType, "StartDate": StartDate, "EndDate": EndDate, "CurrentPeriod": CurrentPeriod, "UserName": UserName, "StartTime": StartTime, "EndTime": EndTime }),
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              crossDomain: true,
+              success: function (response) {
+                  var objList = [];
+                  for (let j = 0; j < response.length; j++) {
+                    var myobj = {
+                      "UserName": response[j].UserName.toString(),
+                      "BillNo": response[j].BillNo.toString(),
+                      "OpeningTime": response[j].OpeningTime.toString().replaceAll("T", " "),
+                      "UpdateDate": response[j].UpdateDate.toString().replaceAll("T", " "),
+                      "TurnOver": response[j].TurnOver.toString(),
+                      "TotalWin": response[j].TotalWin.toString(),
+                      "TotalLost": response[j].TotalLost.toString(),
+                      "TotalPending": response[j].TotalPending.toString(),
+                      "Key": "",
+                      "ABC": ""
+                    }
+
+                    objList.push(myobj);
+                  }
+
+                  document.getElementById("jsondataL2").innerText = JSON.stringify(objList);
+                  var mydata = JSON.parse(document.getElementById("jsondataL2").innerText);
+                  var myrows = mydata.length;
+
+                  //---- setup the key -----
+                  for (let i = 0; i < myrows; i++) {
+                    mydata[i].Key = mydata[i].UserName + "-" + mydata[i].BillNo + "-" + mydata[i].OpeningTime + "-" + mydata[i].UpdateDate;
+                    mydata[i].ABC = mydata[i].UserName + "-" + mydata[i].BillNo + "-" + mydata[i].OpeningTime;
+                  }
+
+                  //--- sorting the array -----
+                  mydata.sort(function(c, d){
+        
+                      let x = c.Key.toLowerCase();
+                      let y = d.Key.toLowerCase();
+                      if (x < y) {return -1;}
+                      if (x > y) {return 1;}
+
+                      return 0;
+                  });
+
+                  mydata.sort(function(c, d){
+        
+                      let x = c.ABC.toLowerCase();
+                      let y = d.ABC.toLowerCase();
+                      if (x < y) {return -1;}
+                      if (x > y) {return 1;}
+
+                      return 0;
+                  });
+
+                  var SearchList = [];
+
+                  for (let i = 0; i < myrows; i++) {
+                    SearchList.push(mydata[i]);
+                  }
+
+
+
+                  //---- mydata is sorted on [User]; [User, Ticket and Opening Time] as ABC ---------------------------
+
+                  var ttTOver = 0;
+                  var ttTotalWin = 0;
+                  var ttTotalLost = 0;
+                  var ttPending = 0;
+
+                  var txt1 = "<span style='font-family: Helvetica;font-size: 12px;font-weight:bold;color:red;'>Drill Down on Bet Type: " + BetType + "</span><br>";
+                  var txt = "<table style='font-size:12px; width:1400px;' cellpadding=0 cellspacing=0>";
+                  txt = txt + "<tr>";
+                  txt = txt + "<td class='cellborder cellleft'>UserName</td>";
+                  txt = txt + "<td class='cellborder cellleft'>BillNo</td>";
+                  txt = txt + "<td class='cellborder cellleft'>OpeningTime</td>";
+                  txt = txt + "<td class='cellborder cellleft'>UpdateTime</td>";
+                  txt = txt + "<td class='cellborder cellleft'>TOver</td>";
+                  txt = txt + "<td class='cellborder cellleft'>Win</td>";
+                  txt = txt + "<td class='cellborder cellleft'>Lose</td>";
+                  txt = txt + "<td class='cellborder cellleft'>Pending</td>";
+                  txt = txt + "</tr>";
+
+                  var prevUser = "";
+                  var prevABC = "";
+
+                  var rowspan = 1;
+
+                  for (let i = 0; i < myrows; i++) {
+                    var cellclass = "";
+
+                    // if (i % 2 != 0) {
+                    //   cellclass = "cellgrey";
+                    // }
+                    // else {
+                    //   cellclass = "";
+                    // }
+
+                    var otime = mydata[i].OpeningTime.toString().replaceAll("T", " ");
+                    var utime = mydata[i].UpdateDate.toString().replaceAll("T", " ");
+
+                    txt = txt + "<tr>";
+
+                    var myi = i;
+                    if (prevUser != mydata[i].UserName) {
+                      prevUser = mydata[i].UserName;
+                      // myi = i;
+
+                      rowspan = 0; // must reset this value before looping
+                      
+                      for (let r = 0; r < myrows; r++) {
+                        if (SearchList[r].UserName == prevUser) {
+                          rowspan = rowspan + 1;
+                        }
+                      }
+
+                      if (i % 2 != 0) {
+                        cellclass = "cellgrey";
+                      }
+                      else {
+                        cellclass = "";
+                      }
+
+                      txt = txt + "<td valign='top' rowspan="+ rowspan + " class='celldata cellleft " + cellclass + "' style='max-width:120px;'><span onclick='DrillByUserName(this)' class='bckPeal cellleft' data-UserName='" + mydata[i].UserName + "' data-BetType='" + BetType + "'>" + mydata[i].UserName + "</span></td>";
+
+                      if (prevABC != mydata[i].ABC & mydata[i].UserName == prevUser) {
+                        prevABC = mydata[i].ABC;
+                        rowspan = 0;
+
+                        for (let r = 0; r < myrows; r++) {
+                          if (SearchList[r].ABC == prevABC & mydata[i].UserName == prevUser) {
+                            rowspan = rowspan + 1;
+                          }
+                        }
+
+                        txt = txt + "<td valign='top' rowspan=" + rowspan + " class='celldata cellleft " + cellclass + "' style='max-width:120px;'><span class='cellleft'>" + mydata[i].BillNo + "</span></td>";
+                        txt = txt + "<td valign='top' rowspan=" + rowspan + " class='celldata cellleft " + cellclass + "' style='max-width:120px;'><span class='cellleft'>" + otime + "</span></td>";
+                      }
+
+                    }
+                    
+                    if (i % 2 != 0) {
+                      cellclass = "cellgrey";
+                    }
+                    else {
+                      cellclass = "";
+                    }
+
+                    rowspan = 1;
+                    // txt = txt + "<td rowspan="+ rowspan + " class='celldata cellleft " + cellclass + "' style='max-width:120px;'><span onclick='DrillByUserName(this)' class='bckPeal cellleft' data-UserName='" + mydata[i].UserName + "' data-BetType='" + BetType + "'>" + mydata[i].UserName + "</span></td>";
+                    // txt = txt + "<td rowspan=" + rowspan + " class='celldata cellleft " + cellclass + "' style='max-width:120px;'><span class='cellleft'>" + mydata[i].BillNo + "</span></td>";
+                    // txt = txt + "<td rowspan=" + rowspan + " class='celldata cellleft " + cellclass + "' style='max-width:120px;'><span class='cellleft'>" + otime + "</span></td>";
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "' style='max-width:120px;'><span class='cellleft'>" + utime + "</span></td>";
+
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + formatcomma( Number(mydata[i].TurnOver.toString()).toFixed(4) ) + "</td>";
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + formatcomma(Number(mydata[i].TotalWin.toString()).toFixed(4)) + "</td>";
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + formatcomma(Number(mydata[i].TotalLost.toString()).toFixed(4)) + "</td>";
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + formatcomma(Number(mydata[i].TotalPending.toString()).toFixed(4)) + "</td>";
+                    txt = txt + "</tr>";
+
+                    ttTOver = ttTOver + Number(mydata[i].TurnOver.toString());
+                    ttTotalWin = ttTotalWin + Number(mydata[i].TotalWin.toString());
+                    ttTotalLost = ttTotalLost + Number(mydata[i].TotalLost.toString());
+                    ttPending = ttPending + Number(mydata[i].TotalPending.toString());
+                  }
+
+                  if (myrows % 2 != 0) {
+                    cellclass = "cellgrey";
+                  }
+                  else {
+                    cellclass = "celldata";
+                  }
+
+                  txt = txt + "<tr>";
+                  txt = txt + "<td class='sumcell cellborder cellleft " + cellclass + "' colspan=4><span style='font-weight:500;'>Total</span></td>";
+                  txt = txt + "<td class='sumcell cellborder cellleft " + cellclass + "'>" + formatcomma(ttTOver.toFixed(4) ) + "</td>";
+                  txt = txt + "<td class='sumcell cellborder cellleft " + cellclass + "'>" + formatcomma(ttTotalWin.toFixed(4)) + "</td>";
+                  txt = txt + "<td class='sumcell cellborder cellleft " + cellclass + "'>" + formatcomma(ttTotalLost.toFixed(4)) + "</td>";
+                  txt = txt + "<td class='sumcell cellborder cellleft " + cellclass + "'>" + formatcomma(ttPending.toFixed(4)) + "</td>";
+                  txt = txt + "</tr>";
+
+                  document.getElementById("L2Area").innerHTML = txt1 + txt;
+
+                  checkbrowser();
+
+                  document.getElementById('prevbutton2').setAttribute("onclick", "showArea('L1')");
+
+                  document.getElementById("excelbutton2").setAttribute("onclick", "GenOverall_Excel_L2()");
+                  document.getElementById("HistoryL2HD").innerHTML = txt1 + txt;
+                  document.getElementById("HistoryL2HD").style = "display: none;";
+                  document.getElementById("jsondataL2").innerText = '{ "ReportTitle": "Win/Lose Report by Game - Drill Down on Bet Type: ' + BetType + ' (Level 2)", "Data" : ' + document.getElementById("jsondataL2").innerText + '}';
+                  document.getElementById("HistoryL2").innerHTML = txt;
+                  document.getElementById("HistoryL2").style = "display: none;";
+
+                  const body = document.body;
+                  const html = document.documentElement;
+                  const height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+                  console.log(document.getElementById("jsondataL2").innerText);
+
+                  document.getElementById("copybutton2").setAttribute("onclick", "CopyToClipboard('L2Area')");
+                  document.getElementById("printbutton2").setAttribute("onclick", "print('L2Area')");
+              },
+              failure: function (response) {
+                  console.log("failure");
+              },
+              error: function (response, status) {
+                  console.log("error");
+              }
+          });
+      }
+  </script>
+
+  <script>
+    function DrillByUserName(me) {
+        document.getElementById("CheckingArea").style.display = "none";
+
+        var txt = "<img src='http://localhost:5106/clock.gif' />";
+        document.getElementById("L3Area").style.textAlign = "center";
+        document.getElementById("L3Area").innerHTML = txt;
+
+        document.getElementById("L1Area").style.display = "none";
+        document.getElementById("L2Area").style.display = "none";
+        document.getElementById("L3Area").style.display = "inline-block";
+        document.getElementById("L4Area").style.display = "none";
+
+        document.getElementById("downloadbutton2").style.display = "none";
+
+        var BetType = $(me).attr("data-BetType");
+        var UserName = $(me).attr("data-UserName");
+        var StartDate = document.getElementById("dtDateS").value + " 00:00:00";
+        var EndDate = document.getElementById("dtDateE").value + " 23:59:59";
+
+        var CurrentPeriod = document.getElementById("selected_ticketx").value;
+
+        if (CurrentPeriod != "") {
+            GetCurrentPeriodDates(CurrentPeriod);
+          }
+
+        document.getElementById("selected_accountx").value = UserName;
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/GetOverallByUser",
+            data: JSON.stringify({ "BetType": BetType, "UserName": UserName, "StartDate": StartDate, "EndDate": EndDate , "CurrentPeriod": CurrentPeriod}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                document.getElementById("L3Area").style.textAlign = "left";
+                
+                document.getElementById("jsondataL3").innerText = JSON.stringify(response);
+                var mydata = JSON.parse(document.getElementById("jsondataL3").innerText);
+                var myrows = mydata.length;
+
+                var ttTOver = 0;
+                var ttTotalWinLose = 0;
+
+                var txt1 = "<span style='font-family: Helvetica;font-size: 12px;font-weight:bold;color:red;'>Drill Down on Bet Type: " + BetType + ", User Name: " + UserName + "</span><br>";
+                var txt = "<table style='font-size:12px;'>";
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cellborder cellleft'>BillNo</td>";
+                txt = txt + "<td class='cellborder cellleft'>OpeningTime</td>";
+                txt = txt + "<td class='cellborder cellleft'>TOver</td>";
+                txt = txt + "<td class='cellborder cellleft'>WinLose</td>";
+                txt = txt + "</tr>";
+
+                for (let i = 0; i < myrows; i++) {
+                    if (i % 2 != 0) {
+                      cellclass = "cellgrey";
+                    }
+                    else {
+                      cellclass = "";
+                    }
+
+
+                    txt = txt + "<tr>";
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "'><span onclick='DrillByTicket(this)' class='bckPeal cellleft' data-BetType='" + BetType + "' data-TicketNo='" + mydata[i].TicketNo + "' data-UserName='" + UserName + "'>" + mydata[i].TicketNo + "</span></td>";
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + mydata[i].OpeningTime + "</td>";
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + formatcomma(Number(mydata[i].TurnOver.toString()).toFixed(4)) + "</td>";
+
+                    if (Number(mydata[i].TotalWinLose.toString()) >= 0) {
+                        txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + formatcomma(Number(mydata[i].TotalWinLose.toString()).toFixed(4)) + "</td>";
+                    }
+                    else {
+                        txt = txt + "<td class='negativecell celldata cellleft " + cellclass + "'>" + formatcomma(Number(mydata[i].TotalWinLose.toString()).toFixed(4)) + "</td>";
+                    }
+                    txt = txt + "</tr>";
+
+                    ttTOver = ttTOver + Number(mydata[i].TurnOver.toString());
+                    ttTotalWinLose = ttTotalWinLose + Number(mydata[i].TotalWinLose.toString());
+                }
+
+                if (myrows % 2 != 0) {
+                  cellclass = "cellgrey";
+                }
+                else {
+                  cellclass = "celldata";
+                }
+
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cellborder cellleft sumcell " + cellclass + "'><span style='font-weight:500'>Total</span></td>";
+                txt = txt + "<td class='cellborder cellleft sumcell " + cellclass + "'></td>";
+                txt = txt + "<td class='cellborder cellleft sumcell " + cellclass + "'>" + formatcomma(ttTOver.toFixed(4)) + "</td>";
+                if (ttTotalWinLose >= 0) {
+                    txt = txt + "<td class='cellborder cellleft sumcell " + cellclass + "'>" + formatcomma(ttTotalWinLose.toFixed(4)) + "</td>";
+                }
+                else {
+                    txt = txt + "<td class='negativecell cellborder cellleft sumcell " + cellclass + "'>" + formatcomma(ttTotalWinLose.toFixed(4)) + "</td>";
+                }
+                txt = txt + "</tr>";
+
+                document.getElementById("L3Area").innerHTML = txt1 + txt;
+
+                checkbrowser();
+
+                document.getElementById('prevbutton2').setAttribute("onclick", "showArea('L2')");
+                document.getElementById("excelbutton2").setAttribute("onclick", "GenOverall_Excel_L3()");
+                document.getElementById("HistoryL3HD").innerHTML = txt1 + txt;
+                document.getElementById("HistoryL3").innerHTML = txt;
+                document.getElementById("HistoryL3HD").style.display = "none";
+                document.getElementById("HistoryL3").style.display = "none";
+                document.getElementById("jsondataL3").innerText = '{ "ReportTitle": "Win/Lose Report by Game - Drill Down on Bet Type: ' + BetType + ', User Name: ' + UserName + ' (Level 3)", "Data" : ' + document.getElementById("jsondataL3").innerText + '}';
+
+                document.getElementById("copybutton2").setAttribute("onclick", "CopyToClipboard('L3Area')");
+                document.getElementById("printbutton2").setAttribute("onclick", "print('L3Area')");
+                
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+
+        console.log("done");
+    }
+  </script>
+
+  <script>
+    function DrillByTicket(me) {
+        document.getElementById("CheckingArea").style.display = "none";
+
+        var txt = "<img src='http://localhost:5106/clock.gif' />";
+        document.getElementById("L4Area").style.textAlign = "center";
+        document.getElementById("L4Area").innerHTML = txt;
+
+        document.getElementById("L1Area").style.display = "none";
+        document.getElementById("L2Area").style.display = "none";
+        document.getElementById("L3Area").style.display = "none";
+        document.getElementById("L4Area").style.display = "inline-block";
+
+        document.getElementById("downloadbutton2").style.display = "none";
+
+        var StartDate = $("#dtDateS").val() + " 00:00:00";
+        var EndDate = $("#dtDateE").val() + " 23:59:59";
+        var SelectedUserName = $(me).attr("data-UserName");
+        var TicketNo = $(me).attr("data-TicketNo");
+        var BetType = $(me).attr("data-BetType");
+
+        var CurrentPeriod = document.getElementById("selected_ticketx").value;
+
+        if (CurrentPeriod != "") {
+          GetCurrentPeriodDates(CurrentPeriod);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/DrillOverall_Level4",
+            data: JSON.stringify({ "TicketNo": TicketNo, "Account": SelectedUserName, "BetType": BetType, "StartDate": StartDate, "EndDate": EndDate ,"CurrentPeriod": CurrentPeriod}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                document.getElementById("L4Area").style.textAlign = "left";
+                document.getElementById("jsondataL4").innerText = JSON.stringify(response);
+                document.getElementById("ReportJSON").innerText = JSON.stringify(response);
+                document.getElementById("ReportJSON").style = "display: none;";
+                console.log(document.getElementById("ReportJSON").innerText);
+                var mydata = JSON.parse(document.getElementById("ReportJSON").innerText);
+                var rownum = mydata.length;
+
+                var SearchList = [];
+                for (let z = 0; z < rownum; z++){
+                  let myobj = {
+                    "BetType": mydata[z].BetType,
+                    "BetTime": mydata[z].BetTime,
+                    "Bet": mydata[z].Bet,
+                    "BetAmount": mydata[z].BetAmount,
+                    "WinLose": mydata[z].WinLose,
+                  }
+                  SearchList.push(myobj);
+                }
+
+                console.log("Total Rows in Report: " + rownum);
+                
+                var txt1 = "<span style='font-family: Helvetica;font-size: 12px;font-weight:bold;color:red;'>Drill Down on Bet Type: " + BetType + ", User Name: " + SelectedUserName + ", Ticket No: " + TicketNo  + "</span><br>";
+
+                var txt = "<table style='font-size:12px;' cellpadding=0 cellspacing=0>";
+                txt = txt + "<tr >";
+                txt = txt + "<td class='cellborder'>Bet Type</td>";
+                txt = txt + "<td class='cellborder'>Bet Time</td>";
+                txt = txt + "<td class='cellborder'>Bet</td>";
+                txt = txt + "<td class='cellborder cellleft' >BetAmount</td>";
+                txt = txt + "<td class='cellborder cellleft' >Win/Loss</td>";
+                txt = txt + "</tr>";
+
+                var Total_Recs = 0;
+                var Total_TOver = 0;
+                var Total_BetAmount = 0;
+                var Total_WinMoney = 0;
+                var Total_Sum_winlose_AllLOST = 0;
+                var Total_Sum_winlose_AllWIN_4d = 0;
+                var Total_Sum_winlose_AllWIN_NOT4d = 0;
+                var Total_Win_Lose = 0;
+
+                var prevBetType = "";
+                var rowspan = 0;
+                for (i = 0; i < rownum; i++) {
+                    if (i % 2 != 0) {
+                      cellclass = "cellgrey";
+                    }
+                    else {
+                      cellclass = "";
+                    }
+
+                    txt = txt + "<tr >";
+
+                    if (prevBetType != mydata[i].BetType) {
+                      prevBetType = mydata[i].BetType
+
+                      rowspan = 0;
+                      for (let x = 0; x < rownum; x++) {
+                        if (SearchList[x].BetType == prevBetType) {
+                          rowspan++;
+                        }
+                      }
+                      txt = txt + "<td valign='top' rowspan=" + rowspan + " class='celldata cellleft " + cellclass + "'>" + mydata[i].BetType + "</td>";
+                    }
+                    // txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + mydata[i].BetType + "</td>";
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + mydata[i].BetTime + "</td>";
+                    var tempbet = mydata[i].Bet;
+                    var newbet = tempbet.replaceAll("(", "[");
+                    var newbet = newbet.replaceAll(")", "]");
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + newbet + "</td>";
+                    txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + formatcomma(Number(mydata[i].BetAmount).toFixed(4)) + "</td>";
+                    if (Number(mydata[i].WinLose) > 0) {
+                        txt = txt + "<td class='celldata cellleft " + cellclass + "'>" + formatcomma(Number(mydata[i].WinLose).toFixed(4)) + "</td>";
+                    }
+                    else {
+                        txt = txt + "<td class='celldata cellleft negativecell " + cellclass + "'>" + formatcomma(Number(mydata[i].WinLose).toFixed(4)) + "</td>";
+                    }
+                    txt = txt + "</tr>";
+
+                    Total_BetAmount = Total_BetAmount + Number(mydata[i].BetAmount.toString());
+                    Total_Win_Lose = Total_Win_Lose + Number(mydata[i].WinLose.toString());
+                }
+
+
+                if (rownum % 2 != 0) {
+                  cellclass = "cellgrey";
+                }
+                else {
+                  cellclass = "celldata";
+                }
+
+                txt = txt + "<tr >";
+                txt = txt + "<td class='sumcell cellborder " + cellclass + "'>Total</td>";
+                txt = txt + "<td class='sumcell cellborder " + cellclass + "'></td>";
+                txt = txt + "<td class='sumcell cellborder " + cellclass + "'></td>";
+                txt = txt + "<td class='sumcell cellborder cellleft " + cellclass + "' >" + formatcomma(Total_BetAmount.toFixed(4)) + "</td>";
+                if (Total_Win_Lose > 0) {
+                    txt = txt + "<td class='sumcell cellborder cellleft " + cellclass + "' >" + formatcomma(Total_Win_Lose.toFixed(4)) + "</td>";
+                }
+                else {
+                    txt = txt + "<td class='sumcell cellborder cellleft negativecell " + cellclass + "' >" + formatcomma(Total_Win_Lose.toFixed(4)) + "</td>";
+                }
+                txt = txt + "</tr>";
+
+
+                txt = txt + "</table><br>";
+
+                document.getElementById("L4Area").innerHTML = txt1 + txt;
+
+
+                checkbrowser();
+
+                document.getElementById('prevbutton2').setAttribute("onclick", "showArea('L3')");
+                document.getElementById("excelbutton2").setAttribute("onclick", "GenOverall_Excel_L4()");
+
+                document.getElementById("jsondataL4").innerText = '{ "ReportTitle": "Win/Lose Report by Game - Drill Down on Bet Type: ' + BetType + ', User Name: ' + SelectedUserName + ', Ticket No: ' + TicketNo + ' (Level 4)", "Data" : ' + document.getElementById("jsondataL4").innerText + '}';
+
+                document.getElementById("copybutton2").setAttribute("onclick", "CopyToClipboard('L4Area')");
+                document.getElementById("printbutton2").setAttribute("onclick", "print('L4Area')");
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+
+        console.log("done");
+    }
+  </script>
+
+  <script>
+      function configureContentScrollbar() {
+          document.getElementById("ReportContent").style = "display: block; text-align: center; overflow-y: scroll;scrollbar-color: pink lightblue;"
+      }
+  </script>
+
+  <script>
+    function formatcommadummy(mynum) {
+      if (mynum == "null" || mynum == null) {
+             alert("Null value found here!!!");
+      }
+
+      var numstr = mynum.toString();
+      outstr = numstr;
+      return outstr;
+    }
+
+  </script>
+
+  <script>
+      function padfront(_new, me) {
+          var outstr = _new + me;
+          return outstr;
+      }
+  </script>
+
+  <script>
+      function formatcomma(mynum) {
+          if (mynum == "null" || mynum == null) {
+             alert("Null value found here!!!");
+          }
+
+          var numstr = mynum.toString();
+
+          var negfactor = -1;
+          var isnegative = numstr.indexOf("-");
+          if (isnegative == -1) {
+              negfactor = 1;
+          }
+          numstr = numstr.replaceAll("-", "");
+
+          var numlen = numstr.length;
+          numstr = numstr.replaceAll(" ", "");
+          var decimalpoint = numstr.indexOf(".");
+          if (decimalpoint == -1) {
+              numstr = numstr + ".00";
+              decimalpoint = numstr.indexOf(".");
+          }
+          
+          numlen = numstr.length;
+          var newstr = "";
+          var decstr = numstr.substr(decimalpoint, numlen);
+          var intpart = numstr.substr(0, decimalpoint);
+
+          var balstr = "";
+          var outstr = "";
+          var threelen = 0;
+          var outstr = ""
+          var tail = "";
+          var head = "";
+          var oritail = "";
+          var ballen = 0;
+          var headlen = 0;
+          var demostr = "";
+
+          oritail = tail;
+          outstr = head + "--" + oritail;
+          balstr = head;
+
+          for (let i = 0; i < 20; i++) {
+              if (decimalpoint == -1) {
+                  oritail = numstr;
+                  break;
+              }
+              else if (decimalpoint != -1 && intpart.length <= 3) {
+                  oritail = numstr;
+                  break;
+              }
+              else if (decimalpoint != -1 && intpart.length > 3) {
+                  decimalpoint = numlen;
+              }
+
+              if (i == 0) {
+                  head = intpart;
+                  tail = decstr;
+                  balstr = head;
+                  oritail = numstr.substr(decimalpoint, numlen);
+                  demostr = "[" + head + "][" + tail + "][" + oritail + "]"
+                  ballen = balstr.length;
+              }
+              else if (i == 0 && numstr.length <= 3) {
+                  oritail = intpart + decstr;
+                  break;
+              }
+
+              else {
+                  headlen = balstr.length - 3;
+                  ballen = 3;
+                  numlen = balstr.length;
+
+                  if (headlen >= 3) {
+                      head = balstr.substr(0, headlen);
+                      tail = balstr.substr(headlen, numlen); // cheah modi here
+                      oritail = padfront(",", tail) + oritail;
+                      balstr = head;
+
+                  }
+                  else if (headlen < 3 && headlen != 0) {
+                      head = balstr.substr(0, headlen);
+                      tail = balstr.substr(headlen, numlen);
+                      demostr = "[" + head + "][" + tail + "][" + oritail + "]"
+                      oritail = head + padfront(",", tail) + oritail;
+                      break;
+                  }
+                  else {
+                      head = balstr.substr(0, headlen);
+                      tail = balstr.substr(headlen, numlen);
+                      demostr = "[" + head + "][" + tail + "][" + oritail + "]"
+                      oritail = head + tail + oritail;
+                      break;
+                  }
+
+              }
+
+          }
+
+          if (oritail.indexOf(".") != -1) {
+              outstr = oritail;
+          }
+          else {
+              outstr = oritail + decstr;
+          }
+          if (negfactor == -1) {
+              outstr = "-" + outstr;
+          }
+          
+          return outstr;
+      }
+  </script>
+
+  <script>
+    function showdate()
+    {
+    }
+  </script>
+
+  <script>
+    function GetCurrentPeriodDates(cp) {
+
+      if (cp != "") {
+        $.ajax({
+              type: "POST",
+              url: "http://localhost:5106/API/GetCurrentPeriodDateRange",
+              data: JSON.stringify({ "InputText" : cp}),
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              crossDomain: true,
+              success: function (response) {
+                document.getElementById("dtDateS").value = response.StartDate;
+                document.getElementById("dtDateE").value = response.EndDate;
+              },
+              failure: function (response) {
+                  console.log("failure");
+              },
+              error: function (response, status) {
+                  console.log("error");
+              }
+          });
+      }
+    }
+  </script>
+
+  <script>
+    function showTime()
+    {
+        alert($('#appt-time').val() + " to " + $('#appt-time2').val());
+    }
+  </script>
+
+</head>
+<body>
+
+
+<div class="container-fluid">
+    <div id="menuDiv" >
+      <span>Test</span>
+    </div>
+
+    <div id="myButtons" onclick="hidemenu()">
+      <span class="buttspan">BetHistory</span><div style="width:8px;display:inline-block;opacity: 0;"></div>
+      <span class="buttspan">Win/Lost Report</span><div style="width:8px;display:inline-block;opacity: 0;"></div>
+      <span class="buttspan activeButt">WinLostReportByGame</span><div style="width:8px;display:inline-block;opacity: 0;"></div>
+      <span class="buttspan">OutstandingReport</span><div style="width:8px;display:inline-block;opacity: 0;"></div>
+      <span class="buttspan">PragmaticPlaySlot Report</span><div style="width:8px;display:inline-block;opacity: 0;"></div>
+      <span class="buttspan">ResetReport</span><div style="width:8px;display:inline-block;opacity: 0;"></div>
+    </div>
+
+    <div id="myDIV" onclick="hidemenu()" data-viewstate="small">
+      <span>Search Condition</span>
+    </div>
+    <div id="mySearchElements"  data-viewstate="small">
+      <div style="display: inline-block;">
+        <label class="mylabel">DateS</label><br>
+        <input id="dtDateS" type="date" placeholder="" class="datebox curlyborder" onchange="showdate()"><div style="width:8px;display:inline-block;opacity: 0;"></div>
+        
+      </div>
+      <div style="display: inline-block;">
+        <label class="mylabel">DateE</label><br>
+        <input id="dtDateE" type="date" placeholder=""  class="datebox curlyborder">
+      </div>
+
+      <div style="display: inline-block;">
+        <a onclick="GenOverallReport()" id="btnOverall" style="opacity: 0;"><img style="opacity: 0;" src='http://localhost:5106/report.png' class="btnOverall"></a>
+        <div style="width:10px;display:inline-block;opacity: 0;"></div>
+      </div> 
+
+      <div style="display: inline-block;">
+        <span id="today" class="daterange" onclick="getToday()">Today</span><div style="width:3px;display:inline-block;opacity: 0;"></div>
+        <span id="yesterday" class="daterange" onclick="getYesterday()">Yesterday</span><div style="width:3px;display:inline-block;opacity: 0;"></div>
+        <span id="7days" class="daterange" onclick="get7Days()">Last 7 Days</span><div style="width:3px;display:inline-block;opacity: 0;"></div>
+        <span id="14days" class="daterange" onclick="get14Days()">Last 14 Days</span><div style="width:3px;display:inline-block;opacity: 0;"></div>
+      </div>
+
+      <div style="width:50px;display:inline-block;opacity: 0;"></div>
+      <div style="display: inline-block;">
+        <label class="mylabel">Ticket</label><br>
+        <input type="text" id="selected_ticketx">
+        <div style="width:8px;display:inline-block;opacity: 0;"></div>
+      </div>
+      <div style="display: inline-block;">
+        <label class="mylabel">Account</label><br>
+        <input type="text" id="selected_accountx" >
+        <div style="width:8px;display:inline-block;opacity: 0;"></div>
+      </div>
+
+      <div style="display: inline-block;">
+        <label class="mylabel">Bet Type</label><br>
+        <input type="text" id="selected_BetTypex" >
+      </div>
+
+      <div style="width:5px;display:inline-block;opacity: 0;"></div>
+      <div style="display: inline-block;">
+        <span class="daterange" onclick="clearTextbox()">Clear</span><div style="width:5px;display:inline-block;opacity: 0;"></div>
+        <span class="searchButton" onclick="GenOverallReport()">Search</span><div style="width:5px;display:inline-block;opacity: 0;"></div>
+      </div>
+      <table>
+        <tr>
+          <td>
+            <input id="appt-time" type="time" name="appt-time" step="2" />
+          </td>
+          <td style="padding-left: 5px;padding-right: 5px;"></td>
+          <td>
+            <input id="appt-time2" type="time" name="appt-time2" step="2" />
+          </td>
+<!--           <td>
+            <span id="floatdiv">...</span>
+          </td> -->
+        </tr>
+      </table>
+      
+
+
+    </div>
+</div>
+<a id="burgerlink" class="burger"><img onclick="hidemenu()" id="burgerimg" class="burger" src="http://localhost:5106/cross.png"></a>
+<div id="CheckingArea">.</div>
+<div id="L1Area" class="container-fluid col-md-12 col-md-12"></div>
+<div id="L2Area" class="container-fluid col-md-12 col-md-12"></div>
+<div id="L3Area" class="container-fluid col-md-12 col-md-12"></div>
+<div id="L4Area" class="container-fluid col-md-12 col-md-12"></div>
+
+<button id="closebutton2" ><i class="fa fa-close"></i></button>
+<button id="copybutton2" ><i class="fa fa-clone" style="font-size:15px"></i></button>
+<button id="printbutton2" ><i class="fa fa-print" style="font-size:15px"></i></button>
+<button id="excelbutton2" ><i class="fa fa-file-excel-o" style="font-size:15px;color:green;"></i></button>
+<a id="downloadbutton2"><i class="fa fa-download" style="font-size:15px;color:red;"></i></i></a>
+<button id="prevbutton2" ><i class="fa fa-mail-reply" style="font-size:15px;color:red"></i></i></button>
+<!-- <button id="prevbutton2" ><i class="fa-solid fa-backward" style="font-size:15px;color:red"></i></button> -->
+<div id="copyright2">
+    <span>Copyright © 2019 Malaysia Golden Hippo In Tw Inc. All rights reserved</span>
+</div>
+
+<div id="HiddenInfo">
+  <input type="text" id="browsertype" value="">
+</div>
+
+<div id="Report" style="display:none;"></div>
+<div id="ReportJSON" style="display:none;"></div>
+<div id="HistoryL1" style="display:none;"></div>
+<div id="HistoryL1HD" style="display:none;"></div>
+<div id="HistoryL2" style="display:none;"></div>
+<div id="HistoryL2HD" style="display:none;"></div>
+<div id="HistoryL3" style="display:none;"></div>
+<div id="HistoryL3HD" style="display:none;"></div>
+
+<div id="pop01" style="display:none;"></div>
+<div id="div_result" style="display:none;"></div>
+<div id="div_result_header" style="display:none;"></div>
+<div id="curPeriods" style="display:none;"></div>
+<div id="closebutt" style="display:none;"><button style="font-size:24px; float:right;" onclick="closePop()"><i class="fa fa-close"></i></button></div>
+<div id="Report2" class="col-md-11 col-sm-11"></div>
+<div id="pop02" style="display:none;"></div>
+<div style="display: none;" id="closebutt2"></div>
+<div id="reportHD"></div>
+<div id="jsondata" style="display:none;"></div>
+<div id="jsondataL2" style="display:none;"></div>
+<div id="jsondataL3" style="display:none;"></div>
+<div id="jsondataL4" style="display:none;"></div>
+<!-- <a id="downloadlink2" href="" target="_blank" style="display:none;" download>
+    <img src="http://localhost:5106/red_download.jpg" style="width:30px;height:30px;border-style: solid; border-width: 1px; border-color:grey;">
+</a>
+ --><button id="prevbuttonL2" style="display: none; font-size:26px; float:right;" onclick="ShowPrevPageL2()"><img id='excelimg' src='http://localhost:5106/prev.png' style="width: 20px; height: 20px;" /></button>
+<button id="prevbuttonL3" style="display: none; font-size:26px; float:right;" onclick="ShowPrevPageL3()"><img id='excelimg' src='http://localhost:5106/prev.png' style="width: 20px; height: 20px;" /></button>
+<button id="prevbuttonL4" style="display: none; font-size:26px; float:right;" onclick="ShowPrevPageL4()"><img id='excelimg' src='http://localhost:5106/prev.png' style="width: 20px; height: 20px;" /></button>
+<br />
+<div id="ReportJSON2"></div>
+<input type="text" id="TempPrice" value="" style='display:none;' /><input type="text" id="TempDiscPrice" value="" style='display:none;' /><input type="text" id="TempWinMoney" value="" style='display:none;' />
+
+
+</body>
+</html>

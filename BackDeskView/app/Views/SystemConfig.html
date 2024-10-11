@@ -1,0 +1,138 @@
+﻿<div>
+  <div ng-if="dataSource.pageStatus == 'searchView'">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+      </div>
+      <div class="panel-body">
+        <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+          <label class=" control-label" for="Customer:">{{ 'SystemConfigSetting_ConfigName' | translate }}:</label>
+          <input type="text" placeholder="" class="form-control input-md"
+            ng-model="dataSource.searchCondition.ConfigName">
+        </div>
+        <div class="col-md-8 col-sm-12 col-xs-12">
+          <div class="btn_area">
+            <ul class="text-left">
+              <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}" ng-click="showAdd()" /></li>
+              <li><input type="button" class="btn btn-default btn-block" value="{{ 'Clear' | translate }}" ng-click="clear()" /></li>
+              <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /> </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="css_table">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>{{ 'SystemConfigSetting_ConfigID' | translate }}</th>
+              <th>{{ 'SystemConfigSetting_ConfigName' | translate }}</th>
+              <th>{{ 'SystemConfigSetting_ConfigNotice' | translate }}</th>
+              <th>{{ 'SystemConfigSetting_ConfigValues' | translate }}</th>
+              <th>{{ 'SystemConfigSetting_ConfigTypeID' | translate }}</th>
+              <th>{{ 'SystemConfigSetting_ConfigParentID' | translate }}</th>
+              <th>{{ 'SystemConfigSetting_UpdateBy' | translate }}</th>
+              <th>{{ 'SystemConfigSetting_UpdateDate' | translate }}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="config in dataSource.listData">
+              <td>{{config.ID}}</td>
+              <td>{{config.ConfigName}}</td>
+              <td>{{config.ConfigNotice}}</td>
+              <td>{{config.ConfigValues}}</td>
+              <td>{{config.ConfigTypeID}}</td>
+              <td>{{config.ConfigParentID}}</td>
+              <td>{{config.UserName | userName}}</td>
+              <td>{{config.UpdateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+              <td>
+                <input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEdit(config)">
+                <!--<input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}" ng-click="deleteSystemConfig(config)">-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin:0px auto;">
+        <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)">
+        </pagination>
+      </div>
+    </div>
+  </div>
+
+  <div class="" ng-if="dataSource.pageStatus == 'addView' || dataSource.pageStatus == 'editView'">
+    <!-- left column -->
+    <!-- <div class="col-md-3">
+            <div class="text-center">
+                <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+                <h6>Upload a different photo...</h6>
+
+                <input type="file" class="form-control">
+            </div>
+        </div> -->
+    <!-- edit form column -->
+    <div class="   ">
+      <!-- <div class="alert alert-info alert-dismissable">
+                <a class="panel-close close" data-dismiss="alert">×</a>
+                <i class="fa fa-coffee"></i>
+                This is an <strong>.alert</strong>. Use this to show important messages to the user.
+            </div> -->
+
+      <div class="col-md-10 col-md-offset-1 col-xs-12 col-sm-12">
+        <div class="row">
+        <h3>{{ 'SystemConfigSetting_Detail' | translate }}</h3>
+        <hr>
+        <form name="form" class="form-horizontal" role="form">
+          <div class="list_area">
+            <div class="list_style">
+              
+                <ul>
+                  <li class="col-md-6 col-sm-6 col-xs-6 ">
+                    <label class=" control-label">{{ 'SystemConfigSetting_ConfigName' | translate }}:</label>
+                    <input name="ConfigName" class="form-control" type="text" ng-model="dataSource.systemConfig.ConfigName"
+                      required>
+                  </li>
+                  <li class="col-md-6 col-sm-6 col-xs-6">
+                    <label class=" control-label">{{ 'SystemConfigSetting_ConfigNotice' | translate }}:</label>
+                    <input name="ConfigNotice" class="form-control" type="text"
+                      ng-model="dataSource.systemConfig.ConfigNotice" required>
+                  </li>
+                  <li class="col-md-6 col-xs-6">
+                    <label class="control-label">{{ 'SystemConfigSetting_ConfigValues' | translate }}:</label>
+                    <input name="ConfigValues" class="form-control" type="text"
+                      ng-model="dataSource.systemConfig.ConfigValues" ng-disabled="dataSource.pageStatus == 'editView'" required>
+                  </li>
+                  <li class="col-md-6  col-xs-6">
+                    <label class=" control-label">{{ 'SystemConfigSetting_ConfigTypeID' | translate }}:</label>
+                    <input name="ConfigTypeID" class="form-control" type="text"
+                      ng-model="dataSource.systemConfig.ConfigTypeID" ng-disabled="dataSource.pageStatus == 'editView'" required>
+                  </li>
+                  <li class="col-md-6 col-xs-12 col-sm-12">
+                    <label class=" control-label">{{ 'SystemConfigSetting_ConfigParentID' | translate }}:</label>
+                    <input name="ConfigParentID" class="form-control" type="text"
+                      ng-model="dataSource.systemConfig.ConfigParentID" ng-disabled="dataSource.pageStatus == 'editView'">
+                  </li>
+                </ul>
+             
+            </div>
+            <div class="col-md-12 col-xs-12 col-sm-12  " ng-if="dataSource.pageStatus == 'editView'">
+              <input type="button" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-click="updateSystemConfig(form)">
+              <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+            </div>
+            <div class="ol-md-12 col-xs-12 col-sm-12" ng-if="dataSource.pageStatus == 'addView'">
+              <input type="button" class="btn btn-primary" value="{{ 'Add' | translate }}" ng-click="addSystemConfig(form)">
+              <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+            </div>
+          </div>
+         
+        </form>
+      </div>
+      </div>
+
+    </div>
+  </div>
+</div>

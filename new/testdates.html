@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<script type="text/javascript">
+		function changedate(){
+			alert("hellow");
+			alert(document.getElementById("today").value);
+			var todays = document.getElementById("today").value;
+			var today = new Date();
+			today.getDate(todays);
+			// alert( today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate() )
+			document.getElementById("today").value = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+
+			var days = parseInt(document.getElementById("days").value);
+			alert(days);
+			var newd = today;
+
+			alert("Before: " + newd);
+
+			// newd = newd.setDate(newd.getDate() + 2);
+			newds = newd.getFullYear() + "-" + (newd.getMonth() + 1) + "-" + (today.getDate() + days)
+			newd = new Date(newds);
+			alert("New Date: " + newd);
+
+			var str = newd.getFullYear() + "-" + (newd.getMonth() + 1) + "-" + newd.getDate();
+			alert(str);
+			document.getElementById("newdate").value = str ;
+		}
+	</script>
+</head>
+<body>
+	<input type="text" id="today" value="">
+	<input type="text" id="days" value="">
+	<input type="text" id="newdate" value="">
+
+	<button onclick="changedate()">Change</button>
+</body>
+</html>

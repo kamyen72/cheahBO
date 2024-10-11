@@ -1,0 +1,195 @@
+﻿<div>
+    <div ng-if="dataSource.pageStatus == 'searchView'">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+            </div>
+            <div class="panel-body">
+
+                <div class="col-md-3 col-xs-6">
+                    <label class=" control-label" for="Customer:">{{ 'LanguageSetting_LanguageTypeID' | translate }}:</label>
+                    <input type="text" placeholder="" class="form-control input-md"
+                           ng-model="dataSource.searchCondition.LanguageTypeID">
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <label class=" control-label" for="Customer:">{{ 'LanguageSetting_DNS' | translate }}:</label>
+                    <input type="text" placeholder="" class="form-control input-md"
+                           ng-model="dataSource.searchCondition.DNS">
+                </div>
+                <div class="col-md-3  col-xs-6">
+                    <label class=" control-label" for="Customer:">{{ 'LanguageSetting_ControllerName' | translate }}:</label>
+                    <input type="text" placeholder="" class="form-control input-md"
+                           ng-model="dataSource.searchCondition.ControllerName">
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <label class=" control-label" for="Customer:">{{ 'LanguageSetting_FamilyBigID' | translate }}:</label>
+                    <input type="text" placeholder="" class="form-control input-md"
+                           ng-model="dataSource.searchCondition.FamilyBigID">
+                </div>
+
+                <div class="col-md-8 col-sm-12 col-xs-12 ">
+                    <div class="btn_area">
+                        <ul class="text-left">
+                            <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}" ng-click="showAdd()" /></li>
+                            <li><input type="button" class="btn btn-default btn-block" value="{{ 'Clear' | translate }}" ng-click="clear()" /></li>
+                            <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /> </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="css_table">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>{{ 'LanguageSetting_FieldTypeID' | translate }}</th>
+                            <!--<th>LanguageTypeID</th>-->
+                            <!--<th>DNS</th>-->
+                            <th>{{ 'LanguageSetting_ControllerName' | translate }}</th>
+                            <th>{{ 'LanguageSetting_ActionName' | translate }}</th>
+                            <th>{{ 'LanguageSetting_HasPageStatus' | translate }}</th>
+                            <th>{{ 'LanguageSetting_PageStatus' | translate }}</th>
+                            <th>{{ 'LanguageSetting_FamilyBigID' | translate }}</th>
+                            <th>{{ 'LanguageSetting_FamilyMiddelID' | translate }}</th>
+                            <th>{{ 'LanguageSetting_FamilySmallID' | translate }}</th>
+                            <th>{{ 'LanguageSetting_FieldKey' | translate }}</th>
+                            <!--<th>FieldValue</th>-->
+                            <th>{{ 'LanguageSetting_FieldNotice' | translate }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="language in dataSource.listData">
+                            <td>{{language.FieldTypeID}}</td>
+                            <!--<td>{{language.LanguageTypeID}}</td>-->
+                            <!--<td>{{language.DNS}}</td>-->
+                            <td>{{language.ControllerName}}</td>
+                            <td>{{language.ActionName}}</td>
+                            <td>{{language.HasPageStatus}}</td>
+                            <td>{{language.PageStatus}}</td>
+                            <td>{{language.FamilyBigID}}</td>
+                            <td>{{language.FamilyMiddelID}}</td>
+                            <td>{{language.FamilySmallID}}</td>
+                            <td>{{language.FieldKey}}</td>
+                            <!--<td>{{language.FieldValue}}</td>-->
+                            <td>{{language.FieldNotice}}</td>
+                            <td>
+                                <input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEdit(language)">
+                                <!--<input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}" ng-click="deletelanguageSetting(language)">-->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin:0px auto;">
+                <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)">
+                </pagination>
+            </div>
+        </div>
+    </div>
+
+    <div class="" ng-if="dataSource.pageStatus == 'addView' || dataSource.pageStatus == 'editView'">
+        <div>
+            <div class="col-md-10 col-md-offset-1 col-xs-12 col-sm-12">
+                <div class="row">
+                    <h3>{{ 'LanguageSetting_Profile' | translate }}</h3>
+                    <hr>
+                    <form name="form" class="form-horizontal" role="form">
+                        <div class="list_area">
+                            <div class="list_style">
+                                <ul>
+                                    <!--<li class="col-md-6 col-xs-12 col-sm-12">
+                                        <label class=" control-label">LanguageTypeID:</label>
+                                        <select name="languageName" class="form-control" ng-model="dataSource.languageSetting.LanguageTypeID"
+                                                ng-options="option.LanguageTypeID as option.LanguageAbbreviation for option in dataSource.languageTypeList"
+                                                my-validator="dropdown">
+                                        </select>
+                                    </li>-->
+                                    <li class="col-xs-6">
+                                        <label class="control-label">{{ 'LanguageSetting_ControllerName' | translate }}:</label>
+                                        <input name="languageValues" class="form-control" type="text"
+                                               ng-model="dataSource.languageSetting.ControllerName" required>
+                                    </li>
+                                    <li class="col-xs-6">
+                                        <label class=" control-label">{{ 'LanguageSetting_ActionName' | translate }}:</label>
+                                        <input name="ActionName" class="form-control" type="text"
+                                               ng-model="dataSource.languageSetting.ActionName">
+                                    </li>
+                                    <li class="col-xs-6">
+                                        <label class=" control-label">{{ 'LanguageSetting_HasPageStatus' | translate }}:</label>
+                                        <input name="HasPageStatus" class="form-control" type="checkbox"
+                                               ng-model="dataSource.languageSetting.HasPageStatus">
+                                    </li>
+                                    <li class="col-xs-6">
+                                        <label class=" control-label">{{ 'LanguageSetting_PageStatus' | translate }}:</label>
+                                        <input name="PageStatus" class="form-control" type="text"
+                                               ng-model="dataSource.languageSetting.PageStatus">
+                                    </li>
+                                    <li class="col-xs-6">
+                                        <label class=" control-label">{{ 'LanguageSetting_FamilyBigID' | translate }}:</label>
+                                        <input name="FamilyBigID" class="form-control" type="text"
+                                               ng-model="dataSource.languageSetting.FamilyBigID">
+                                    </li>
+                                    <li class="col-xs-6">
+                                        <label class=" control-label">{{ 'LanguageSetting_FamilyMiddelID' | translate }}:</label>
+                                        <input name="FamilyMiddelID" class="form-control" type="text"
+                                               ng-model="dataSource.languageSetting.FamilyMiddelID">
+                                    </li>
+                                    <li class="col-xs-6">
+                                        <label class=" control-label">{{ 'LanguageSetting_FamilySmallID' | translate }}:</label>
+                                        <input name="FamilySmallID" class="form-control" type="text"
+                                               ng-model="dataSource.languageSetting.FamilySmallID">
+                                    </li>
+                                    <li class="col-xs-6">
+                                        <label class=" control-label">{{ 'LanguageSetting_FieldKey' | translate }}:</label>
+                                        <input name="FieldKey" class="form-control" type="text"
+                                               ng-model="dataSource.languageSetting.FieldKey">
+                                    </li>
+                                    <li class="col-xs-12">
+                                        <label class=" control-label">{{ 'LanguageSetting_FieldNotice' | translate }}:</label>
+                                        <input name="FieldNotice" class="form-control" type="text"
+                                               ng-model="dataSource.languageSetting.FieldNotice">
+                                    </li>
+                                    <li class="col-xs-6">
+                                        <label class="col-lg-1 col-md-2 col-xs-12 p-0 control-label">{{ 'LanguageSetting_DNS' | translate }}:</label>
+                                       
+                                        <button class="glyphicon glyphicon-plus btn mb-5" ng-click="dataSource.DNSs.push({'value':''})"></button>
+                                        <button class="glyphicon glyphicon-minus btn mb-5" ng-click="dataSource.DNSs.pop()"></button>
+                                        <!--<input name="dns" class="form-control" type="text"
+    ng-model="dataSource.languageSetting.DNS">-->
+                                        <div ng-repeat="dns in dataSource.DNSs">
+                                            <input class="form-control mb-0 ml-5" type="text" ng-model="dns.value">
+                                        </div>
+                                    </li>
+                                    <li class="col-xs-6">
+                                        <label class="col-lg-2 col-md-4 col-xs-12 p-0  control-label">{{ 'LanguageSetting_FieldValue' | translate }}:</label>
+                                      
+                                        <button class="glyphicon glyphicon-plus design_btn" ng-click="dataSource.languageSettings.push({'type':'','value':''})"></button>
+                                        <button class="glyphicon glyphicon-minus design_btn" ng-click="dataSource.languageSettings.pop()"></button>
+                                        <!--<input name="languageParentID" class="form-control" type="text" ng-model="dataSource.languageSetting.FieldValue">-->
+                                        <div ng-repeat="data in dataSource.languageSettings track by data.type">
+                                            <input class="form-control" type="text" ng-model="data.type" placeholder="{{ 'LanguageSetting_Type' | translate }}">
+                                            <input class="form-control" type="text" ng-model="data.value" placeholder="{{ 'LanguageSetting_Value' | translate }}">
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-12 col-xs-12 col-sm-12" ng-if="dataSource.pageStatus == 'editView'">
+                                <input type="button" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-click="update(form)">
+                                <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+                            </div>
+                            <div class="ol-md-12 col-xs-12 col-sm-12" ng-if="dataSource.pageStatus == 'addView'">
+                                <input type="button" class="btn btn-primary" value="{{ 'Add' | translate }}" ng-click="add(form)">
+                                <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

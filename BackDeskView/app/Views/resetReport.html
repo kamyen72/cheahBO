@@ -1,0 +1,141 @@
+﻿<div ng-if="dataSource.pageStatus == 'searchView'">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 mb-10 pr-0">
+                <label class=" control-label">{{ 'DateS' | translate }}:</label>
+                <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateS">
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 mb-10">
+                <label class=" control-label">{{ 'DateE' | translate }}:</label>
+                <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateE">
+            </div>
+
+            <div class="col-lg-3 col-sm-12 col-xs-12">
+                <div class="btn_area">
+                    <ul class="text-left">
+                        <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="css_table">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ 'WinLostReport_BetType' | translate }}</th>
+                        <th>{{ 'WinLostReport_BillNo' | translate }}</th>
+                        <th>{{ 'WinLostReport_OpenningTime' | translate }}</th>
+                        <th>{{ 'WinLostReport_TOver' | translate }}</th>
+                        <th>{{ 'WinLostReport_WinLose' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="dataSource.listData.length === 0">
+                        <td colspan="5">{{ 'NoData' | translate }}</td>
+                    </tr>
+                    <tr ng-repeat="data in dataSource.listData">
+                        <td>{{data.LotteryTypeName}}</td>
+                        <td>
+                            <button ng-click="showDetail(data)" data-toggle="modal" data-target="#ReceiptModal">
+                                {{data.CurrentPeriod}}
+                                <i class="fa fa-external-link " aria-hidden="true"></i>
+                            </button>
+                        </td>
+                        <td class="hidden-sm hidden-xs">
+                            {{data.oLottery.CloseTime | date : "yyyy/MM/dd HH:mm:ss"}}
+                        </td>
+                        <td>
+                            {{data.BetAmount | number:2}}
+                        </td>
+                        <td ng-if="dataSource.pageStatus !== 'PendingReportView'" ng-class="{'text-red': data.WinLose < 0}">
+                            {{data.WinLose | number:2}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-12" style="margin:0px auto;">
+            <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bet_area" id="ReceiptModal" tabindex="-1" role="dialog"
+     aria-labelledby="ReceiptModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times text-white" aria-hidden="true"></i>
+                </button>
+                <h5 class="modal-title">{{ 'BetHistory_BetDetail' | translate }}</h5>
+            </div>
+            <div class="modal-body" ng-if="dataSource.mPlayerDetail.vwMPlayers.length > 0">
+
+                <div class="col-md-12 nopadding bet_text text-yellow">
+                    <span>{{ 'BetHistory_BillNo' | translate }}:</span>
+                    {{dataSource.mPlayerDetail.CurrentPeriod}}
+                </div>
+                <div class="col-md-6 nopadding bet_text text-yellow">
+                    <span>{{ 'BetHistory_BetType' | translate }}:</span>
+                    {{dataSource.mPlayerDetail.LotteryTypeName}}
+                </div>
+                <div class="col-md-6 nopadding bet_text text-yellow">
+                    <span>{{ 'BetHistory_OpenningTime' | translate }}:</span>
+                    <!--{{dataSource.mPlayerDetail.OpenTime | date : "yyyy/MM/dd HH:mm:ss"}}-->
+                    {{dataSource.mPlayerDetail.oLottery.CloseTime | date : "yyyy/MM/dd HH:mm:ss"}}
+                </div>
+                <div class="col-md-12 nopadding bet_text text-yellow">
+                    <span>{{ 'BetHistory_Result' | translate }}:</span>
+                    {{dataSource.mPlayerDetail.oLottery.Result}}
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="real_table">
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <th>{{ 'BetHistory_BetTime' | translate }}</th>
+                            <th class="hidden-sm hidden-xs">{{ 'BetHistory_Bet' | translate }}</th>
+                            <th>{{ 'BetHistory_BetAmount' | translate }}</th>
+                            <th>{{ 'BetHistory_WinLose' | translate }}</th>
+                        </tr>
+                        <tr ng-repeat="mPlayer in dataSource.mPlayerDetail.vwMPlayers">
+                            <td>
+                                {{mPlayer.CreateDate | date : "yyyy/MM/dd HH:mm:ss"}}
+                            </td>
+                            <td class="hidden-sm hidden-xs">
+                                [{{mPlayer.SelectedTxt.split('|')[0]}}]
+                                <span ng-if="mPlayer.LotteryTypeID == 11">
+                                    [{{mPlayer.SelectedTxt.split('|')[1]}}]
+                                </span>
+                                <span ng-if="mPlayer.LotteryTypeID != 11">
+                                    [<span ng-if="mPlayer.SelectedTxt.split('|')[1] == '4D/3D/2D'">
+                                        {{mPlayer.SelectedTxt.split('|')[1]}}
+                                    </span>
+                                    <span translate="FamliyID{{mPlayer.LotteryTypeID}}{{mPlayer.SelectedTxt.split('|')[1]}}"></span>
+                                    ]
+                                </span>
+                                [{{mPlayer.SelectedTxt.split('|')[2]}}]
+                            </td>
+                            <td>
+                                {{mPlayer.Price | number:2}}
+                            </td>
+                            <td>
+                                <p ng-if="mPlayer.IsWin == null">-</p>
+                                <p ng-if="mPlayer.IsWin == true">{{mPlayer.WinMoney | number:2}}</p>
+                                <p ng-if="mPlayer.IsWin == false">{{ - mPlayer.Price | number:2}}</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+	<script>
+		$(document).ready(function(){
+			var arr1 = [1,2,3,4],
+			arr2 = [2,4],
+			res = arr1.filter(item => !arr2.includes(item));
+			// console.log(res);	
+			// alert(res.length);
+			var rst = "Total filtered items: " + res.length.toString();
+			// $("#result").html(rst);
+
+			rst = rst + "<br><br>";
+
+			var newt = "<table cellpadding=0 cellspacing=0>";
+			for (let i = 0; i < res.length; i++) {
+				newt = newt + "<tr><td style='border-style:solid; border-color:blue; border-width:1px;'>" + res[i].toString() + "</td></tr>";
+			}
+			newt = newt + "</table>";
+
+			rst = rst + newt;
+
+			$("#result").html(rst);
+
+		});
+
+	</script>
+
+	<div id="result">
+	</div>
+</body>
+</html>

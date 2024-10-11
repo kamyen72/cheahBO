@@ -1,0 +1,173 @@
+﻿<div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+        </div>
+        <div class="panel-body">
+
+            <div class="col-xs-3">
+                <label class="control-label">{{ 'Game' | translate }}:</label>
+                <select class="form-control" ng-if="dataSource.lotteryOrGame === 'lottery'"
+                        ng-model="dataSource.searchCondition.lotteryClass" required
+                        ng-options="class.LotteryClassName for class in dataSource.lotteryClassList"
+                        ng-change="updateDateOptions()"></select>
+                <select class="form-control" ng-if="dataSource.lotteryOrGame === 'game'"
+                        ng-model="dataSource.searchCondition.lotteryClass" required
+                        ng-options="class.GameName for class in dataSource.gameRoomTypeList"
+                        ng-change="updateDateOptions()"></select>
+            </div>
+            <div class="col-xs-3">
+                <label class="control-label" ng-if="dataSource.gamePayType">{{ dataSource.gamePayType | translate }}:</label>
+                <select name="DateRangePick" class="form-control"
+                        ng-model="dataSource.searchCondition.dateData" required
+                        ng-options="dateOption.Label for dateOption in dataSource.dateOptions"></select>
+            </div>
+
+            <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 mb-10">
+                <label class=" control-label">{{ 'DateS' | translate }}:</label>
+                <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateS">
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 mb-10">
+                <label class=" control-label">{{ 'DateE' | translate }}:</label>
+                <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateE">
+            </div> -->
+
+            <div class="col-lg-6 col-sm-12 col-xs-12 p-0">
+                <div class="btn_area">
+                    <ul class="text-left">
+                        <!-- <li><input type="button" class="btn btn-default btn-block" value="{{ 'Today' | translate }}" ng-click="dateSearch(0,0)" /></li>
+                        <li><input type="button" class="btn btn-default btn-block" value="{{ 'Yesterday' | translate }}" ng-click="dateSearch(-1,-1)" /></li>
+                        <li><input type="button" class="btn btn-default btn-block" value="{{ 'Last7Days' | translate }}" ng-click="dateSearch(-7,0)" /></li>
+                        <li><input type="button" class="btn btn-default btn-block" value="{{ 'Last14Days' | translate }}" ng-click="dateSearch(-14,0)" /></li> -->
+                        <li>
+                            <input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()"
+                                   ng-disabled="!dataSource.searchCondition.dateData" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-xs-6">
+            <input type="button" class="btn btn-success" value="{{ 'Confirm' | translate }}" ng-click="updateAll(true)">
+            <input type="button" class="btn btn-danger" value="{{ 'CashBack_Reject' | translate }}" ng-click="updateAll(false)">
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12 col-md-offset-2">
+            <label class="control-label text-right" for="Customer:">{{ 'Search' | translate }}:</label>
+            <input type="text" class="form-control input-md" ng-model="dataSource.quickSearchString" ng-change="quickSearch()">
+        </div>
+    </div>
+    <br />
+    <div class="css_table">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" class="form-control" ng-model="dataSource.checkAll" ng-click="checkAll()" /></th>
+                        <th>{{ 'MemberManage_UserLevel' | translate }}</th>
+                        <th>{{ 'CashBack_UserName' | translate }}</th>
+                        <th>{{ 'CashBack_TOver' | translate }}</th>
+                        <th>{{ 'Calculation' | translate }}</th>
+                        <th>{{ 'CashBack_WinLose' | translate }}</th>
+                        <th>{{ 'CashBack' | translate }}</th>
+                        <th>{{ 'CashBack_CashBackPayType' | translate }}</th>
+                        <th>{{ 'CashBack_CreateTime' | translate }}</th>
+                        <!--<th></th>-->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="dataSource.listData.length === 0">
+                        <td colspan="9">{{ 'NoData' | translate }}</td>
+                    </tr>
+                    <tr ng-repeat="cashBack in dataSource.listData">
+                        <td><input type="checkbox" class="form-control" ng-model="cashBack.IsChecked" /></td>
+                        <td>{{cashBack.UserLevel}}</td>
+                        <td>{{cashBack.UserName | userName}}</td>
+                        <td>{{cashBack.TurnOverMoney | currency : "$" : 2}}</td>
+                        <td>{{cashBack.Percentage}}</td>
+                        <td>{{cashBack.RecordMoney | currency : "$" : 2}}</td>
+                        <td>{{cashBack.CashBack | currency : "$" : 2}}</td>
+                        <td>{{cashBack.CashBackRebatePayType}}</td>
+                        <td>{{cashBack.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <!--<td>
+                            <input type="button" class="btn btn-success" data-toggle="modal" data-target="#ConfirmDialog" value="{{ 'Confirm' | translate }}" ng-click="update(cashBack,true)">
+                            <input type="button" class="btn btn-danger" data-toggle="modal" data-target="#ConfirmDialog" value="{{ 'CashBack_Reject' | translate }}" ng-click="update(cashBack,false)">
+                        </td>-->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--<div style="margin:0px auto;">
+            <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+        </div>-->
+    </div>
+
+    <!--顯示報表明細視窗-->
+    <button id="ShowDetailDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#DetailDialog" style="display:none"></button>
+    <div class="modal fade" id="DetailDialog" tabindex="-1" role="dialog" aria-labelledby="DetailDialogTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{dataSource.modalMsg.title | translate }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row-form">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'CashBack_UserName' | translate }}</th>
+                                        <th>{{ 'CashBack_TOver' | translate }}</th>
+                                        <th>{{ 'CashBack' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="detail in dataSource.detailListData">
+                                        <td>{{detail.UserName | userName}}</td>
+                                        <td>{{detail.TurnOverMoney | currency : "$" : 2}}</td>
+                                        <td>{{detail.CashBackRebateMoney | currency : "$" : 2}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(false)">Cancel</button>-->
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(true)">{{ 'Confirm' | translate }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="ShowDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#ConfirmDialog"
+        style="display:none"></button>
+<div class="modal fade" id="ConfirmDialog" tabindex="-1" role="dialog" aria-labelledby="ConfirmDialogTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width:600px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    {{dataSource.modalMsg.title | translate }}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="confirm()">
+                    {{dataSource.modalMsg.title | translate }}
+                </button>
+                <button type="button" class="btn rectangle-btn" data-dismiss="modal">{{ 'Cancel' | translate }}</button>
+            </div>
+        </div>
+    </div>
+</div>

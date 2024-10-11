@@ -1,0 +1,128 @@
+﻿<div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+        </div>
+        <div class="panel-body">
+
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <label class="control-label">{{ 'DateS' | translate }}:</label>
+                <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateS">
+            </div>
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <label class="control-label">{{ 'DateE' | translate }}:</label>
+                <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateE">
+            </div>
+
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="btn_area">
+                    <ul>
+                        <li><input type="button" class="btn btn-default btn-block" value="{{ 'Today' | translate }}" ng-click="dateSearch(0,0)" /></li>
+                        <li><input type="button" class="btn btn-default btn-block" value="{{ 'Yesterday' | translate }}" ng-click="dateSearch(-1,-1)" /></li>
+                        <li><input type="button" class="btn btn-default btn-block" value="{{ 'Last7Days' | translate }}" ng-click="dateSearch(-7,0)" /></li>
+                        <li><input type="button" class="btn btn-default btn-block" value="{{ 'Last14Days' | translate }}" ng-click="dateSearch(-14,0)" /></li>
+                        <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <!--<ul class="nav nav-pills">
+        <li ng-class="{'active':dataSource.payType == 'Daily'}">
+            <a href="javascript:void(0)" ng-click="changeType('Daily')">{{ 'CashBackLog_Daily' | translate }}</a>
+        </li>
+        <li ng-class="{'active':dataSource.payType == 'Weekly'}">
+            <a href="javascript:void(0)" ng-click="changeType('Weekly')">{{ 'CashBackLog_Weekly' | translate }}</a>
+        </li>
+        <li ng-class="{'active':dataSource.payType == 'Monthly'}">
+            <a href="javascript:void(0)" ng-click="changeType('Monthly')">{{ 'CashBackLog_Monthly' | translate }}</a>
+        </li>
+    </ul>-->
+    <div class="css_table">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ 'MemberManage_UserLevel' | translate }}</th>
+                        <th>{{ 'CashBackLog_UserName' | translate }}</th>
+                        <th>{{ 'CashBackLog_TOver' | translate }}</th>
+                        <th>{{ 'Calculation' | translate }}</th>
+                        <th>{{ 'CashBackLog_CashBack' | translate }}</th>
+                        <th>{{ 'CashBackLog_CashBackPayType' | translate }}</th>
+                        <th>{{ 'CashBackLog_CreateTime' | translate }}</th>
+                        <th>{{ 'CashBackLog_Status' | translate }}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="dataSource.listData.length === 0">
+                        <td colspan="9">{{ 'NoData' | translate }}</td>
+                    </tr>
+                    <tr ng-repeat="member in dataSource.listData">
+                        <td>{{member.UserLevel}}</td>
+                        <td>{{member.UserName | userName}}</td>
+                        <td>{{member.TurnOverMoney | currency : "$" : 2}}</td>
+                        <td>{{member.Percentage}}</td>
+                        <td>{{member.CashBack | currency : "$" : 2}}</td>
+                        <td>{{member.CashBackRebatePayType}}</td>
+                        <td>{{member.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{member.CashBackRebateMoneyStatus == null ? 'Process' : member.CashBackRebateMoneyStatus ? 'Confirmed' : 'Rejected'}}</td>
+                        <td>
+                            <input type="button" class="btn btn-info" value="List" ng-click="showDetail(member)">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--<div style="margin:0px auto;">
+            <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+        </div>-->
+    </div>
+
+    <!--顯示報表明細視窗-->
+    <button id="ShowDetailDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#DetailDialog" style="display:none"></button>
+    <div class="modal fade" id="DetailDialog" tabindex="-1" role="dialog" aria-labelledby="DetailDialogTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{dataSource.modalMsg.title | translate}}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row-form">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'CashBackLog_UserName' | translate }}</th>
+                                        <th>{{ 'CashBackLog_TOver' | translate }}</th>
+                                        <th>{{ 'CashBackLog_CashBack' | translate }}</th>
+                                        <th>{{ 'CashBackLog_CreateDate' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="detail in dataSource.detailListData">
+                                        <td>{{detail.UserName | userName}}</td>
+                                        <td>{{detail.TurnOverMoney | currency : "$" : 2}}</td>
+                                        <td>{{detail.CashBackRebateMoney | currency : "$" : 2}}</td>
+                                        <td>{{detail.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(false)">Cancel</button>-->
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(true)">{{ 'Confirm' | translate }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

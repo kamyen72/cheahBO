@@ -1,0 +1,351 @@
+﻿<div ng-if="dataSource.pageStatus == 'searchView'">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+        </div>
+        <div class="panel-body">
+
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <label class="control-label">{{ 'CashBackSetting_Name' | translate }}:</label>
+                <input type="text" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.Name">
+            </div>
+
+            <div class="col-md-4 col-xs-12">
+                <div class="btn_area">
+                    <ul>
+                        <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}" ng-click="showAdd()" /></li>
+                        <li><input type="button" class="btn btn-default btn-block" value="{{ 'Clear' | translate }}" ng-click="clear()" /></li>
+                        <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="css_table">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ 'CashBackSetting_Name' | translate }}</th>
+                        <th>{{ 'DateS' | translate }}</th>
+                        <th>{{ 'DateE' | translate }}</th>
+                        <th>{{ 'CashBackSetting_Status' | translate }}</th>
+                        <th>{{ 'CashBackSetting_UpdateBy' | translate }}</th>
+                        <th>{{ 'CashBackSetting_UpdateDate' | translate }}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="cashBack in dataSource.listData">
+                        <td>{{cashBack.Name}}</td>
+                        <td>{{cashBack.DateS | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{cashBack.DateE | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{cashBack.Status ? 'Active' : ''}}</td>
+                        <td>{{cashBack.UpdateName}}</td>
+                        <td>{{cashBack.UpdateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>
+                            <input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEdit(cashBack)">
+                            <input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}" ng-click="delete(cashBack)">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin:0px auto;">
+            <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)">
+            </pagination>
+        </div>
+    </div>
+</div>
+<div class="" ng-if="dataSource.pageStatus == 'addView' || dataSource.pageStatus == 'editView'">
+    <!-- left column -->
+    <!-- <div class="col-md-3">
+            <div class="text-center">
+                <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+                <h6>Upload a different photo...</h6>
+
+                <input type="file" class="form-control">
+            </div>
+        </div> -->
+    <!-- edit form column -->
+    <div class="col-md-12 col-sm-12 col-xs-12 personal-info">
+        <div class="row">
+            <!-- <div class="alert alert-info alert-dismissable">
+                      <a class="panel-close close" data-dismiss="alert">×</a>
+                      <i class="fa fa-coffee"></i>
+                      This is an <strong>.alert</strong>. Use this to show important messages to the user.
+                  </div> -->
+            <h3>{{ 'CashBackSetting_CashBack' | translate }}</h3>
+            <hr>
+            <form name="form" class="form-horizontal" role="form">
+                <div class="list_area">
+                    <div class="list_style ">
+                        <div class="row">
+                            <ul>
+                                <li class="col-md-3 col-xs-12">
+                                    <label class=" control-label">{{ 'CashBackSetting_Name' | translate }}:</label>
+                                    <input name="Name" class="form-control" type="text" ng-model="dataSource.cashBack.Name" required>
+                                </li>
+                                <li class="col-md-3 col-xs-6">
+                                    <label class="control-label">{{ 'DateS' | translate }}:</label>
+                                    <input name="DateS" class="form-control" type="date" ng-model="dataSource.cashBack.DateS" required>
+                                </li>
+                                <li class="col-md-3 col-xs-6">
+                                    <label class=" control-label">{{ 'DateE' | translate }}:</label>
+                                    <input name="DateE" class="form-control" type="date" ng-model="dataSource.cashBack.DateE" required>
+                                </li>
+                                <li class="col-md-3 col-xs-6">
+                                    <label>{{ 'Active' | translate }}:</label>
+                                    <input class="form-control" type="checkbox" ng-model="dataSource.cashBack.Status">
+                                </li>
+
+                                <!--<li class="col-md-4 col-sm-6 col-xs-12">
+                                    <label class="control-label text-theme mt-10">Daily</label>
+                                    <hr>
+                                    <label class="control-label">{{ 'CashBackSetting_MinLoss' | translate }}:</label>
+                                    <input name="DMinLoss" class="form-control" type="text" ng-model="dataSource.cashBack.MinLoss">
+                                    <label class="control-label">{{ 'CashBackSetting_MaxLoss' | translate }}:</label>
+                                    <input name="DMaxLoss" class="form-control" type="text" ng-model="dataSource.cashBack.MaxLoss">
+                                </li>
+
+                                <li class="col-md-4 col-sm-6 col-xs-12">
+                                    <label class="control-label text-theme  mt-10">Weekly</label>
+                                    <hr >
+                                    <label class="control-label">{{ 'CashBackSetting_MinLoss' | translate }}:</label>
+                                    <input name="WMinLoss" class="form-control" type="text" ng-model="dataSource.cashBack.Weekly_MinLoss">
+                                    <label class="control-label">{{ 'CashBackSetting_MaxLoss' | translate }}:</label>
+                                    <input name="WMaxLoss" class="form-control" type="text" ng-model="dataSource.cashBack.Weekly_MaxLoss">
+                                </li>
+
+                                <li class="col-md-4 col-sm-6 col-xs-12">
+                                    <label class="control-label text-theme  mt-10">Monthly</label>
+                                    <hr>
+                                    <label class="control-label">{{ 'CashBackSetting_MinLoss' | translate }}:</label>
+                                    <input name="MMinLoss" class="form-control" type="text" ng-model="dataSource.cashBack.Monthly_MinLoss">
+                                    <label class="control-label">{{ 'CashBackSetting_MaxLoss' | translate }}:</label>
+                                    <input name="MMaxLoss" class="form-control" type="text" ng-model="dataSource.cashBack.Monthly_MaxLoss">
+                                </li>-->
+                                <!--<li class="col-md-6 col-sm-4 col-xs-4">
+                                    <label class="control-label">Status:</label>
+                                    <input name="Status" class="form-control" type="checkbox"
+                                           ng-init="dataSource.cashBack.Status = true" ng-model="dataSource.cashBack.Status">
+                                </li>-->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal">
+                <h4>{{ 'CashBackSetting_Details' | translate }}</h4>
+                <hr />
+                <div class="list_area">
+                    <div class="">
+                        <label class="col-md-12 row">{{ 'CashBackSetting_CashBackType' | translate }}</label>
+                        <div class="row">
+
+
+                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                <label class="radio-inline">
+                                    <input type="radio" name="cbType" ng-value="1"
+                                           ng-model="dataSource.cashBack.SettingType">{{ 'CashBackSetting_CountFromTotalLoseAllGames' | translate }}
+                                </label>
+                            </div>
+                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                <label class="radio-inline">
+                                    <input type="radio" name="cbType" ng-value="2"
+                                           ng-model="dataSource.cashBack.SettingType">{{ 'CashBackSetting_CountFromTotalLosePerGamesType' | translate }}
+                                </label>
+                            </div>
+                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                <label class="radio-inline">
+                                    <input type="radio" name="cbType" ng-value="3"
+                                           ng-model="dataSource.cashBack.SettingType">{{ 'CashBackSetting_CountFromTotalLoseOneGames' | translate }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="dataSource.pageStatus != 'searchView' && dataSource.cashBack.SettingType == 1">
+                        <div class="col-xs-3">
+                            <label>{{ 'CashBackSetting_AllGames' | translate }}:</label>
+                            <select class="form-control input-sm" name="live_casino_reg" ng-model="dataSource.allRebate">
+                                <option ng-repeat="option in dataSource.rebateDropDown" ng-value="option">{{(option *100 ).toFixed(2)}}%</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-3">
+                            <label class="control-label">{{ 'CashRebate_CashRebatePayType' | translate }}:</label>
+                            <!--<input name="DPayType" class="form-control" type="text" ng-model="dataSource.cashRebate.PayType">-->
+                            <select name="DPayType" class="form-control" ng-model="dataSource.cashBack.PayType"
+                                    ng-options="option.ID as option.ConfigName for option in dataSource.payTypeDropDown" required></select>
+                        </div>
+                        <div class="col-xs-3">
+                            <label class="control-label">{{ 'CashBackSetting_MinLoss' | translate }}:</label>
+                            <input name="DMinLoss" class="form-control" type="text" ng-model="dataSource.cashBack.MinLoss" required>
+                        </div>
+                        <div class="col-xs-3">
+                            <label class="control-label">{{ 'CashBackSetting_MaxLoss' | translate }}:</label>
+                            <input name="DMaxLoss" class="form-control" type="text" ng-model="dataSource.cashBack.MaxLoss" required>
+                        </div>
+
+                    </div>
+                    <div class="mt-20" ng-if="dataSource.pageStatus != 'searchView' && dataSource.cashBack.SettingType==2">
+                        <div class="row">
+                            <div class="list_style ">
+                                <ul>
+                                    <li class="col-md-1"><label><b>{{ 'CashBackSetting_NewMember' | translate }}</b></label></li>
+                                    <li class="col-md-1"><label><b>{{ 'CashBackSetting_RegMember' | translate }}</b></label></li>
+                                    <li class="col-md-1"><label><b>{{ 'CashBackSetting_SilverMember' | translate }}</b></label></li>
+                                    <li class="col-md-1"><label><b>{{ 'CashBackSetting_GoldMember' | translate }}</b></label></li>
+                                    <li class="col-md-1"><label><b>{{ 'CashBackSetting_PlatinumMember' | translate }}</b></label></li>
+                                    <li class="col-md-1"><label><b>{{ 'CashRebateSetting_VIPMember' | translate }}</b></label></li>
+                                    <li></li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div ng-repeat="gameRoom in dataSource.gameRoomTypeListData">
+                            <div class="row">
+                                <label class="col-sm-12 ">{{gameRoom.GameName}}</label>
+                                <div class="list_style ">
+                                    <ul>
+                                        <li class="col-md-1">
+                                            <select class="form-control input-sm" name="live_casino_reg" ng-model="gameRoom.rebates[0]">
+                                                <option ng-repeat="option in dataSource.rebateDropDown" ng-value="option">{{(option *100 ).toFixed(2)}}%</option>
+                                            </select>
+                                        </li>
+                                        <li class="col-md-1">
+                                            <select class="form-control input-sm" name="live_casino_reg" ng-model="gameRoom.rebates[1]">
+                                                <option ng-repeat="option in dataSource.rebateDropDown" ng-value="option">{{(option *100 ).toFixed(2)}}%</option>
+                                            </select>
+                                        </li>
+                                        <li class="col-md-1">
+                                            <select class="form-control input-sm" name="live_casino_reg" ng-model="gameRoom.rebates[2]">
+                                                <option ng-repeat="option in dataSource.rebateDropDown" ng-value="option">{{(option *100 ).toFixed(2)}}%</option>
+                                            </select>
+                                        </li>
+                                        <li class="col-md-1">
+                                            <select class="form-control input-sm" name="live_casino_reg" ng-model="gameRoom.rebates[3]">
+                                                <option ng-repeat="option in dataSource.rebateDropDown" ng-value="option">{{(option *100 ).toFixed(2)}}%</option>
+                                            </select>
+                                        </li>
+                                        <li class="col-md-1">
+                                            <select class="form-control input-sm" name="live_casino_reg" ng-model="gameRoom.rebates[4]">
+                                                <option ng-repeat="option in dataSource.rebateDropDown" ng-value="option">{{(option *100 ).toFixed(2)}}%</option>
+                                            </select>
+                                        </li>
+                                        <li class="col-md-1">
+                                            <select class="form-control input-sm" name="live_casino_reg" ng-model="gameRoom.rebates[5]">
+                                                <option ng-repeat="option in dataSource.rebateDropDown" ng-value="option">{{(option *100 ).toFixed(2)}}%</option>
+                                            </select>
+                                        </li>
+                                        <li class="col-md-5 col-xs-6">
+                                            <div class="col-xs-4">
+                                                <label class="control-label">{{ 'CashRebate_CashRebatePayType' | translate }}:</label>
+                                                <!--<input name="WPayType" class="form-control" type="text" ng-model="gameRoom.PayType">-->
+                                                <select name="WPayType" class="form-control" ng-model="gameRoom.PayType"
+                                                        ng-options="option.ID as option.ConfigName for option in dataSource.payTypeDropDown" required></select>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <label class="control-label">{{ 'CashBackSetting_MinLoss' | translate }}:</label>
+                                                <input name="WMinLoss" class="form-control" type="text" ng-model="gameRoom.MinLoss" required>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <label class="control-label">{{ 'CashBackSetting_MaxLoss' | translate }}:</label>
+                                                <input name="WMaxLoss" class="form-control" type="text" ng-model="gameRoom.MaxLoss" required>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-20" ng-if="dataSource.pageStatus != 'searchView' && dataSource.cashBack.SettingType==3">
+                        <div class="row">
+                            <div class="list_style">
+                                <ul>
+                                    <li class="col-md-1"><label><b>{{ 'CashBackSetting_NewMember' | translate }}</b></label></li>
+                                    <li class="col-md-1"><label><b>{{ 'CashBackSetting_RegMember' | translate }}</b></label></li>
+                                    <li class="col-md-1"><label><b>{{ 'CashBackSetting_SilverMember' | translate }}</b></label></li>
+                                    <li class="col-md-1"><label><b>{{ 'CashBackSetting_GoldMember' | translate }}</b></label></li>
+                                    <li class="col-md-1"><label><b>{{ 'CashBackSetting_PlatinumMember' | translate }}</b></label></li>
+                                    <li class="col-md-1"><label><b>{{ 'CashRebateSetting_VIPMember' | translate }}</b></label></li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="mb-10" ng-repeat="gameRoom in dataSource.gameRoomTypeListData">
+                            <label class="col-sm-12 row">{{gameRoom.GameName}}</label>
+                            <div class="row" ng-repeat="lotteryClass in gameRoom.lotteryClassListData">
+                                <label class=" col-sm-12">{{lotteryClass.LotteryClassName}}</label>
+
+                                <div class="list_style ">
+                                    <ul>
+                                        <li class="col-md-1">
+                                            <select class="form-control input-sm" name="live_casino_reg" ng-model="lotteryClass.rebates[0]">
+                                                <option ng-repeat="option in dataSource.rebateDropDown" ng-value="option">{{(option *100 ).toFixed(2)}}%</option>
+                                            </select>
+                                        </li>
+                                        <li class="col-md-1">
+                                            <select class="form-control input-sm" name="live_casino_reg" ng-model="lotteryClass.rebates[1]">
+                                                <option ng-repeat="option in dataSource.rebateDropDown" ng-value="option">{{(option *100 ).toFixed(2)}}%</option>
+                                            </select>
+                                        </li>
+                                        <li class="col-md-1">
+                                            <select class="form-control input-sm" name="live_casino_reg" ng-model="lotteryClass.rebates[2]">
+                                                <option ng-repeat="option in dataSource.rebateDropDown" ng-value="option">{{(option *100 ).toFixed(2)}}%</option>
+                                            </select>
+                                        </li>
+                                        <li class="col-md-1">
+                                            <select class="form-control input-sm" name="live_casino_reg" ng-model="lotteryClass.rebates[3]">
+                                                <option ng-repeat="option in dataSource.rebateDropDown" ng-value="option">{{(option *100 ).toFixed(2)}}%</option>
+                                            </select>
+                                        </li>
+                                        <li class="col-md-1">
+                                            <select class="form-control input-sm" name="live_casino_reg" ng-model="lotteryClass.rebates[4]">
+                                                <option ng-repeat="option in dataSource.rebateDropDown" ng-value="option">{{(option *100 ).toFixed(2)}}%</option>
+                                            </select>
+                                        </li>
+                                        <li class="col-md-1">
+                                            <select class="form-control input-sm" name="live_casino_reg" ng-model="lotteryClass.rebates[5]">
+                                                <option ng-repeat="option in dataSource.rebateDropDown" ng-value="option">{{(option *100 ).toFixed(2)}}%</option>
+                                            </select>
+                                        </li>
+                                        <li class="col-md-5 col-xs-6">
+                                            <div class="col-xs-4">
+                                                <label class="control-label">{{ 'CashRebate_CashRebatePayType' | translate }}:</label>
+                                                <!--<input name="MPayType" class="form-control" type="text" ng-model="lotteryClass.PayType">-->
+                                                <select name="MPayType" class="form-control" ng-model="lotteryClass.PayType"
+                                                        ng-options="option.ID as option.ConfigName for option in dataSource.payTypeDropDown" required></select>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <label class="control-label">{{ 'CashBackSetting_MinLoss' | translate }}:</label>
+                                                <input name="MMinLoss" class="form-control" type="text" ng-model="lotteryClass.MinLoss">
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <label class="control-label">{{ 'CashBackSetting_MaxLoss' | translate }}:</label>
+                                                <input name="MMaxLoss" class="form-control" type="text" ng-model="lotteryClass.MaxLoss">
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12 p-0 mt-20 row">
+                        <div class="col-md-8" ng-if="dataSource.pageStatus == 'editView'">
+                            <input type="button" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-click="update()">
+                            <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+                        </div>
+                        <div class="col-md-8" ng-if="dataSource.pageStatus == 'addView'">
+                            <input type="button" class="btn btn-primary" value="{{ 'Add' | translate }}" ng-click="add()">
+                            <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

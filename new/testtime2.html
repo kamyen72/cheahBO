@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+
+  <script type="text/javascript">
+    var today = new Date();
+    var minDate = today.setDate(today.getDate() + 1);
+
+    $('#datePicker').datetimepicker({
+      useCurrent: false,
+      format: "MM/DD/YYYY",
+      minDate: minDate
+    });
+
+    var firstOpen = true;
+    var time;
+
+    $('#timePicker').datetimepicker({
+      useCurrent: false,
+      format: "hh:mm A"
+    }).on('dp.show', function() {
+      if(firstOpen) {
+        time = moment().startOf('day');
+        firstOpen = false;
+      } else {
+        time = "01:00 PM"
+      }
+      
+      $(this).data('DateTimePicker').date(time);
+    });    
+  </script>
+
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label for="date">Date</label>
+      <div class="input-group date" id="datePicker">
+        <input type="text" class="form-control">
+        <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+      </div>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="time">Time</label>
+      <div class="input-group date" id="timePicker">
+        <input type="text" class="form-control timePicker">
+        <span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

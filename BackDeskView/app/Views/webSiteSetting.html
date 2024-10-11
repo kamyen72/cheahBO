@@ -1,0 +1,137 @@
+﻿<div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
+    <ul class="nav nav-pills">
+        <li ng-class="{'active':dataSource.pageStatus == 'webSiteView'}">
+            <a href="javascript:void(0)" ng-click="dataSource.pageStatus = 'webSiteView'">{{ 'WebSiteSetting_WebSite' | translate }}</a>
+        </li>
+        <li ng-class="{'active':dataSource.levelStatus == 'contactView'}">
+            <a href="javascript:void(0)" ng-click="dataSource.pageStatus = 'contactView'">{{ 'WebSiteSetting_Contact' | translate }}</a>
+        </li>
+    </ul>
+    <div class="" ng-if="dataSource.pageStatus == 'webSiteView'">
+        <div class=" personal-info">
+            <h3>{{ 'WebSiteSetting' | translate }}</h3>
+            <form name="form" class="form-horizontal" role="form">
+                <div class="list_area">
+                    <ul class="list_style">
+                        <li class="col-md-4 col-xs-12">
+                            <label class=" control-label">{{ 'WebSiteSetting_BrandName' | translate }}:</label>
+                            <input name="BrandName" class="form-control" type="text" ng-model="dataSource.webSite.BrandName" disabled>
+                        </li>
+                        <li class="col-md-4 col-xs-6">
+                            <label class=" control-label">{{ 'WebSiteSetting_PageTitle' | translate }}:</label>
+                            <input name="PageTitle" class="form-control" type="text" ng-model="dataSource.webSite.PageTitle">
+                        </li>
+                        <li class="col-md-4  col-xs-6">
+                            <label class="control-label">{{ 'WebSiteSetting_WebsiteStyle' | translate }}:</label>
+                            <input name="WebsiteStyle" class="form-control" type="text" ng-model="dataSource.webSite.WebsiteStyleSCID">
+                        </li>
+                        <li class="col-xs-12">
+                            <label class="control-label">{{ 'WebSiteSetting_GoogleAnalytics' | translate }}:</label>
+                            <textarea class="form-control" type="text" ng-model="dataSource.webSite.GoogleAnalytics"></textarea>
+                        </li>
+                        <!--<li class="col-xs-6">
+                            <label class="control-label">{{ 'WebSiteSetting_LogoFileName' | translate }}:</label>
+                            <input class="form-control" type="file" ng-model="dataSource.webSite.LogoFile">
+                            {{dataSource.webSite.LogoFileName}}.{{dataSource.webSite.LogoFileExtension}}
+                            <img id="logoImg" />
+                        </li>
+                        <li class="col-xs-6">
+                            <label class="control-label">{{ 'WebSiteSetting_FaviconFileName' | translate }}:</label>
+                            <input class="form-control" type="file" ng-model="dataSource.webSite.FaviconFile">
+                            {{dataSource.webSite.FaviconFileName}}.{{dataSource.webSite.FaviconFileExtension}}
+                            <img id="faviconImg" />
+                        </li>-->
+                        <li class="col-xs-12">
+                            <label class=" control-label">{{ 'WebSiteSetting_FooterText' | translate }}:</label>
+                            <div ckeditor class="form-control" type="text" ng-model="dataSource.webSite.FooterText"></div>
+                        </li>
+                        <li class="col-xs-12">
+                            <label class="control-label">{{ 'WebSiteSetting_WebsiteUrl' | translate }}:</label>
+                            <input class="form-control" type="text" ng-model="dataSource.webSite.WebsiteUrl">
+                        </li>
+                        <!--<li class="col-xs-6">
+                            <label class="control-label">{{ 'WebSiteSetting_MWebsiteUrl' | translate }}:</label>
+                            <input class="form-control" type="text" ng-model="dataSource.webSite.MWebsiteUrl">
+                        </li>
+                        <li class="col-xs-12">
+                            <label class=" control-label">{{ 'WebSiteSetting_LivechatUrl' | translate }}:</label>
+                            <textarea class="form-control" type="text" ng-model="dataSource.webSite.LivecharUrl"></textarea>
+                        </li>
+                        <li class="col-xs-12">
+                            <label class="control-label">{{ 'WebSiteSetting_LivechatCode' | translate }}:</label>
+                            <textarea class="form-control" type="text" ng-model="dataSource.webSite.LivechatCode"></textarea>
+                        </li>-->
+                    </ul>
+
+                    <div class="col-xs-12">
+                        <div class="btn_area ">
+                            <ul class="text-center">
+                                <li><input type="button" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-click="update(form)"></li>
+                                <li><input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="" ng-if="dataSource.pageStatus == 'contactView'">
+        <div class=" personal-info">
+            <h3>{{ 'WebSiteSetting_ContactData' | translate }}</h3>
+
+            <form name="form" class="form-horizontal" role="form">
+                <div class="list_area">
+                    <div class="list_style">
+                        <ul>
+                            <li class="col-xs-6">
+                                <label>{{ 'WebSiteSetting_Email' | translate }}:</label>
+                                <input name="Email" class="form-control" type="text" ng-model="dataSource.webSite.Email">
+                            </li>
+                            <li class="col-xs-6">
+                                <label>{{ 'WebSiteSetting_Skype' | translate }}:</label>
+                                <input class="form-control" type="text" ng-model="dataSource.webSite.Skype">
+                            </li>
+                            <li class="col-xs-12">
+                                <label>{{ 'WebSiteSetting_Wechat' | translate }}:</label>
+                                <input class="form-control mb-0" type="text" ng-model="dataSource.webSite.Wechat">
+                                <span class="mb-10">(transfer QRCode:https://msng.link/wechat.html)</span>
+                            </li>
+                            <li class="col-xs-6">
+                                <label>{{ 'WebSiteSetting_Facebook' | translate }}:</label>
+                                <input class="form-control" type="text" ng-model="dataSource.webSite.Facebook">
+                            </li>
+                            <li class="col-xs-6">
+                                <label>{{ 'WebSiteSetting_Instagram' | translate }}:</label>
+                                <input class="form-control" type="text" ng-model="dataSource.webSite.Instagram">
+                            </li>
+                            <li class="col-xs-6">
+                                <label>{{ 'WebSiteSetting_Phone' | translate }}:</label>
+                                <input class="form-control" type="text" ng-model="dataSource.webSite.Phone">
+                            </li>
+                            <li class="col-xs-6">
+                                <label>{{ 'WebSiteSetting_Line' | translate }}:</label>
+                                <input class="form-control" type="text" ng-model="dataSource.webSite.Line">
+                            </li>
+                            <li class="col-xs-6">
+                                <label>{{ 'WebSiteSetting_Twitter' | translate }}:</label>
+                                <input class="form-control" type="text" ng-model="dataSource.webSite.Twitter">
+                            </li>
+                            <li class="col-xs-6">
+                                <label>{{ 'WebSiteSetting_Whatsapp' | translate }}:</label>
+                                <input class="form-control" type="text" ng-model="dataSource.webSite.Whatsapp">
+                            </li>
+                            <li class="col-xs-6">
+                                <label>{{ 'WebSiteSetting_Google' | translate }}:</label>
+                                <input class="form-control" type="text" ng-model="dataSource.webSite.Google">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12">
+                        <input type="button" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-click="update(form)">
+                        <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

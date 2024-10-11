@@ -1,0 +1,401 @@
+﻿<div class="TransactionUsed">
+    <ul class="nav nav-pills">
+        <li ng-class="{'active':dataSource.pageStatus == 'transaction'}">
+            <a href="javascript:void(0)" ng-click="changePage('transaction')">{{ 'Transaction' | translate }}</a>
+        </li>
+        <!--<li ng-class="{'active':dataSource.pageStatus == 'depositFile'}">
+            <a href="javascript:void(0)" ng-click="changePage('depositFile')">{{ 'InstantTransaction_DepositFiles' | translate }}</a>
+        </li>-->
+    </ul>
+    <div class="clearfix"></div>
+    <div ng-if="dataSource.pageStatus == 'transaction'">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-search" aria-hidden="true"></i>{{ 'SearchCondition' | translate }}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label class=" control-label" for="Customer:">{{ 'DateS' | translate }}:</label>
+                    <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateS">
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label class=" control-label" for="Customer:">{{ 'DateE' | translate }}:</label>
+                    <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateE">
+                </div>
+                <!-- <div class="col-md-3 col-sm-12 col-xs-12" ng-init="dataSource.searchCondition.DCType=3">
+                    <label><input type="radio" name="dcType" ng-value="3" ng-model="dataSource.searchCondition.DCType" ng-change="search()">{{ 'InstantTransaction_All' | translate }}</label>
+                    <label><input type="radio" name="dcType" ng-value="1" ng-model="dataSource.searchCondition.DCType" ng-change="search()">{{ 'InstantTransaction_Credit' | translate }}</label>
+                    <label><input type="radio" name="dcType" ng-value="2" ng-model="dataSource.searchCondition.DCType" ng-change="search()">{{ 'InstantTransaction_Debit' | translate }}</label>
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12" ng-init="dataSource.searchCondition.Sort=1">
+                    <label class=" control-label">{{ 'InstantTransaction_SortBy' | translate }}:</label>
+                    <label><input type="radio" name="sort" ng-value="1" ng-model="dataSource.searchCondition.Sort" ng-change="sort(1)">{{ 'InstantTransaction_Newest' | translate }}</label>
+                    <label><input type="radio" name="sort" ng-value="2" ng-model="dataSource.searchCondition.Sort" ng-change="sort(2)">{{ 'InstantTransaction_Longest' | translate }}</label>
+                </div> -->
+                <div class="col-md-2 col-sm-12 col-xs-12 ">
+                    <input type="button" class="btn purple_btn " value="{{ 'Search' | translate }}" ng-click="search()" />
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="css_table TransactionUsed__content">
+            <div class="searchshow">
+                <div class="searchshow--hightlight">
+                    <h3 class="panel-title ng-binding">Search Criteria: <span class="searchshow--hightlightText">{{dataSource.searchCondition.DateS | date:'yyyy-MM-dd HH:mm:ss'}} - {{dataSource.searchCondition.DateE | date:'yyyy-MM-dd HH:mm:ss'}}</span></h3>
+                </div>
+            </div>
+            <!--<div class="searchSelect">
+                <div class="searchSelect__list">
+                    <p>Show</p>
+                    <select name="" id="">
+                        <option value="">default</option>
+                        <option value="">50</option>
+                    </select>
+                    <p>entries</p>
+                </div>
+                <div class="searchSelect--input">
+                    <p>Search:</p>
+                    <input type="text">
+                </div>
+            </div>-->
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th width="5%">{{ 'InstantTransaction_TransactionDate' | translate }}</th>
+                            <th width="5%">{{ 'InstantTransaction_TransactionID' | translate }}</th>
+                            <th width="5%">{{ 'InstantTransaction_AccountName' | translate }}</th>
+                            <th width="3%">{{ 'InstantTransaction_UserName' | translate }}</th>
+                            <th width="3%">{{ 'InstantTransaction_RefCode' | translate }}</th>
+                            <!--<th width="5%">{{ 'InstantTransaction_FundMethod' | translate }}</th>-->
+                            <th width="10%">{{ 'InstantTransaction_BankDetail' | translate }}</th>
+                            <th width="5%" ng-if="dataSource.searchCondition.DCType != 2">{{ 'InstantTransaction_PaymentType' | translate }}</th>
+                            <!--<th ng-if="dataSource.searchCondition.DCType != 2">{{ 'InstantTransaction_PromotionName' | translate }}</th>-->
+                            <!--<th ng-if="dataSource.searchCondition.DCType == 3">{{ 'InstantTransaction_DebitCredit' | translate }}</th>-->
+                            <th width="3%">{{ 'InstantTransaction_Status' | translate }}</th>
+                            <th width="3%">{{ 'InstantTransaction_Receipts' | translate }}</th>
+                            <th width="5%">{{ 'InstantTransaction_Debit' | translate }}</th>
+                            <th width="5%">{{ 'InstantTransaction_Credit' | translate }}</th>
+                            <!--<th>{{ 'InstantTransaction_Reason' | translate }}</th>-->
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="dataSource.listData.length === 0">
+                            <td colspan="15">{{ 'NoData' | translate }}</td>
+                        </tr>
+                        <tr ng-repeat="transaction in dataSource.listData">
+                            <td>{{$index + 1}}</td>
+                            <td>{{transaction.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}<br><p class="text-blue mb-0">{{transaction.UserIP}}</p></td>
+                            <td>{{transaction.ID}}</td>
+                            <td>{{transaction.FullName}}<br />{{transaction.MBank.BankName}}<br /><span class="text-purple">{{transaction.MBank.BankNumber}}</span></td>
+                            <td>{{transaction.UserName | userName}}</td>
+                            <td width="3%"><p class="text-break">{{transaction.RefCode}}</p></td>
+                            <!--<td ng-if="transaction.Type == 2">
+                                {{transaction.FundMethod ? transaction.FundMethod : 'Bank/' + transaction.MBank.BankName}}
+                            </td>
+                            <td ng-if="transaction.Type == 1">
+                                {{transaction.FundMethod ? transaction.FundMethod : 'Bank/' + transaction.BankName}}
+                            </td>-->
+                            <td ng-if="transaction.Type == 2">{{transaction.MBank.BankName}}<br /><span class="text-purple">{{transaction.MBank.BankNumber}}</span></td>
+                            <td ng-if="transaction.Type == 1">{{transaction.BankName}}<br />{{transaction.BankAccount}}<br /><span class="text-purple">{{transaction.AccountNumber}}</span></td>
+                            <td ng-if="dataSource.searchCondition.DCType != 2">{{transaction.DepositPayMothed}}</td>
+
+                            <!--<td ng-if="dataSource.searchCondition.DCType != 2">{{transaction.vwMPromotion.PromotionName}}</td>-->
+                            <!--<td ng-if="dataSource.searchCondition.DCType == 3">{{transaction.Type == 1 ? 'Credit' : 'Debit'}}</td>-->
+                            <td>
+                                <!--<input name="showDetail" type="button" class="btn btn-info" value="{{ 'Detail' | translate }}" ng-click="showDetail(transaction)" />-->
+
+                                <input ng-if="transaction.WithDrawalTypeSCID != 37" type="button" class="square-btn" value="{{ transaction.ID == 0 ? 'MemberManage_Promotion' : 'InstantTransaction_InProgress' | translate }}" />
+                                <input ng-if="transaction.WithDrawalTypeSCID == 37" type="button" class="btn purple_btn " value="{{ 'InstantTransaction_NeedDoubleConfirm' | translate }}" />
+                            </td>
+                            <td>
+                                <input ng-if="transaction.DepositFiles.length == 0" type="button" class="btn btn-danger" value="X" />
+                                <input ng-if="transaction.DepositFiles.length > 0 && transaction.Type == 1" name="showFile" type="button" class="btn btn-success" value="{{ 'InstantTransaction_View' | translate }}" ng-click="showFile(transaction)" />
+                            </td>
+                            <td>{{transaction.Type == 1 ? '' : transaction.Amount | currency : "" : 2}}</td>
+                            <td>{{transaction.Type == 2 ? '' : transaction.Amount | currency : "" : 2}}</td>
+                            <!--<td>{{transaction.Remark}}</td>-->
+                            <td>
+                                <input ng-if="transaction.DepositTypeSCID == 12" type="button" class="btn btn-success" value="{{ 'Confirm' | translate }}" ng-click="updateTransaction(transaction,1)">
+                                <input ng-if="transaction.WithDrawalTypeSCID == 16" type="button" class="btn btn-success" value="{{ 'Confirm' | translate }}" ng-click="updateTransaction(transaction,4,true)">
+                                <input ng-if="transaction.WithDrawalTypeSCID == 37" type="button" class="btn btn-success" value="{{ 'Confirm' | translate }}" ng-click="updateTransaction(transaction,1,false)">
+                                <!--<input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}" ng-click="deleteSystemConfig(config)">-->
+                            </td>
+                            <td>
+                                <input type="button" class="btn btn-danger" value="{{ 'InstantTransaction_Reject' | translate }}" ng-click="updateTransaction(transaction,2)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin:0px auto;">
+                <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="dataSource.pageStatus == 'depositFile'">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12 col-sm-12 col-xs-12 p-0">
+                    <div class="col-md-3 col-sm-12 col-xs-12" ng-init="dataSource.bindMember = -1">
+                        <label class=" control-label" for="Customer:">{{ 'InstantTransaction_Account' | translate }}:</label>
+                        <select class="form-control" ng-model="dataSource.bindMember" ng-options="m.MemberID as m.UserName for m in dataSource.memberList" ng-change="changeBindAccount(dataSource.bindMember)"></select>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <label class=" control-label" for="Customer:">{{ 'InstantTransaction_DepositID' | translate }}:</label>
+                        <select class="form-control" ng-model="dataSource.bindDeposit" ng-options="deposit as deposit.ID for deposit in dataSource.memberDepositList"></select>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <label class="control-label" for="Customer:">{{ 'InstantTransaction_PayMethod' | translate }}:</label>
+                        <input type="text" class="form-control input-md" ng-model="dataSource.bindDeposit.DepositPayMothed" disabled />
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <label class="control-label" for="Customer:">{{ 'InstantTransaction_Amount' | translate }}:</label>
+                        <input type="text" class="form-control input-md" ng-model="dataSource.bindDeposit.Amount" disabled />
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12 p-0">
+                    <div class="btn_area">
+                        <ul class="text-left">
+                            <li><input type="button" class="btn btn-primary btn-block" value="{{ 'InstantTransaction_BindDeposit' | translate }}" ng-click="bindDepoist()" /></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="css_table">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>{{ 'InstantTransaction_CreateDate' | translate }}</th>
+                            <th>{{ 'InstantTransaction_FileName' | translate }}</th>
+                            <th>{{ 'InstantTransaction_FileExtension' | translate }}</th>
+                            <th>{{ 'InstantTransaction_Img' | translate }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="file in dataSource.fileListData">
+                            <td><input type="checkbox" class="form-control" ng-model="file.check" ng-change="selectBind(file)" /></td>
+                            <td>{{file.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>{{file.FileName}}</td>
+                            <td>{{file.FileExtension}}{{file.ImgUrl}}</td>
+                            <!--<td><img width="200px" src="data:image/{{file.FileExtension}};base64,{{file.Img}}" /></td>-->
+                            <td><img ng-src="file.ImgUrl" width="200px" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin:0px auto;">
+                <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+            </div>
+        </div>
+    </div>
+
+    <!--顯示明細視窗-->
+    <button id="ShowDetailDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#DetailDialog" style="display:none"></button>
+    <div class="modal fade" id="DetailDialog" tabindex="-1" role="dialog" aria-labelledby="DetailDialogTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{dataSource.modalMsg.title | translate }}
+                    </h5>
+                    <button id="CloseDetailDialog" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form name="form" class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">{{ 'InstantTransaction_TransactionID' | translate }}:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="dataSource.selTransaction.ID" disabled />
+                            </div>
+                            <label class="col-lg-3 control-label">{{ 'InstantTransaction_Amount' | translate }}:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="dataSource.selTransaction.Amount" disabled />
+                            </div>
+                            <label class="col-lg-3 control-label">{{ 'InstantTransaction_PayMethod' | translate }}:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="dataSource.selTransaction.DepositPayMothed" disabled />
+                            </div>
+                            <label class="col-lg-3 control-label">{{ 'InstantTransaction_TransactionDate' | translate }}:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="dataSource.selTransaction.CreateDate" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="dataSource.selTransaction.Type == 1">
+                            <label class="col-lg-3 control-label">{{ 'BankName' | translate }}:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="dataSource.selTransaction.BankName" disabled />
+                            </div>
+                            <label class="col-lg-3 control-label">{{ 'BankCode' | translate }}:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="dataSource.selTransaction.BankAccount" disabled />
+                            </div>
+                            <label class="col-lg-3 control-label">{{ 'BankNumber' | translate }}:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="dataSource.selTransaction.AccountNumber" disabled />
+                            </div>
+                            <label class="col-lg-3 control-label">{{ 'AccountName' | translate }}:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="dataSource.selTransaction.UserName" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="dataSource.selTransaction.Type == 2">
+                            <label class="col-lg-3 control-label">{{ 'BankName' | translate }}:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="dataSource.selTransaction.MBank.BankName" disabled />
+                            </div>
+                            <label class="col-lg-3 control-label">{{ 'BankCode' | translate }}:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="dataSource.selTransaction.MBank.BankCode" disabled />
+                            </div>
+                            <label class="col-lg-3 control-label">{{ 'BankNumber' | translate }}:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="dataSource.selTransaction.MBank.BankNumber" disabled />
+                            </div>
+                            <label class="col-lg-3 control-label">{{ 'AccountName' | translate }}:</label>
+                            <div class="col-lg-8">
+                                <input class="form-control" type="text" ng-model="dataSource.selTransaction.UserName" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="dataSource.selTransaction.Type == 2">
+                            <label class="col-lg-3 control-label">{{ 'BankCode' | translate }}:</label>
+                            <div class="col-lg-8">
+                                <select class="form-control" type="text" ng-model="dataSource.selTransaction.CBankID">
+                                    <option ng-repeat="cbank in dataSource.selCBanks" ng-value="cbank.ID">{{cbank.bankAcceptable.BankName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-success" value="{{ 'InstantTransaction_DoubleConfirm' | translate }}" ng-click="updateTransaction(dataSource.selTransaction,1,true)">
+                    <!--<button type="button" class="btn rectangle-btn" data-dismiss="modal">Cancel</button>-->
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal">{{ 'Close' | translate }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--顯示上傳照片視窗-->
+    <button id="ShowFileDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#FileDialog" style="display:none"></button>
+    <div class="modal fade" id="FileDialog" tabindex="-1" role="dialog" aria-labelledby="FileDialogTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{dataSource.modalMsg.title | translate }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row-form">
+                        <div class="table-responsive">
+                            <div ng-repeat="file in dataSource.selTransaction.DepositFiles">
+                                <img class="myimage img-enlargable" ng-src="{{file.ImgUrl}}"
+                                     ng-click="showFullScreen(file)" data-enlargable width="100" style="cursor: zoom-in" />
+                                <div class="img-zoom-container">
+                                    <div id="myresult" class="img-zoom-result"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn rectangle-btn" data-dismiss="modal">Cancel</button>-->
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal">{{ 'Close' | translate }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--交易明細視窗-->
+    <button id="ShowTransDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#TransDialog"
+            style="display:none"></button>
+    <div class="modal fade" id="TransDialog" tabindex="-1" role="dialog" aria-labelledby="TransDialogTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="width:600px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{dataSource.modalMsg.title | translate }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row-form" ng-if="dataSource.isReject">
+                        <label class="col-md-2 control-label" for="Customer:">{{ 'InstantTransaction_Remark' | translate }}:</label>
+                        <div class="col-md-10">
+                            <textarea type="text" placeholder="" class="form-control input-md" ng-model="dataSource.transactionRemark"></textarea>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="confirmUpdateTransaction(dataSource.selTransaction)">
+                        {{ 'Confirm' | translate }}
+                    </button>
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal">
+                        {{ 'Cancel' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--確認視窗-->
+    <button id="ShowDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#ConfirmDialog"
+            style="display:none"></button>
+    <div class="modal fade" id="ConfirmDialog" tabindex="-1" role="dialog" aria-labelledby="ConfirmDialogTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="width:600px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{dataSource.modalMsg.title | translate }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row-form" ng-if="dataSource.isReject">
+                        <label class="col-md-2 control-label" for="Customer:">{{ 'InstantTransaction_Remark' | translate }}:</label>
+                        <div class="col-md-10">
+                            <textarea type="text" placeholder="" class="form-control input-md" ng-model="dataSource.transactionRemark"></textarea>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="confirmUpdateTransaction(dataSource.selTransaction)">
+                        {{ 'Confirm' | translate }}
+                    </button>
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal">
+                        {{ 'Cancel' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

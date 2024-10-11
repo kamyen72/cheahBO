@@ -1,0 +1,105 @@
+﻿<div>
+  <div ng-if="dataSource.pageStatus == 'searchView'">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+      </div>
+      <div class="panel-body">
+        <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 p-0">
+          <div class="col-xs-6">
+            <label class="control-label">{{ 'ErrorCodeSetting_ErrorCode' | translate }}:</label>
+            <input type="text" placeholder="" class="form-control input-md"
+              ng-model="dataSource.searchCondition.ErrorCodeID">
+          </div>
+          <div class="col-xs-6">
+            <label class="control-label">{{ 'ErrorCodeSetting_ErrorMsg' | translate }}:</label>
+            <input type="text" placeholder="" class="form-control input-md"
+              ng-model="dataSource.searchCondition.ErrorMsg">
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-12 ">
+          <div class="btn_area">
+            <ul class="text-left">
+              <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}" ng-click="showAdd()" /></li>
+              <li><input type="button" class="btn btn-default btn-block" value="{{ 'Clear' | translate }}" ng-click="clear()" /></li>
+              <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="css_table">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>{{ 'ErrorCodeSetting_ID' | translate }}</th>
+              <th>{{ 'ErrorCodeSetting_ErrorCodeID' | translate }}</th>
+              <th>{{ 'ErrorCodeSetting_ErrorMsg' | translate }}</th>
+              <th>{{ 'ErrorCodeSetting_LanguageID' | translate }}</th>
+              <th>{{ 'ErrorCodeSetting_UpdateBy' | translate }}</th>
+              <th>{{ 'ErrorCodeSetting_UpdateDate' | translate }}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="errorCode in dataSource.listData">
+              <td>{{errorCode.ID}}</td>
+              <td>{{errorCode.ErrorCodeID}}</td>
+              <td>{{errorCode.ErrorMsg}}</td>
+              <td>{{errorCode.LanguageID}}</td>
+              <td>{{errorCode.UpdateBy}}</td>
+              <td>{{errorCode.UpdateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+              <td>
+                <input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEdit(errorCode)">
+                <input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}" ng-click="delete(errorCode)">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin:0px auto;">
+        <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)">
+        </pagination>
+      </div>
+    </div>
+  </div>
+  <div class="" ng-if="dataSource.pageStatus == 'addView' || dataSource.pageStatus == 'editView'">
+    <div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12 personal-info">
+      <div class="row">
+      <h3>{{ 'ErrorCodeSetting_ErrorCode' | translate }}</h3>
+      <hr>
+      <form name="form" class="form-horizontal" role="form">
+        <div class="list_area">
+          <div class="list_style ">
+            <ul>
+              <li class="col-xs-6">
+                <label class="control-label">{{ 'ErrorCodeSetting_ErrorCodeID' | translate }}:</label>
+                <input name="ErrorCodeID" class="form-control" type="text" ng-model="dataSource.errorCode.ErrorCodeID"
+                  required>
+              </li>
+              <li class="col-xs-6">
+                <label class="control-label">{{ 'ErrorCodeSetting_ErrorMsg' | translate }}:</label>
+              <input name="ErrorMsg" class="form-control" type="text" ng-model="dataSource.errorCode.ErrorMsg" required>
+              </li>
+              <li class="col-xs-6">
+                <label class="control-label">{{ 'ErrorCodeSetting_LanguageID' | translate }}:</label>
+                <input name="LanguageID" class="form-control" type="text" ng-model="dataSource.errorCode.LanguageID"
+                  required>
+              </li>
+            </ul>
+            <div class="col-md-12 col-sm-12 col-xs-12 " ng-if="dataSource.pageStatus == 'editView'">
+              <input type="button" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-click="update(form)">
+              <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+            </div>
+            <div class="col-md-12  col-sm-12 col-xs-12" ng-if="dataSource.pageStatus == 'addView'">
+              <input type="button" class="btn btn-primary" value="{{ 'Add' | translate }}" ng-click="add(form)">
+              <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+            </div>
+        </div>
+      </form>
+    </div>
+    </div>
+  </div>
+</div>

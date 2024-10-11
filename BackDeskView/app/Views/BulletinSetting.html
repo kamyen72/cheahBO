@@ -1,0 +1,138 @@
+﻿<div>
+  <div ng-if="dataSource.pageStatus == 'searchView'">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+      </div>
+      <div class="panel-body">
+       
+          <div class="col-md-3 col-sm-6 col-xs-6">
+            <label class=" control-label" for="Customer:">{{ 'DateS' | translate }}:</label>
+            <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateS">
+          </div>
+          <div class="col-md-3 col-sm-6 col-xs-6">
+            <label class="control-label" for="Customer:">{{ 'DateE' | translate }}:</label>
+            <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateE">
+          </div>
+          <div class="col-md-3 col-sm-12 col-xs-12">
+            <label class="control-label" for="Customer:">{{ 'BulletinSetting_BulletinTitle' | translate }}:</label>
+            <input type="text" placeholder="" class="form-control input-md"
+              ng-model="dataSource.searchCondition.BulletinTitle">
+          </div>
+          <div class="col-md-3 col-xs-12">
+          <div class="btn_area">
+            <ul class="text-left">
+              <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}" ng-click="showAdd()" /></li>
+              <li><input type="button" class="btn btn-default btn-block" value="{{ 'Clear' | translate }}" ng-click="clear()" /></li>
+              <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="css_table">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>{{ 'BulletinSetting_ID' | translate }}</th>
+              <th>{{ 'BulletinSetting_BulletinTitle' | translate }}</th>
+              <th>{{ 'BulletinSetting_IsEnable' | translate }}</th>
+              <th>{{ 'DateS' | translate }}</th>
+              <th>{{ 'DateE' | translate }}</th>
+              <th>{{ 'BulletinSetting_UpdateBy' | translate }}</th>
+              <th>{{ 'BulletinSetting_UpdateDate' | translate }}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="config in dataSource.listData">
+              <td>{{config.ID}}</td>
+              <td>{{config.BulletinTitle}}</td>
+              <td><input class="form-control" type="checkbox" ng-model="config.IsEnable"
+                  ng-change="changeAndSave(config)" /></td>
+              <td>{{config.DateS | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+              <td>{{config.DateE | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+              <td>{{config.UserName | userName}}</td>
+              <td>{{config.UpdateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+              <td>
+                <input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEdit(config)">
+                <input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}" ng-click="delete(config)">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin:0px auto;">
+        <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)">
+        </pagination>
+      </div>
+    </div>
+  </div>
+
+  <div class="" ng-if="dataSource.pageStatus == 'addView' || dataSource.pageStatus == 'editView'">
+    <!-- left column -->
+    <!-- <div class="col-md-3">
+            <div class="text-center">
+                <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+                <h6>Upload a different photo...</h6>
+
+                <input type="file" class="form-control">
+            </div>
+        </div> -->
+    <!-- edit form column -->
+    <div class="personal-info">
+      
+      <!-- <div class="alert alert-info alert-dismissable">
+                <a class="panel-close close" data-dismiss="alert">×</a>
+                <i class="fa fa-coffee"></i>
+                This is an <strong>.alert</strong>. Use this to show important messages to the user.
+            </div> -->
+      
+      <div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
+        
+        <h3>{{ 'BulletinSetting_Profile' | translate }}</h3>
+        <hr>
+        <form name="form" class="form-horizontal" role="form" novalidate>
+          <div class="list_area">
+            <ul class="list_style">
+              <li class="col-md-2 col-sm-12 col-xs-12">
+                <label class=" control-label">{{ 'BulletinSetting_IsEnable' | translate }}:</label>
+                <input class="form-control" type="checkbox" ng-model="dataSource.PostData.IsEnable" />
+              </li>
+              <li class="col-md-5 col-xs-6">
+                <label class="control-label">{{ 'DateS' | translate }}:</label>
+                <input name="DateS" class="form-control" type="date" ng-model="dataSource.PostData.DateS" required />
+              </li>
+              <li class="col-md-5 col-xs-6">
+                <label class=" control-label">{{ 'DateE' | translate }}:</label>
+                <input name="DateE" class="form-control" type="date" ng-model="dataSource.PostData.DateE" required />
+              </li>
+              <li class="col-md-12 col-sm-12 col-xs-12">
+                <label class=" control-label">{{ 'BulletinSetting_BulletinTitle' | translate }}:</label>
+            
+                <input required name="BulletinTitle" class="form-control" type="text"
+                  ng-model="dataSource.PostData.BulletinTitle">
+              </li>
+              <li class="col-md-12 col-sm-12 col-xs-12">
+                <label class="control-label">{{ 'BulletinSetting_BulletinNotice' | translate }}:</label>
+                <div class="clearfix"></div>
+                <div name="BulletinNotice" required ckeditor ng-model="dataSource.PostData.BulletinNotice"></div>
+              </li>
+            </ul>
+            <div class="col-md-12 col-sm-12 col-xs-12 mt-10" ng-if="dataSource.pageStatus == 'editView'">
+              <input type="submit" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-click="update(form)">
+              <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12  mt-10" ng-if="dataSource.pageStatus == 'addView'">
+              <input type="submit" class="btn btn-primary" value="{{ 'Add' | translate }}" ng-click="add(form)">
+              <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

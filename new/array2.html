@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<script>
+		function f1() {
+		}
+	</script>
+
+	<script>
+		function f2(){
+
+		}
+	</script>
+
+	<script>
+		function f3(){
+
+		}
+	</script>
+
+	<script>
+		function f4() {
+			// alert("t4");
+			
+			let data = [
+					{
+						User: 'U1',
+						Ticket: 'T1'
+						, BetTime: '2024-09-26 15:30:21'
+						, Bet: 'Bet1'
+						, key: ''
+						, ab: ''
+					}
+					, {
+						User: 'U1',
+						Ticket: 'T1'
+						, BetTime: '2024-09-26 15:30:44'
+						, Bet: 'Bet6'
+						, key: ''
+						, ab: ''
+					}
+					, {
+						User: 'U1',
+						Ticket: 'T1'
+						, BetTime: '2024-09-26 15:30:23'
+						, Bet: 'Bet2'
+						, key: ''
+						, ab: ''
+					}
+					, {
+						User: 'U1',
+						Ticket: 'T2'
+						, BetTime: '2024-09-26 15:30:50'
+						, Bet: 'Bet7'
+						, key: ''
+						, ab: ''
+					}
+					, {
+						User: 'U3',
+						Ticket: 'T1'
+						, BetTime: '2024-09-26 15:30:50'
+						, Bet: 'Bet20'
+						, key: ''
+						, ab: ''
+					}
+					, {
+						User: 'U1',
+						Ticket: 'T1'
+						, BetTime: '2024-09-26 15:30:22'
+						, Bet: 'Bet3'
+						, key: ''
+						, ab: ''
+					}
+					, {
+						User: 'U1',
+						Ticket: 'T1'
+						, BetTime: '2024-09-26 15:30:33'
+						, Bet: 'Bet4'
+						, key: ''
+						, ab: ''
+					}
+					, {
+						User: 'U2',
+						Ticket: 'T1'
+						, BetTime: '2024-09-26 15:30:44'
+						, Bet: 'Bet6'
+						, key: ''
+						, ab: ''
+					}
+					, {
+						User: 'U2',
+						Ticket: 'T1'
+						, BetTime: '2024-09-26 15:30:23'
+						, Bet: 'Bet2'
+						, key: ''
+						, ab: ''
+					}
+					, {
+						User: 'U1',
+						Ticket: 'T2'
+						, BetTime: '2024-09-26 15:30:51'
+						, Bet: 'Bet8'
+						, key: ''
+						, ab: ''
+					}
+					, {
+						User: 'U1',
+						Ticket: 'T1'
+						, BetTime: '2024-09-26 15:30:45'
+						, Bet: 'Bet5'
+						, key: ''
+						, ab: ''
+					}
+					
+					, {
+						User: 'U2',
+						Ticket: 'T2'
+						, BetTime: '2024-09-26 15:30:50'
+						, Bet: 'Bet7'
+						, key: ''
+						, ab: ''
+					}
+					, {
+						User: 'U2',
+						Ticket: 'T1'
+						, BetTime: '2024-09-26 15:30:22'
+						, Bet: 'Bet3'
+						, key: ''
+						, ab: ''
+					}
+					, {
+						User: 'U2',
+						Ticket: 'T1'
+						, BetTime: '2024-09-26 15:30:33'
+						, Bet: 'Bet4'
+						, key: ''
+						, ab: ''
+					}
+					, {
+						User: 'U2',
+						Ticket: 'T2'
+						, BetTime: '2024-09-26 15:30:51'
+						, Bet: 'Bet8'
+						, key: ''
+						, ab: ''
+					}
+					, {
+						User: 'U2',
+						Ticket: 'T1'
+						, BetTime: '2024-09-26 15:30:45'
+						, Bet: 'Bet5'
+						, key: ''
+						, ab: ''
+					}
+				];	
+
+
+			let uniqueNames = [];
+			let uniqueTickets = [];
+
+			let mylen = data.length;
+
+			let fname = "U1";
+			let t1 = "T1";
+			let txt = "Before Sorting:<br><table>";
+
+			let mx = data.length;
+
+			for (let i = 0; i < mx; i++) {
+				txt = txt + "<tr><td>" + (i + 1) + "</td><td>" + data[i].User + "</td><td>" + data[i].Ticket + "</td>";
+				txt = txt + "<td>" + data[i].BetTime + "</td><td>" + data[i].Bet + "</td>";
+				txt = txt + "</tr>";
+
+				data[i].key = data[i].User + "-" + data[i].Ticket + "-" + data[i].BetTime + "-" + data[i].Bet;
+
+				data[i].ab = data[i].User + "-" + data[i].Ticket;
+			}
+
+		  	txt = txt + "</table>";
+
+			txt = txt + "<br>Before final Sorting:<br><table>";
+
+			mx = data.length;
+
+			for (let j = 0; j < mx; j++) {
+				txt = txt + "<tr><td>" + (j + 1) + "</td><td>" + data[j].User + "</td><td>" + data[j].Ticket + "</td>";
+				txt = txt + "<td>" + data[j].BetTime + "</td><td>" + data[j].Bet + "</td>";
+				txt = txt + "</tr>";
+			}
+
+		  	txt = txt + "</table>";
+
+		  	//--- final sorting ------
+		  	data.sort(function(c, d){
+				
+			    let x = c.ab.toLowerCase();
+			    let y = d.ab.toLowerCase();
+			    if (x < y) {return -1;}
+			    if (x > y) {return 1;}
+
+			    return 0;
+			});
+
+
+			txt = txt + "<br>Before merging:<br><table cellpadding=0 cellspacing=0>";
+
+			mx = data.length;
+
+			for (let j = 0; j < mx; j++) {
+				txt = txt + "<tr><td>" + (j + 1) + "</td><td>" + data[j].User + "</td><td>" + data[j].Ticket + "</td>";
+				txt = txt + "<td>" + data[j].BetTime + "</td><td>" + data[j].Bet + "</td>";
+				txt = txt + "</tr>";
+			}
+
+		  	txt = txt + "</table>";
+
+			txt = "After Sorting final merging:<br><table cellpadding=0 cellspacing=0>";
+
+			mx = data.length;
+
+			let searchlist = [];
+
+			for (let x = 0; x < mx; x++) {
+				searchlist.push(data[x]);
+			}
+
+			var prevuser = "";
+			var rowcount = 0;
+
+			var prevTicket = "";
+			var prevab = "";
+
+			for (let j = 0; j < mx; j++) {
+				txt = txt + "<tr><td rowspan=1>" + (j + 1) + "</td>";
+				// rowcount = 0;
+				//-- checking user rowspan -----
+				if (prevuser != data[j].User) {
+					prevuser = data[j].User
+					rowcount = 0;
+					for (let y = 0; y < mx; y++) {
+						if (searchlist[y].User == prevuser) {
+							rowcount++;
+						}
+					}
+
+					txt = txt + "<td rowspan=" + rowcount + ">" + data[j].User + "</td>";
+				}
+
+
+				
+				if (prevab != data[j].ab) {
+
+					if (data[j].User == "U2") {
+						// alert("catch u2");
+						// alert(txt);
+
+						document.getElementById("code").innerText = txt;
+					}
+
+					prevab = data[j].ab;
+					rowcount = 0;
+					for (let y = 0; y < mx; y++) {
+						if (searchlist[y].ab == prevab) {
+							rowcount++;
+						}
+					}
+
+					
+					txt = txt + "<td rowspan=" + rowcount + ">" + data[j].Ticket + "</td>";
+				}
+
+				txt = txt + "<td rowspan=1>" + data[j].BetTime + "</td>";
+				txt = txt + "<td rowspan=1>" + data[j].Bet + "</td>";
+				txt = txt + "</tr>";
+			}
+
+		  	txt = txt + "</table>";
+		  	document.getElementById("result").innerHTML = txt;
+		  	
+		}
+	</script>
+
+	<script>
+		function displayList() {
+			let txt = "<table cellpadding=0 cellspacing=0>";
+
+
+			data.forEach(item => {
+				txt = txt + "<tr><td>" + item.User + "</td><td>" + item.Ticket + "</td></tr>";
+		  	}
+
+		  	txt = txt + "</table>";
+
+
+		  document.getElementById("result").innerHTML = txt;
+		}
+	</script>
+
+	<style type="text/css">
+		body {
+			background-color: #FF66FF;
+			color: #ffffff;
+		}
+
+		td {
+			border-style: solid;
+			border-color: lightgrey;
+			border-width: 1px;
+			padding: 2px 2px 2px 2px;
+		}
+
+		#code {
+			position: absolute;
+			top: 0px;
+			left: 600px;
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<button onclick="f1()">Test</button><button onclick="f2()">Test 2</button>
+	<button onclick="f3()">Test 3</button>
+	<button onclick="f4()">Test 4</button>
+	<div id="result"></div>
+
+	<div id="code"></div>
+</body>
+</html>

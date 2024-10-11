@@ -1,0 +1,142 @@
+﻿<div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-3 col-xs-12 mb-10">
+                <label class=" control-label">{{ 'PragmaticPlaySlotReport_SlotType' | translate }}:</label>
+                <select class="form-control input-md" ng-model="dataSource.searchCondition.SlotTypeID" ng-options="option.SlotTypeID as option.SlotTypeName for option in dataSource.classInfoList[0].slotTypes">
+                </select>
+            </div>
+            <div class="col-md-3 col-xs-6 mb-10">
+                <label class=" control-label">{{ 'DateS' | translate }}:</label>
+                <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateS">
+            </div>
+            <div class="col-md-3  col-xs-6 mb-10">
+                <label class=" control-label">{{ 'DateE' | translate }}:</label>
+                <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateE">
+            </div>
+
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <div class="btn_area">
+                    <ul class="text-left">
+                        <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div>
+        <button class="btn btn-success" ng-click="copy()">Copy</button>
+        <button class="btn btn-success" ng-click="excel()">Excel</button>
+        <button class="btn btn-success" ng-click="print()">Print</button>
+    </div>
+    <br />
+    <div class="css_table">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ 'PragmaticPlaySlotReport_Member' | translate }}</th>
+                        <th>{{ 'PragmaticPlaySlotReport_TOver' | translate }}</th>
+                        <th>{{ 'PragmaticPlaySlotReport_WinMoney' | translate }}</th>
+                        <th></th>
+                        <!--<th></th>-->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="slot in dataSource.listData">
+                        <td>{{slot.UserName | userName}}</td>
+                        <td>{{slot.TurnOver | currency : "$" : 2}}</td>
+                        <td>{{slot.WinMoney | currency : "$" : 2}}</td>
+                        <td>
+                            <input type="button" class="btn btn-info" value="List" ng-click="showDetail(slot)">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--<div style="margin:0px auto;">
+            <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+        </div>-->
+    </div>
+
+    <!--顯示報表明細視窗-->
+    <button id="ShowDetailDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#DetailDialog" style="display:none"></button>
+    <div class="modal fade" id="DetailDialog" tabindex="-1" role="dialog" aria-labelledby="DetailDialogTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{dataSource.modalMsg.title | translate}}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row-form">
+                        <div id="slotReport" class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'PragmaticPlaySlotReport_RoundId' | translate }}</th>
+                                        <th>{{ 'PragmaticPlaySlotReport_SlotName' | translate }}</th>
+                                        <th>{{ 'PragmaticPlaySlotReport_TOver' | translate }}</th>
+                                        <th>{{ 'PragmaticPlaySlotReport_WinMoney' | translate }}</th>
+                                        <th>{{ 'PragmaticPlaySlotReport_CreateTime' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="detail in dataSource.detailListData">
+                                        <td>{{detail.RoundId}}</td>
+                                        <td>{{detail.SlotInfoName}}</td>
+                                        <td>{{(detail.Price * detail.Qty) | currency : "$" : 2}}</td>
+                                        <td>{{detail.WinMoney | currency : "$" : 2}}</td>
+                                        <td>{{detail.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="margin:0px auto;">
+                        <pagination options="dataSource.PagerObj2" page-changed="PageChanged2(dataSource.PagerObj2.CurrentPage)"></pagination>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(false)">Cancel</button>-->
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(true)">
+                        {{ 'Confirm' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="ShowDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#ConfirmDialog"
+        style="display:none"></button>
+<div class="modal fade" id="ConfirmDialog" tabindex="-1" role="dialog" aria-labelledby="ConfirmDialogTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width:600px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    {{dataSource.modalMsg.title | translate}}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="confirm()">
+                    {{dataSource.modalMsg.title | translate}}
+                </button>
+                <button type="button" class="btn rectangle-btn" data-dismiss="modal">{{ 'Cancel' | translate }}</button>
+            </div>
+        </div>
+    </div>
+</div>

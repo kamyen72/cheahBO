@@ -1,0 +1,146 @@
+﻿<div>
+    <div ng-if="dataSource.pageStatus == 'searchView'">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12 col-sm-12 col-xs-12 p-0">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label" for="Customer:">DateS:</label>
+                        <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateS">
+                    </div>
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label" for="Customer:">DateE:</label>
+                        <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateE">
+                    </div>
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label" for="Customer:">CompanyName:</label>
+                        <input type="text" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.CompanyName">
+                    </div>
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label" for="Customer:">CompanyCode:</label>
+                        <input type="text" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.CompanyCode">
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12 p-0">
+                    <div class="btn_area">
+                        <ul class="text-left">
+                            <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}" ng-click="showAdd()" /></li>
+                            <li><input type="button" class="btn btn-default btn-block" value="{{ 'Clear' | translate }}" ng-click="clear()" /></li>
+                            <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="css_table">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>CompanyID</th>
+                            <th>CompanyName</th>
+                            <th>CompanyCode</th>
+                            <th>CashRebate</th>
+                            <th>CashBackRebate</th>
+                            <th>Sort</th>
+                            <th>UpdateBy</th>
+                            <th>UpdateDate</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="config in dataSource.listData">
+                            <td>{{config.CompanyID}}</td>
+                            <td>{{config.CompanyName}}</td>
+                            <td>{{config.CompanyCode}}</td>
+                            <td>{{config.CashRebate}}</td>
+                            <td>{{config.CashBackRebate}}</td>
+                            <td>{{config.Sort}}</td>
+                            <td>{{config.UpdateBy}}</td>
+                            <td>{{config.UpdateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>
+                                <input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEdit(config)">
+                                <!--<input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}" ng-click="delete(config)">-->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin:0px auto;">
+                <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-if="dataSource.pageStatus == 'addView' || dataSource.pageStatus == 'editView'">
+        <!-- left column -->
+        <!-- <div class="col-md-3">
+            <div class="text-center">
+                <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+                <h6>Upload a different photo...</h6>
+
+                <input type="file" class="form-control">
+            </div>
+        </div> -->
+        <!-- edit form column -->
+        <div class="col-md-9 personal-info">
+            <!-- <div class="alert alert-info alert-dismissable">
+                <a class="panel-close close" data-dismiss="alert">×</a>
+                <i class="fa fa-coffee"></i>
+                This is an <strong>.alert</strong>. Use this to show important messages to the user.
+            </div> -->
+            <h3>Company</h3>
+            <hr>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">CompanyName:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" type="text" ng-model="dataSource.PostData.CompanyName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">ConfigNotice:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" type="text" ng-model="dataSource.PostData.CompanyCode">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">ConfigValues:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" type="text" ng-model="dataSource.PostData.CashRebate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">ConfigTypeID:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" type="text" ng-model="dataSource.PostData.CashBackRebate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Sort:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" type="text" ng-model="dataSource.PostData.Sort">
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label"></label>
+                    <div class="col-md-8" ng-if="dataSource.pageStatus == 'editView'">
+                        <input type="button" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-click="update()">
+                        <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+                    </div>
+                    <div class="col-md-8" ng-if="dataSource.pageStatus == 'addView'">
+                        <input type="button" class="btn btn-primary" value="{{ 'Add' | translate }}" ng-click="add()">
+                        <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

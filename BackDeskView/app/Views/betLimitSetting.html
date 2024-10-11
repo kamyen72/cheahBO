@@ -1,0 +1,157 @@
+﻿<div>
+    <div ng-if="dataSource.pageStatus == 'searchView'">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+            </div>
+            <div class="panel-body">
+               
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <label class=" control-label" for="Customer:">{{ 'BetLimitSetting_LimitName' | translate }}:</label>
+                        <!--<input type="text" placeholder="" class="form-control input-md"
+                               ng-model="dataSource.searchCondition.LimitName">-->
+                        <select class="form-control" ng-model="dataSource.searchCondition.LimitName">
+                            <option ng-repeat="type in dataSource.selTypeList" ng-value="type.LimitName">{{type.LimitName}}</option>
+                        </select>
+                    </div>
+                
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="btn_area">
+                        <ul >
+                            <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}" ng-click="showAdd()" /></li>
+                            <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="css_table">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>{{ 'ID' | translate }}</th>
+                            <th>{{ 'BetLimitSetting_LimitName' | translate }}</th>
+                            <th>{{ 'BetLimitSetting_LimitMin' | translate }}</th>
+                            <th>{{ 'BetLimitSetting_LimitMax' | translate }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="betLimit in dataSource.listData">
+                            <td>{{betLimit.ID}}</td>
+                            <td>{{betLimit.LimitName}}</td>
+                            <td>{{betLimit.LimitMin}}</td>
+                            <td>{{betLimit.LimitMax}}</td>
+                            <td>
+                                <input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEdit(betLimit)">
+                                <input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}" ng-click="delete(betLimit)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--<div style="margin:0px auto;">
+                <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)">
+                </pagination>
+            </div>-->
+        </div>
+    </div>
+    <div class="" ng-if="dataSource.pageStatus == 'addView' || dataSource.pageStatus == 'editView'">
+        <div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12 personal-info">
+            <div class="row">
+                <h3>{{ 'BetLimitSetting' | translate }}</h3>
+                <hr>
+                <form name="form" class="form-horizontal" role="form">
+                    <div class="list_area">
+                        <div class="list_style">
+                            <ul >
+                                <li class="col-xs-6" ng-if="dataSource.pageStatus == 'editView'">
+                                    <label>{{ 'BetLimitSetting_ID' | translate }}:</label>
+                                    <input name="ID" class="form-control" type="text" ng-model="dataSource.betLimit.ID" disabled>
+                                </li>
+                                <li class="col-xs-6">
+                                    <label>{{ 'BetLimitSetting_LimitName' | translate }}:</label>
+                                    <input name="LimitName" class="form-control" type="text" ng-model="dataSource.betLimit.LimitName" required>
+                                </li>
+                                <li class="col-xs-6">
+                                    <label>{{ 'BetLimitSetting_LimitMin' | translate }}:</label>
+                                    <input name="LimitMin" class="form-control" type="text" ng-model="dataSource.betLimit.LimitMin" required>
+                                </li>
+                                <li class="col-xs-6">
+                                    <label>{{ 'BetLimitSetting_LimitMax' | translate }}:</label>
+                                    <input name="LimitMax" class="form-control" type="text" ng-model="dataSource.betLimit.LimitMax" required>
+                                </li>
+                            </ul>
+                            <div class="btn_area col-xs-12">
+                                <ul class="text-right">
+                                    <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}" ng-click="addMap()" /></li>
+                                </ul>
+                            </div>
+                            <div class="css_table col-xs-12">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>{{ 'ID' | translate }}</th>
+                                                <th>{{ 'BetLimitSetting_ParentID' | translate }}</th>
+                                                <!--<th>{{ 'BetLimitSetting_LotteryClassID' | translate }}</th>-->
+                                                <th>{{ 'BetLimitSetting_LotteryTypeID' | translate }}</th>
+                                                <th>{{ 'BetLimitSetting_LotteryInfoID' | translate }}</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="betMap in dataSource.betLimit.mapList">
+                                                <td>{{betMap.ID}}</td>
+                                                <td>
+                                                    <select class="form-control mb-0" ng-model="betMap.ParentID" ng-change="betMap.Changed = true">
+                                                        <option ng-repeat="parent in dataSource.selParentList" ng-value="parent.ID">
+                                                            {{parent.LimitName}}
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <!--<td>{{betMap.LotteryClassID}}</td>-->
+                                                <td>
+                                                    <!--{{betMap.LotteryTypeName}}-->
+                                                    <select class="form-control mb-0" ng-model="betMap.LotteryTypeID" ng-change="bindSelLotteryInfo(betMap);betMap.Changed = true;">
+                                                        <option ng-repeat="lotteryType in dataSource.lotteryTypeList" ng-value="lotteryType.LotteryTypeID">
+                                                            {{lotteryType.LotteryTypeName}}
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <!--{{betMap.LotteryInfoName}}-->
+                                                    <select class="form-control mb-0" ng-model="betMap.LotteryInfoID" ng-change="betMap.Changed = true">
+                                                        ">
+                                                        <option ng-repeat="lotteryInfo in betMap.SelLotteryInfoList" ng-value="lotteryInfo.LotteryInfoID">
+                                                            {{lotteryInfo.LotteryInfoName}}
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}" ng-click="delMap(betMap)">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12" ng-if="dataSource.pageStatus == 'editView'">
+                                <input type="button" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-click="update(form)">
+                                <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12" ng-if="dataSource.pageStatus == 'addView'">
+                                <input type="button" class="btn btn-primary" value="{{ 'Add' | translate }}" ng-click="add(form)">
+                                <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

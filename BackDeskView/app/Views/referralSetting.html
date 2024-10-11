@@ -1,0 +1,126 @@
+﻿<div>
+  <div ng-if="dataSource.pageStatus == 'searchView'">
+    <div class="css_table">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead>
+              <tr>
+                  <th>{{ 'ReferralSetting_GameName' | translate }}</th>
+                  <th>{{ 'ReferralSetting_MinComm' | translate }}</th>
+                  <th>{{ 'ReferralSetting_MaxComm' | translate }}</th>
+                  <th>{{ 'ReferralSetting_PayType' | translate }}</th>
+                  <th>{{ 'ReferralSetting_Referal_I_Percent' | translate }}</th>
+                  <th>{{ 'ReferralSetting_Referal_II_Percent' | translate }}</th>
+                  <th>{{ 'ReferralSetting_Referal_III_Percent' | translate }}</th>
+                  <th></th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="gameRoomType in dataSource.listData">
+                  <td>{{gameRoomType.GameName}}</td>
+                  <td>{{gameRoomType.MinCommission}}</td>
+                  <td>{{gameRoomType.MaxCommission}}</td>
+                  <td>{{gameRoomType.PayTypeName}}</td>
+                  <td>{{gameRoomType.ReferralLayers[0].ReferralPercentage}}%</td>
+                  <td>{{gameRoomType.ReferralLayers[1].ReferralPercentage}}%</td>
+                  <td>{{gameRoomType.ReferralLayers[2].ReferralPercentage}}%</td>
+                  <td>
+                      <input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEdit(gameRoomType)">
+                      <!--<input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}" ng-click="delete(gameRoomType)">-->
+                  </td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!--顯示新增編輯視窗-->
+  <button id="ShowDetailDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#DetailDialog"
+    style="display:none"></button>
+  <div class="modal fade" id="DetailDialog" tabindex="-1" role="dialog" aria-labelledby="DetailDialogTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            {{dataSource.modalMsg.title | translate}}
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form name="form" class="form-horizontal" role="form">
+            <div class="list_style">
+                <ul>
+                    <li class="col-xs-6">
+                        <label class=" control-label">{{ 'ReferralSetting_GameName' | translate }}:</label>
+                        <input name="GameName" class="form-control" type="text" ng-model="dataSource.gameRoomType.GameName"
+                               disabled>
+                    </li>
+                    <li class="col-xs-6">
+                        <label class="control-label">{{ 'ReferralSetting_MinCommission' | translate }}:</label>
+                        <input name="MinCommission" class="form-control" type="text"
+                               ng-model="dataSource.gameRoomType.MinCommission" my-validator="numeric">
+                    </li>
+                    <li class="col-xs-6">
+                        <label class="control-label">{{ 'ReferralSetting_MaxCommission' | translate }}:</label>
+                        <input name="MaxCommission" class="form-control" type="text"
+                               ng-model="dataSource.gameRoomType.MaxCommission" my-validator="numeric">
+                    </li>
+                    <li class="col-xs-6">
+                        <label class="control-label">{{ 'ReferralSetting_PayType' | translate }}:</label>
+                        <select class="form-control" ng-model="dataSource.gameRoomType.PayType"
+                                ng-options="option.ID as option.ConfigName for option in dataSource.payTypeDropDown" required>>
+                        </select>
+                    </li>
+                    <li class="col-xs-6">
+                        <label class="control-label">{{ 'ReferralSetting_Referal_I_Percent' | translate }}:</label>
+                        <div class="clearfix"></div>
+                        <div class="col-md-11 col-sm-11 col-xs-11 p-0">
+                            <input name="ReferralPercentageI" class="form-control" type="text"
+                                   ng-model="dataSource.referralLayers[0].ReferralPercentage" required />
+                        </div>
+
+                        %
+
+
+                    </li>
+                    <li class="col-xs-6">
+                        <label class=" control-label">{{ 'ReferralSetting_Referal_II_Percent' | translate }}:</label>
+                        <div class="clearfix"></div>
+                        <div class="col-md-11 col-sm-11 col-xs-11 p-0">
+                            <input name="ReferralPercentageII" class="form-control" type="text"
+                                   ng-model="dataSource.referralLayers[1].ReferralPercentage" required />
+                        </div>
+
+                        %
+
+                    </li>
+                    <li class="col-xs-6">
+                        <label class="control-label">{{ 'ReferralSetting_Referal_III_Percent' | translate }}:</label>
+                        <div class="clearfix"></div>
+                        <div class="col-md-11 col-sm-11 col-xs-11 p-0">
+                            <input name="ReferralPercentageIII" class="form-control" type="text"
+                                   ng-model="dataSource.referralLayers[2].ReferralPercentage" required />
+                        </div>
+
+                        %
+
+                    </li>
+                </ul>
+            </div>
+           
+          </form>
+        </div>
+        <div class="modal-footer">
+          <!--<button type="button" class="btn rectangle-btn" ng-click="resetInfo()">reset</button>-->
+          <button type="button" class="btn rectangle-btn" data-dismiss="modal"
+            ng-click="addOrEdit(form)">{{ 'Confirm' | translate }}</button>
+          <button type="button" class="btn rectangle-btn" data-dismiss="modal">{{ 'Cancel' | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

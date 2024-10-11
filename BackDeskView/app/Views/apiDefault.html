@@ -1,0 +1,232 @@
+﻿
+<div ng-if="dataSource.pageStatus == 'searchView'">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                <label class=" control-label" for="Customer:">{{ 'ApiDefault_Controller' | translate }}:</label>
+                <input type="text" placeholder="" class="form-control input-md"
+                       ng-model="searchCondition.apiDefaultName">
+            </div>
+            <div class="col-md-8 col-xs-12">
+                <div class="btn_area">
+                    <ul class="text-left">
+                        <!--<li>
+                            <input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}" ng-click="showAdd()" />
+                        </li>-->
+                        <li>
+                            <input type="button" class="btn btn-default btn-block" value="{{ 'Clear' | translate }}" ng-click="clear()" />
+                        </li>
+                        <li>
+                            <input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" />
+                        </li>
+                    </ul>
+                </div>
+            </div>               
+        </div>
+    </div>
+    <br>
+    <div class="css_table">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ 'ApiDefault_ID' | translate }}</th>
+                        <th>{{ 'ApiDefault_Controller' | translate }}</th>
+                        <th>{{ 'ApiDefault_Action' | translate }}</th>
+                        <!--<th>{{ 'ApiDefault_Sort' | translate }}</th>-->
+                        <th>{{ 'ApiDefault_CreateDate' | translate }}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="apiDefault in dataSource.listData">
+                        <td>{{apiDefault.ID}}</td>
+                        <td>{{apiDefault.Controller}}</td>
+                        <td>{{apiDefault.Action}}</td>
+                        <!--<td>{{apiDefault.Sort}}</td>-->
+                        <td>{{apiDefault.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>
+                            <!--<input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEdit(apiDefault)">
+                            <input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}" ng-click="delete(apiDefault)">-->
+                            <input type="button" class="btn btn-info" value="{{ 'List' | translate }}" ng-click="showList(apiDefault)">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div style="margin:0px auto;">
+        <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+    </div>
+</div>
+
+<div ng-if="dataSource.pageStatus == 'functionListView'">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"></h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-xs-12 flex align-items-center flex-wrap">
+                <div class="btn_area">
+                    <ul>
+                        <li><label class="" for="Customer:">{{ 'ApiDefault_GroupName' | translate }}:</label></li>
+                        <li><label class="" for="Customer:">{{dataSource.apiDefault.apiDefaultName}}</label></li>
+                    </ul>
+                </div>
+                <div class="btn_area">
+                    <ul>
+                        <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}"
+                            ng-click="showFunctionDialog()" />
+                        </li>
+                        <li><input type="button" class="btn btn-default btn-block" value="{{ 'Cancel' | translate }}"
+                            ng-click="dataSource.pageStatus = 'searchView'" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>{{ 'ApiDefault_ID' | translate }}</th>
+                    <th>{{ 'ApiDefault_FunctionName' | translate }}</th>
+                    <th>{{ 'ApiDefault_ParentID' | translate }}</th>
+                    <th>{{ 'ApiDefault_CreateDate' | translate }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="function in dataSource.apiDefault.functionGroups">
+                    <td>{{function.ID}}</td>
+                    <td>{{function.FName}}</td>
+                    <td>{{function.ParentID}}</td>
+                    <td>{{function.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td>
+                        <input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}"
+                               ng-click="deleteFunction(function)">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<button id="ShowFunctionDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#FunctionDialog"
+        style="display:none"></button>
+<div class="modal fade" id="FunctionDialog" tabindex="-1" role="dialog" aria-labelledby="FunctionDialogTitle"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    {{dataSource.modalMsg.title | translate}}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="flex align-items-center flex-wrap">
+                <div class="col-md-4 col-xs-6">
+                    <label class=" control-label" for="Customer:">{{ 'ApiDefault_Group' | translate }}:</label>
+                    <input type="text" placeholder="" class="form-control input-md"
+                            ng-model="searchCondition.GroupName">
+                </div>
+                
+                <div class="col-md-4 col-xs-6">
+                    <label class=" control-label" for="Customer:">{{ 'ApiDefault_Type' | translate }}:</label>
+                    <input type="text" placeholder="" class="form-control input-md"
+                            ng-model="searchCondition.Type">
+                </div>
+                <div class="col-md-3 col-md-offset-0 col-xs-4 col-xs-offset-4">
+                    <input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}"
+                            ng-click="searchMember()" />
+                </div>
+            </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-12 mt-10">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{ 'ApiDefault_ID' | translate }}</th>
+                                    <th>{{ 'ApiDefault_FunctionName' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="function in dataSource.functionListData">
+                                    <td>
+                                        <input type="checkbox" class="form-control" ng-model="function.check" />
+                                    </td>
+                                    <td>{{function.ID}}</td>
+                                    <td>{{function.FName}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+               
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(false)">Cancel</button>-->
+                <button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="addFuncitonList()">
+                    {{ 'Confirm' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="ShowApiDefaultDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#ApiDefaultDialog"
+        style="display:none"></button>
+<div class="modal fade" id="ApiDefaultDialog" tabindex="-1" role="dialog" aria-labelledby="ApiDefaultDialogTitle"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    {{dataSource.modalMsg.title | translate}}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="form" class="form-horizontal" role="form">
+                    <div class="list_style">
+                        <ul>
+                            <li class="col-xs-6">
+                                <label class=" control-label">{{ 'ApiDefault_Controller' | translate }}:</label>
+                                <input name="LevelName" class="form-control" type="text" ng-model="dataSource.apiDefault.Controller" required />
+                            </li>
+                            <li class="col-xs-6">
+                                <label class=" control-label">{{ 'ApiDefault_Action' | translate }}:</label>
+                                <input name="LevelName" class="form-control" type="text" ng-model="dataSource.apiDefault.Action" />
+                            </li>
+                            <li class="col-xs-6">
+                                <label class=" control-label">{{ 'ApiDefault_Sort' | translate }}:</label>
+                                <input name="LevelName" class="form-control" type="text" ng-model="dataSource.apiDefault.Sort" required />
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn rectangle-btn" data-dismiss="modal"
+                        ng-click="updateapiDefault(form)">
+                    {{ 'Confirm' | translate }}
+                </button>
+                <button type="button" class="btn rectangle-btn" data-dismiss="modal">
+                    {{ 'Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

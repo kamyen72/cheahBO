@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<script type="text/javascript">
+		document.addEventListener("DOMContentLoaded", () => {
+			'use strict';
+
+			const data = [{
+				Group: 'A',
+				Name: 'SD'
+			}, {
+				Group: 'B',
+				Name: 'FI'
+			}, {
+				Group: 'A',
+				Name: 'MM'
+			}, {
+				Group: 'B',
+				Name: 'CO'
+			}
+			, {
+				Group: 'C',
+				Name: 'CKY'
+			}
+			, {
+				Group: 'C',
+				Name: 'Chong'
+			}
+			, {
+				Group: 'C',
+				Name: 'Chin'
+			}
+			, {
+				Group: 'C',
+				Name: 'Chan'
+			}
+			];
+
+			let unique = [...new Set(data.map(item => item.Name))];
+			alert(unique.length);
+
+			let mx = unique.length;
+
+			var txt = "<table>";
+			for (let i = 0; i < mx; i++ ) {
+				txt =  txt + "<tr><td>" + unique[i].Name + "</td></tr>";
+			}
+			txt = txt + "</table>";
+
+			document.getElementById("result").innerHTML = txt;
+		}
+	</script>
+</head>
+<body>
+<div id="result"></div>
+</body>
+</html>

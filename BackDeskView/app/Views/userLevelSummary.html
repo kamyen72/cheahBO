@@ -1,0 +1,51 @@
+﻿<div>
+    <ul class="nav nav-pills">
+        <li ng-class="{'active':dataSource.levelStatus == 'all'}">
+            <a href="javascript:void(0)" ng-click="checkLevel('all')">{{ 'UserLevelSummary_All' | translate }}</a>
+        </li>
+        <li ng-class="{'active':dataSource.levelStatus == 'new'}">
+            <a href="javascript:void(0)" ng-click="checkLevel('new')">{{ 'UserLevelSummary_New' | translate }}</a>
+        </li>
+        <li ng-class="{'active':dataSource.levelStatus == 'regular'}">
+            <a href="javascript:void(0)" ng-click="checkLevel('regular')">{{ 'UserLevelSummary_Regular' | translate }}</a>
+        </li>
+        <li ng-class="{'active':dataSource.levelStatus == 'silver'}">
+            <a href="javascript:void(0)" ng-click="checkLevel('silver')">{{ 'UserLevelSummary_Silver' | translate }}</a>
+        </li>
+        <li ng-class="{'active':dataSource.levelStatus == 'gold'}">
+            <a href="javascript:void(0)" ng-click="checkLevel('gold')">{{ 'UserLevelSummary_Gold' | translate }}</a>
+        </li>
+        <li ng-class="{'active':dataSource.levelStatus == 'platinum'}">
+            <a href="javascript:void(0)" ng-click="checkLevel('platinum')">{{ 'UserLevelSummary_Platinum' | translate }}</a>
+        </li>
+        <li ng-class="{'active':dataSource.levelStatus == 'vip'}">
+            <a href="javascript:void(0)" ng-click="checkLevel('vip')">{{ 'UserLevelSummary_VIP' | translate }}</a>
+        </li>
+    </ul>
+    <div class="css_table">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <!--<th>{{ 'UserLevelSummary_No' | translate }}</th>-->
+                        <th>{{ 'UserLevelSummary_UserName' | translate }}</th>
+                        <th>{{ 'UserLevelSummary_Name' | translate }}</th>
+                        <th>{{ 'UserLevelSummary_LevelDate' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="member in dataSource.listData">
+                        <!--<td>{{member.MemberID}}</td>-->
+                        <td>{{member.UserName | userName}}</td>
+                        <td>{{member.FullName}}</td>
+                        <td>{{member.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin:0px auto;">
+            <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+        </div>
+    </div>
+</div>

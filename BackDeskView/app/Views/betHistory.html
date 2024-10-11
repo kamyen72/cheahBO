@@ -1,0 +1,238 @@
+﻿<ul class="nav nav-pills">
+    <li ng-class="{'active':dataSource.tagStatus == 'BetHistory'}">
+        <a href="javascript:void(0)" ng-click="changePage('BetHistory')">{{ 'BetHistory' | translate }}</a>
+    </li>
+    <li ng-class="{'active':dataSource.tagStatus == 'Pending'}">
+        <a href="javascript:void(0)" ng-click="changePage('Pending')">{{ 'WinLostReportByGame_Pending' | translate }}</a>
+    </li>
+</ul>
+
+<div ng-if="dataSource.pageStatus == 'searchView'">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 mb-10 pr-0">
+                <label class=" control-label">{{ 'DateS' | translate }}:</label>
+                <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateS">
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 mb-10">
+                <label class=" control-label">{{ 'DateE' | translate }}:</label>
+                <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateE">
+            </div>
+
+            <div class="col-lg-3 col-sm-12 col-xs-12">
+                <div class="btn_area">
+                    <ul class="text-left">
+                        <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="css_table">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ 'UserName' | translate }}</th>
+                        <th>{{ 'BetHistory_BetNums' | translate }}</th>
+                        <th>{{ 'BetHistory_TurnOver' | translate }}</th>
+                        <th>{{ 'BetHistory_BetAmount' | translate }}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="dataSource.subMemberList.length === 0">
+                        <td colspan="8">{{ 'NoData' | translate }}</td>
+                    </tr>
+                    <tr ng-repeat="member in dataSource.subMemberList">
+                        <td>{{member.UserName}}</td>
+                        <td>{{member.BetNums}}</td>
+                        <td>{{member.Turnover | currency}}</td>
+                        <td>{{member.BetAmounts | currency}}</td>
+                        <td>
+                            <input type="button" class="btn btn-info" value="{{ 'List' | translate }}" ng-click="showList(member)" ng-if="index != dataSource.subMemberList.length-1">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-12" style="margin:0px auto;">
+            <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+        </div>
+    </div>
+</div>
+
+<div ng-if="dataSource.pageStatus == 'detailView'">
+    <div>
+        <div class="col-lg-1 col-lg-offset-11 col-md-2 col-md-offset-10 col-sm-3 col-xs-6 mb-10">
+            <div class="row">
+                <input type="button" class="btn btn-primary btn-block" value="{{ 'Back' | translate }}"
+                       ng-click="dataSource.showDetailMemberID = null; dataSource.pageStatus = 'searchView'" />
+            </div>
+        </div>
+    </div>
+    <div class="css_table">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ 'BetHistory_BetType' | translate }}</th>
+                        <th>{{ 'BetHistory_BillNo' | translate }}</th>
+                        <!--<th class="hidden-sm hidden-xs">bet</th>-->
+                        <th class="hidden-sm hidden-xs">{{ 'BetHistory_OpenningTime' | translate }}</th>
+                        <th>{{ 'BetHistory_TurnOver' | translate }}</th>
+                        <th>{{ 'BetHistory_BetAmount' | translate }}</th>
+                        <th>{{ 'BetHistory_WinLose' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="dataSource.mPlayerObj.length === 0">
+                        <td colspan="8">{{ 'NoData' | translate }}</td>
+                    </tr>
+                    <tr ng-repeat="mPlayer in dataSource.mPlayerObj">
+                        <td>{{mPlayer.LotteryTypeName}}</td>
+                        <td>
+                            <button class="design_btn" data-toggle="modal" data-target="#ReceiptModal" 
+                                    ng-if="index != dataSource.mPlayerObj.length - 1 && mPlayer.CurrentPeriod"
+                                    ng-click="showDetail(mPlayer)">
+                                {{mPlayer.CurrentPeriod}}
+                                <i class="fa fa-external-link " aria-hidden="true"></i>
+                            </button>
+                        </td>
+                        <!--<td class="hidden-sm hidden-xs">
+        [{{mPlayer.SelectedTxt.split('|')[0]}}] [<span translate="FamliyID{{mPlayer.SelectedTxt.split('|')[1]}}"></span>] [{{mPlayer.SelectedTxt.split('|')[2]}}]
+    </td>-->
+                        <td class="hidden-sm hidden-xs">
+                            {{mPlayer.oLottery.CloseTime | date : "yyyy/MM/dd HH:mm:ss"}}
+                        </td>
+                        <td>
+                            {{mPlayer.TurnOver | number:2}}
+                        </td>
+                        <td>
+                            {{mPlayer.BetAmount | number:2}}
+                        </td>
+                        <td>
+                            <p>{{mPlayer.WinLose | number:2}}</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-12" style="margin:0px auto;">
+            <pagination options="dataSource.PagerObj2" page-changed="PageChanged2(dataSource.PagerObj2.CurrentPage)"></pagination>
+        </div>
+    </div>
+
+    <div class="modal fade bet_area" id="ReceiptModal" tabindex="-1" role="dialog"
+         aria-labelledby="ReceiptModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times text-white" aria-hidden="true"></i>
+                    </button>
+                    <h5 class="modal-title">{{ 'BetHistory_BetDetail' | translate }}</h5>
+                </div>
+                <div class="modal-body" ng-if="dataSource.mPlayerDetail.vwMPlayers.length > 0">
+
+                    <div class="col-md-12 nopadding bet_text text-yellow">
+                        <span>{{ 'BetHistory_BillNo' | translate }}:</span>
+                        {{dataSource.mPlayerDetail.CurrentPeriod}}
+                    </div>
+                    <div class="col-md-6 nopadding bet_text text-yellow">
+                        <span>{{ 'BetHistory_BetType' | translate }}:</span>
+                        {{dataSource.mPlayerDetail.LotteryTypeName}}
+                    </div>
+                    <div class="col-md-6 nopadding bet_text text-yellow">
+                        <span>{{ 'BetHistory_OpenningTime' | translate }}:</span>
+                        <!--{{dataSource.mPlayerDetail.OpenTime | date : "yyyy/MM/dd HH:mm:ss"}}-->
+                        {{dataSource.mPlayerDetail.oLottery.CloseTime | date : "yyyy/MM/dd HH:mm:ss"}}
+                    </div>
+                    <div class="col-md-12 nopadding bet_text text-yellow">
+                        <span>{{ 'BetHistory_Result' | translate }}:</span>
+                        <span ng-if="dataSource.mPlayerDetail.oLottery.LotteryTypeID == 10"
+                                ng-repeat="num in dataSource.mPlayerDetail.oLottery.ResultList">
+                            <span ng-if="['1','2','7','8','12','13','18','19','23','24','29','30','34','35','40','45','46'].includes(num.toString())" style="color:red">{{num}}</span>
+                            <span ng-if="['3','4','9','10','14','15','20','25','26','31','36','37','41','42','47','48'].includes(num.toString())" style="color:blue">{{num}}</span>
+                            <span ng-if="['5','6','11','16','17','21','22','27','28','32','33','38','39','43','44','49'].includes(num.toString())" style="color:green">{{num}}</span>
+                            ,
+                        </span>
+                        <span ng-if="dataSource.mPlayerDetail.oLottery.LotteryTypeID != 10">{{dataSource.mPlayerDetail.oLottery.Result}}</span>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="real_table">
+                        <table class="table table-striped table-bordered">
+                            <tr>
+                                <th>{{ 'BetHistory_BetTime' | translate }}</th>
+                                <th class="hidden-sm hidden-xs">{{ 'BetHistory_Bet' | translate }}</th>
+                                <th>{{ 'BetHistory_TurnOver' | translate }}</th>
+                                <th>{{ 'BetHistory_BetAmount' | translate }}</th>
+                                <th>{{ 'BetHistory_WinLose' | translate }}</th>
+                            </tr>
+                            <tr ng-repeat="mPlayer in dataSource.mPlayerDetail.vwMPlayers">
+                                <td>
+                                    {{mPlayer.CreateDate | date : "yyyy/MM/dd HH:mm:ss"}}
+                                </td>
+                                <td class="hidden-sm hidden-xs">
+                                    <span ng-if="mPlayer.SelectedTxt">
+                                        [{{mPlayer.SelectedTxt.split('|')[0]}}]
+                                        <span ng-if="mPlayer.LotteryTypeID == 11">
+                                            [{{mPlayer.SelectedTxt.split('|')[1]}}]
+                                        </span>
+                                        <span ng-if="mPlayer.LotteryTypeID != 11">
+                                            [<span ng-if="mPlayer.SelectedTxt.split('|')[1] == '4D/3D/2D'">
+                                                {{mPlayer.SelectedTxt.split('|')[1]}}
+                                            </span>
+                                            <span translate="FamliyID{{mPlayer.LotteryTypeID}}{{mPlayer.SelectedTxt.split('|')[1]}}"></span>
+                                            ]
+                                        </span>
+                                        [{{mPlayer.SelectedTxt.split('|')[2]}}]
+                                    </span>
+                                </td>
+                                <td>
+                                    {{mPlayer.Price | number:2}}
+                                </td>
+                                <td>
+                                    {{mPlayer.DiscountPrice ? mPlayer.DiscountPrice : mPlayer.Price | number:2}}
+                                </td>
+                                <td ng-class="{'text-red':mPlayer.WinLose < 0}">
+                                    {{mPlayer.WinLose | currency}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="ShowDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#ConfirmDialog"
+        style="display:none"></button>
+<div class="modal fade" id="ConfirmDialog" tabindex="-1" role="dialog" aria-labelledby="ConfirmDialogTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width:600px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    {{dataSource.modalMsg.title | translate}}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="confirm()">
+                    {{dataSource.modalMsg.title | translate}}
+                </button>
+                <button type="button" class="btn rectangle-btn" data-dismiss="modal">{{ 'Cancel' | translate }}</button>
+            </div>
+        </div>
+    </div>
+</div>

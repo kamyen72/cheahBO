@@ -1,0 +1,219 @@
+﻿<div ng-if="dataSource.pageStatus == 'searchView'">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                <label class="control-label" for="Customer:">{{ 'ThirdPartyCompanySetting_CompanyName' | translate }}:</label>
+                <input type="text" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.CompanyName">
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                <label class="control-label" for="Customer:">{{ 'ThirdPartyCompanySetting_CompanyCode' | translate }}:</label>
+                <input type="text" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.APICode">
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="btn_area">
+                    <ul >
+                        <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}" ng-click="showAdd()" /></li>
+                        <li><input type="button" class="btn btn-default btn-block" value="{{ 'Clear' | translate }}" ng-click="clear()" /></li>
+                        <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="css_table">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ 'ThirdPartyCompanySetting_APICode' | translate }}</th>
+                        <th>{{ 'ThirdPartyCompanySetting_CompanyID' | translate }}</th>
+                        <th>{{ 'ThirdPartyCompanySetting_APIName' | translate }}</th>
+                        <th>{{ 'ThirdPartyCompanySetting_CompanyName' | translate }}</th>
+                        <th>{{ 'ThirdPartyCompanySetting_CompanyDNS' | translate }}</th>
+                        <th>{{ 'ThirdPartyCompanySetting_APID' | translate }}</th>
+                        <th>{{ 'ThirdPartyCompanySetting_PlatformCode' | translate }}</th>
+                        <th>{{ 'ThirdPartyCompanySetting_Url' | translate }}</th>
+                        <th>{{ 'ThirdPartyCompanySetting_PlayTokenStatus' | translate }}</th>
+                        <th>{{ 'ThirdPartyCompanySetting_IsTest' | translate }}</th>
+                        <th>{{ 'ThirdPartyCompanySetting_UpdateBy' | translate }}</th>
+                        <th>{{ 'ThirdPartyCompanySetting_UpdateDate' | translate }}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="data in dataSource.listData">
+                        <td>{{data.APICode}}</td>
+                        <td>{{data.ID}}</td>
+                        <td>{{data.PlatformName}}</td>
+                        <td>{{data.CompanyName}}</td>
+                        <td>{{data.CompanyDNS}}</td>
+                        <td>{{data.APID}}</td>
+                        <td>{{data.ShortName}}</td>
+                        <td>{{data.URL}}</td>
+                        <td><input name="PlayTokenStatus" class="form-control" type="checkbox" ng-model="data.PlayTokenStatus" ng-change="changeAndSave(data)"></td>
+                        <td><input name="PlayTokenStatus" class="form-control" type="checkbox" ng-model="data.IsTest" ng-change="changeAndSave(data)"></td>
+                        <td>{{data.UpdateUser}}</td>
+                        <td>{{data.UpdateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>
+                            <input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEdit(data)">
+                            <input type="button" class="btn btn-success" value="{{ 'ThirdPartyCompanySetting_AddCallBack' | translate }}" ng-click="showAddCB(data)"
+                                ng-if="!data.GameDealerCBs || data.GameDealerCBs.length === 0">
+                            <input type="button" class="btn btn-success" value="{{ 'ThirdPartyCompanySetting_UpdateCallBack' | translate }}" ng-click="showEditCB(data)"
+                                ng-if="data.GameDealerCBs && data.GameDealerCBs.length > 0">
+                            <!--<input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}" ng-click="delete(data)">-->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin:0px auto;">
+            <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="dataSource.pageStatus == 'addView' || dataSource.pageStatus == 'editView'">
+    <!-- left column -->
+    <!-- <div class="col-md-3">
+        <div class="text-center">
+            <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+            <h6>Upload a different photo...</h6>
+
+            <input type="file" class="form-control">
+        </div>
+    </div> -->
+    <!-- edit form column -->
+    <div class="col-md-10 col-md-offset-1  col-xs-12 personal-info">
+        <!-- <div class="alert alert-info alert-dismissable">
+            <a class="panel-close close" data-dismiss="alert">×</a>
+            <i class="fa fa-coffee"></i>
+            This is an <strong>.alert</strong>. Use this to show important messages to the user.
+        </div> -->
+        <h3>{{ 'ThirdPartyCompanySetting_Company' | translate }}</h3>
+        <hr>
+        <form name="form" class="form-horizontal" role="form">
+            <div class="list_area">
+                <div class="list_style">
+                    <ul>
+                        <li class="col-md-4 col-xs-6">
+                            <label>{{ 'ThirdPartyCompanySetting_APICode' | translate }}:</label>
+                            <input name="APICode" langkey="ThirdPartyCompanySetting_APICode" class="form-control" type="text"
+                                   ng-model="dataSource.PostData.APICode" ng-disabled="dataSource.pageStatus == 'editView'" required>
+                        </li>
+                        <li class="col-md-4 col-xs-6">
+                            <label>{{ 'ThirdPartyCompanySetting_APIName' | translate }}:</label>
+                            <input name="PlatformName" langkey="ThirdPartyCompanySetting_APIName" class="form-control" type="text"
+                                   ng-model="dataSource.PostData.PlatformName" required>
+                        </li>
+                        <li class="col-md-4 col-xs-12">
+                            <label class="">{{ 'ThirdPartyCompanySetting_CompanyName' | translate }}:</label>
+                            <input name="CompanyName" langkey="ThirdPartyCompanySetting_CompanyName" class="form-control" type="text"
+                                   ng-model="dataSource.PostData.CompanyName" required>
+                        </li>
+                        <li class="col-md-4 col-xs-6">
+                            <label class="">{{ 'ThirdPartyCompanySetting_CompanyDNS' | translate }}:</label>
+                            <input name="CompanyDNS" langkey="ThirdPartyCompanySetting_CompanyDNS" class="form-control" type="text"
+                                   ng-model="dataSource.PostData.CompanyDNS" required>
+                        </li>
+                        <li class="col-md-4 col-xs-6">
+                            <label>{{ 'ThirdPartyCompanySetting_Platform' | translate }}:</label>
+                            <select name="PlatformName" class="form-control" ng-model="dataSource.PlatformObj"
+                                    ng-disabled="dataSource.pageStatus == 'editView'"
+                                    ng-options="option as option.PlatformName for option in dataSource.platformList"
+                                    ng-change="changePlatform()"
+                                    required></select>
+                        </li>
+                        <!-- 不顯示 由平台下拉選擇後代入 必填 -->
+                        <li class="col-md-4 col-xs-6" ng-show="false">
+                            <label>{{ 'ThirdPartyCompanySetting_PlatformCode' | translate }}:</label>
+                            <input name="ShortName" langkey="ThirdPartyCompanySetting_Platform" class="form-control" type="text"
+                                   ng-model="dataSource.PostData.ShortName" ng-disabled="dataSource.pageStatus == 'editView'" required>
+                        </li>
+                        <li class="col-md-4 col-xs-12">
+                            <label>{{ 'ThirdPartyCompanySetting_Url' | translate }}:</label>
+                            <input name="URL" langkey="ThirdPartyCompanySetting_Url" class="form-control" type="text"
+                                   ng-model="dataSource.PostData.URL" readonly>
+                        </li>
+                        <li class="col-md-4 col-xs-6">
+                            <label>{{ 'ThirdPartyCompanySetting_APID' | translate }}:</label>
+                            <input name="APID" langkey="ThirdPartyCompanySetting_APID" class="form-control" type="text"
+                                   ng-model="dataSource.PostData.APID" ng-disabled="dataSource.pageStatus == 'editView'" required>
+                        </li>
+                        <li class="col-md-4 col-xs-6">
+                            <label>{{ 'ThirdPartyCompanySetting_ShortName' | translate }}:</label>
+                            <input name="APID" langkey="ThirdPartyCompanySetting_APID" class="form-control" type="text"
+                                   ng-model="dataSource.PostData.ShortName" ng-disabled="dataSource.pageStatus == 'editView'" required>
+                        </li>
+                        <li class="col-md-4 col-xs-6" ng-if="dataSource.pageStatus == 'editView'">
+                            <label>{{ 'ThirdPartyCompanySetting_PrivateKeyAPID' | translate }}:</label>
+                            <input name="APID" langkey="ThirdPartyCompanySetting_PrivateKeyAPID" class="form-control" type="text"
+                                   ng-model="dataSource.PostData.PrivateKeyAPID" readonly>
+                        </li>
+                        <li class="col-md-2 pt-20">
+                            <label class="mr-5">{{ 'ThirdPartyCompanySetting_PlayTokenStatus' | translate }}:</label>
+                            <input name="PlayTokenStatus" class="form-control" type="checkbox" ng-model="dataSource.PostData.PlayTokenStatus">
+                        </li>
+                        <li class="col-md-2 pt-20">
+                            <label class="mr-5">{{ 'ThirdPartyCompanySetting_IsTest' | translate }}:</label>
+                            <input name="IsTest" class="form-control" type="checkbox" ng-model="dataSource.PostData.IsTest">
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xs-12">
+                    <div class="btn_area" ng-if="dataSource.pageStatus == 'editView'">
+                        <ul>
+                            <li><input type="button" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-click="update(form)"></li>
+                            <li><input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()"></li>
+                        </ul>
+                    </div>
+                    <div class="btn_area" ng-if="dataSource.pageStatus == 'addView'">
+                        <ul>
+                            <li><input type="button" class="btn btn-primary" value="{{ 'Add' | translate }}" ng-click="add(form)"> </li>
+                            <li><input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row" ng-if="dataSource.pageStatus == 'addCBView' || dataSource.pageStatus == 'editCBView'">
+    <div class="col-md-10 col-md-offset-1  col-xs-12 personal-info">
+        <h3>{{ dataSource.pageStatus == 'addCBView' ? 'ThirdPartyCompanySetting_AddCallBack' : 'ThirdPartyCompanySetting_UpdateCallBack' | translate }}</h3>
+        <hr>
+        <form name="formCB" class="form-horizontal" role="form">
+            <div class="list_area">
+                <div class="list_style">
+                    <ul>
+                        <li class="col-md-4 col-xs-12" ng-repeat="data in dataSource.PostCBData">
+                            <label class="">{{ 'ThirdPartyCompanySetting_' + data.GameActivie | translate }}:</label>
+                            <input name="{{data.GameActivie}}" langkey="{{'ThirdPartyCompanySetting_' + data.GameActivie}}"
+                                ng-model="data.CallBackURL" class="form-control" type="text">
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xs-12">
+                    <div class="btn_area" ng-if="dataSource.pageStatus == 'editCBView'">
+                        <ul>
+                            <li><input type="button" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-click="updateCB(formCB)"></li>
+                            <li><input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()"></li>
+                        </ul>
+                    </div>
+                    <div class="btn_area" ng-if="dataSource.pageStatus == 'addCBView'">
+                        <ul>
+                            <li><input type="button" class="btn btn-primary" value="{{ 'Add' | translate }}" ng-click="addCB(formCB)"> </li>
+                            <li><input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

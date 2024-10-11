@@ -1,0 +1,266 @@
+﻿<div>
+    <div class="col-md-12 col-sm-12 col-xs-12 p-0">
+        <!-- 平台&對接 Tab -->
+        <ul ng-if="dataSource.isMaster" class="nav nav-pills">
+            <li ng-class="{'active':dataSource.apiType == 'All'}"
+                ng-if="dataSource.memberInfo.AgentLevelSCID === 28 || dataSource.memberInfo.AgentLevelSCID === 38">
+                <a href="javascript:void(0)" ng-click="handleChangeApiType('All')">{{ 'All' | translate }}</a>
+            </li>
+            <li ng-class="{'active':dataSource.apiType == 'Platform'}"
+                ng-if="dataSource.memberInfo.AgentLevelSCID === 28 || dataSource.memberInfo.AgentLevelSCID === 38 || dataSource.apiType === 'Platform'">
+                <a href="javascript:void(0)" ng-click="handleChangeApiType('Platform')">{{ 'Platform' | translate }}</a>
+            </li>
+            <li ng-class="{'active':dataSource.apiType == 'API'}"
+                ng-if="dataSource.memberInfo.AgentLevelSCID === 28 || dataSource.memberInfo.AgentLevelSCID === 38 || dataSource.apiType === 'API'">
+                <a href="javascript:void(0)" ng-click="handleChangeApiType('API')">{{ 'API_Integration' | translate }}</a>
+            </li>
+        </ul>
+
+        <div class="panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12 p-0">
+            <div class="panel  panel-body">
+                <div class="col-md-6 col-sm-12 col-xs-12 p-0">
+                    <div class="col-xs-4">
+                        <label class="control-label">{{ 'Agent' | translate }}:</label>
+                        <select name="selWebCode" class="form-control"
+                                ng-model="dataSource.searchCondition.WebCode"
+                                ng-options="option.value as option.label for option in dataSource.platformOptions"></select>
+                    </div>
+                    <div class="col-xs-4">
+                        <label class="control-label">{{ 'DateS' | translate }}:</label>
+                        <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateS">
+                    </div>
+                    <div class="col-xs-4">
+                        <label class="control-label">{{ 'DateE' | translate }}:</label>
+                        <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateE">
+                    </div>
+                </div>
+                <br />
+                <div class="col-md-6 col-sm-12 col-xs-12 p-0">
+                    <div class="btn_area">
+                        <ul class="text-left">
+                            <li><input type="button" class="btn btn-default btn-block" value="{{ 'Today' | translate }}" ng-click="dateSearch(0,0)" /></li>
+                            <li>
+                                <input type="button" class="btn btn-default btn-block" value="{{ 'Yesterday' | translate }}" ng-click="dateSearch(-1,-1)" />
+                            </li>
+                            <li>
+                                <input type="button" class="btn btn-default btn-block" value="{{ 'Last7Days' | translate }}"
+                                       ng-click="dateSearch(-7,0)" />
+                            </li>
+                            <li>
+                                <input type="button" class="btn btn-default btn-block" value="{{ 'Last14Days' | translate }}"
+                                       ng-click="dateSearch(-14,0)" />
+                            </li>
+                            <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search(dataSource.memberInfo.UserName, dataSource.memberInfo.AgentLevelSCID)" /></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div>
+        <button class="btn btn-success" ng-click="copy()">Copy</button>
+        <button class="btn btn-success" ng-click="excel()">Excel</button>
+        <button class="btn btn-success" ng-click="print()">Print</button>
+    </div>
+    <br />
+    <h3>
+        <span ng-repeat="bread in dataSource.selMemberInfoList">
+            <span ng-if="$index!==0">=></span>
+            <a ng-if="$index < (dataSource.selMemberInfoList.length-1)" ng-click="search(bread.name,bread.level,bread.type)">{{bread.name}}</a>
+            <a ng-if="$index == (dataSource.selMemberInfoList.length-1)">{{bread.name}}</a>
+        </span>
+        <!--<span ng-if="dataSource.nowAgentLevel >= 1 && dataSource.agentLevel <= 1" ng-click="showReport(dataSource.selMemberInfoList[0].id,dataSource.selMemberInfoList[0].name,1)"><a>{{dataSource.selMemberInfoList[0].name}}</a></span>
+        <span ng-if="dataSource.nowAgentLevel >= 2 && dataSource.agentLevel <= 2" ng-click="showReport(dataSource.selMemberInfoList[1].id,dataSource.selMemberInfoList[1].name,2)"><a>{{dataSource.selMemberInfoList[1].name}}</a></span>
+        <span ng-if="dataSource.nowAgentLevel >= 3 && dataSource.agentLevel <= 3" ng-click="showReport(dataSource.selMemberInfoList[2].id,dataSource.selMemberInfoList[2].name,3)"><a>{{dataSource.selMemberInfoList[2].name}}</a></span>
+        <span ng-if="dataSource.nowAgentLevel >= 4 && dataSource.agentLevel <= 4" ng-click="showReport(dataSource.selMemberInfoList[3].id,dataSource.selMemberInfoList[3].name,4)"><a>{{dataSource.selMemberInfoList[3].name}}</a></span>-->
+    </h3>
+    <div id="winLoseReport" class="css_table">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+
+                        <!--<th>{{ 'WinLostReport_Account' | translate }}</th>
+                        <th>{{ 'WinLostReport_TOver' | translate }}</th>
+                        <th>{{ 'WinLostReport_WinLose' | translate }}</th>
+                        <th>{{ 'WinLostReport_AgentTotal' | translate }}</th>
+                        <th>{{ 'WinLostReport_MasterTotal' | translate }}</th>
+                        <th>{{ 'WinLostReport_SMasTotal' | translate }}</th>
+                        <th>{{ 'WinLostReport_CompTotal' | translate }}</th>-->
+
+                        <th>{{ 'WinLostReport_Account' | translate }}</th>
+                        <th>{{ 'WinLostReport_TOver' | translate }}</th>
+                        <th>{{ 'WinLostReport_BetAmount' | translate }}</th>
+                        <th>{{ 'WinLostReport_WinLose' | translate }}</th>
+                        <th ng-if="dataSource.nowAgentLevel < 32">{{ 'WinLostReport_AgentTotal' | translate }}</th>
+                        <th ng-if="dataSource.nowAgentLevel < 31">{{ 'WinLostReport_MasterTotal' | translate }}</th>
+                        <th ng-if="dataSource.nowAgentLevel < 30">{{ 'WinLostReport_SMasTotal' | translate }}</th>
+                        <th ng-if="dataSource.nowAgentLevel < 29">{{ 'WinLostReport_CompTotal' | translate }}</th>
+                        <th ng-if="dataSource.nowAgentLevel != 28">{{ 'WinLostReport_UperTotal' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="dataSource.showListData.length === 0">
+                        <td colspan="9">{{ 'NoData' | translate }}</td>
+                    </tr>
+                    <tr ng-repeat="report in dataSource.showListData">
+                        <td ng-if="report.Name == 'Total' || report.Name == 'Grand Total'">{{report.Name}}</td>
+                        <td ng-if="report.AgentLevel != 32 && (report.Name != 'Total' && report.Name != 'Grand Total')"><a ng-click="search(report.Name,report.AgentLevel,report.Type)">{{report.Name | userName}}</a></td>
+                        <td ng-if="report.AgentLevel == 32 && (report.Name != 'Total' && report.Name != 'Grand Total')"><a ng-click="showDetail(report)">{{report.Name | userName}}</a></td>
+                        <td>{{report.PR_TurnOver | currency : "" : 2}}</td>
+                        <td>{{report.PR_BetAmount | currency : "" : 2}}</td>
+                        <td ng-class="{'text-red':report.PR_RecordMoney < 0}">{{report.PR_RecordMoney | currency : "" : 2}}</td>
+                        <td ng-if="dataSource.nowAgentLevel < 32" ng-class="{'text-red':report.Agent_Profit < 0}">{{report.Agent_Profit | currency : "" : 2}}</td>
+                        <td ng-if="dataSource.nowAgentLevel < 31" ng-class="{'text-red':report.Master_Profit < 0}">{{report.Master_Profit | currency : "" : 2}}</td>
+                        <td ng-if="dataSource.nowAgentLevel < 30" ng-class="{'text-red':report.SMaster_Profit < 0}">{{report.SMaster_Profit | currency : "" : 2}}</td>
+                        <td ng-if="dataSource.nowAgentLevel < 29" ng-class="{'text-red':report.Company_Profit < 0}">{{report.Company_Profit | currency : "" : 2}}</td>
+                        <!--<td ng-class="{'text-red':report.PR_Profit < 0}">{{report.PR_Profit | currency : "" : 2}}</td>-->
+                        <td ng-if="dataSource.nowAgentLevel != 28" ng-class="{'text-red':report.PR_UperTotal < 0}">{{report.PR_UperTotal | currency : "" : 2}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin:0px auto;">
+            <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+        </div>
+    </div>
+
+    <!--顯示報表明細視窗-->
+    <button id="ShowDetailDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#DetailDialog"
+            style="display:none"></button>
+    <div class="modal fade" id="DetailDialog" tabindex="-1" role="dialog" aria-labelledby="DetailDialogTitle"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{ 'WinLostReport_ReportDetail' | translate }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row-form">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'WinLostReport_BetType' | translate }}</th>
+                                        <th>{{ 'WinLostReport_BillNo' | translate }}</th>
+                                        <th>{{ 'WinLostReport_OpenningTime' | translate }}</th>
+                                        <th>{{ 'WinLostReport_TOver' | translate }}</th>
+                                        <th>{{ 'WinLostReport_BetAmount' | translate }}</th>
+                                        <th>{{ 'WinLostReport_WinLose' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="dataSource.detailListData.length === 0">
+                                        <td colspan="5">{{ 'NoData' | translate }}</td>
+                                    </tr>
+                                    <tr ng-repeat="detail in dataSource.detailListData">
+                                        <td>{{detail.BetType}}</td>
+                                        <td ng-click="showBetDetail(detail)"><a>{{detail.CurrentPeriod}}</a></td>
+                                        <td>{{detail.Olottery.CloseTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td>{{detail.TurnOverMoney | currency : "" : 2}}</td>
+                                        <td>{{detail.DiscountPrice | currency : "" : 2}}</td>
+                                        <td ng-class="{'text-red':detail.RecordMoney < 0}">{{detail.RecordMoney | currency : "" : 2}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(false)">Cancel</button>-->
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal">
+                        {{ 'Confirm' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--顯示報表下注明細視窗-->
+    <button id="ShowBetDetailDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#BetDetailDialog"
+            style="display:none"></button>
+    <div class="modal fade" id="BetDetailDialog" tabindex="-1" role="dialog" aria-labelledby="BetDetailDialogTitle"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{ 'WinLostReport_BetDetail' | translate }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>{{ 'WinLostReport_BetType' | translate }}:{{dataSource.betDetailData.BetType}}</h6>
+                    <h6>{{ 'WinLostReport_OpenningTime' | translate }}:{{dataSource.betDetailData.Olottery.CloseTime | date : "yyyy/MM/dd HH:mm:ss"}}</h6>
+                    <h6 ng-if="dataSource.betDetailData.showType == 'Normal'">{{ 'WinLostReport_Result' | translate }}:{{dataSource.betDetailData.Olottery.Result}}</h6>
+                    <h6 ng-if="dataSource.betDetailData.showType == '4D'">
+                        {{ 'WinLostReport_Result' | translate }}:
+                        Prize_1:{{dataSource.betDetailData.Olottery.SequenceResultList[0]}},
+                        Prize_2:{{dataSource.betDetailData.Olottery.SequenceResultList[1]}},
+                        Prize_3:{{dataSource.betDetailData.Olottery.SequenceResultList[2]}}
+                    </h6>
+                    <h6 ng-if="dataSource.betDetailData.showType == 'marksix'">
+                        {{ 'WinLostReport_Result' | translate }}:
+                        <span ng-repeat="num in dataSource.betDetailData.Olottery.ResultList">
+                            <span ng-if="['1','2','7','8','12','13','18','19','23','24','29','30','34','35','40','45','46'].includes(num)" style="color:red">{{num}}</span>
+                            <span ng-if="['3','4','9','10','14','15','20','25','26','31','36','37','41','42','47','48'].includes(num)" style="color:blue">{{num}}</span>
+                            <span ng-if="['5','6','11','16','17','21','22','27','28','32','33','38','39','43','44','49'].includes(num)" style="color:green">{{num}}</span>
+                            ,
+                        </span>
+                    </h6>
+                    <div class="row-form">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'WinLostReport_BetTime' | translate }}</th>
+                                        <th>{{ 'WinLostReport_Bet' | translate }}</th>
+                                        <th>{{ 'WinLostReport_TOver' | translate }}</th>
+                                        <th>{{ 'WinLostReport_BetAmount' | translate }}</th>
+                                        <th>{{ 'WinLostReport_WinLose' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="dataSource.betDetailData.DetailReportList.length === 0">
+                                        <td colspan="4">{{ 'NoData' | translate }}</td>
+                                    </tr>
+                                    <tr ng-repeat="betDetail in dataSource.betDetailData.DetailReportList">
+                                        <td>{{betDetail.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td>
+                                            [{{betDetail.SelectedTxt.split('|')[0]}}]
+                                            <span>[<span translate="FamliyID{{betDetail.LotteryTypeID}}{{betDetail.SelectedTxt.split('|')[1]}}"></span>] </span>
+                                            [{{betDetail.SelectedTxt.split('|')[2]}}]
+                                        </td>
+                                        <td>{{betDetail.Price | currency : "" : 2}}</td>
+                                        <td>{{betDetail.DiscountPrice | currency : "" : 2}}</td>
+                                        <td ng-class="{'text-red':betDetail.RecordMoney < 0}">{{betDetail.RecordMoney | currency : "" : 2}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(false)">Cancel</button>-->
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal">
+                        {{ 'Confirm' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

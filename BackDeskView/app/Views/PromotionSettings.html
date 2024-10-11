@@ -1,0 +1,383 @@
+﻿<div>
+    <div ng-if="dataSource.pageStatus == 'searchView'">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-6 col-sm-12 col-xs-12 p-0">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label">Status:</label>
+                        <select class="form-control input-md" ng-model="dataSource.searchCondition.IsEnable">
+                            <option ng-value="-1">All</option>
+                            <option ng-value="true">Active</option>
+                            <option ng-value="false">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div class="btn_area">
+                        <ul class="text-right">
+                            <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}" ng-click="showAdd()" /></li>
+                            <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="css_table">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>{{ 'PromotionSetting_No' | translate }}</th>
+                            <th>{{ 'PromotionSetting_PromotionName' | translate }}</th>
+                            <th>{{ 'PromotionSetting_PromotionType' | translate }}</th>
+                            <th>{{ 'PromotionSetting_UserLevel' | translate }}</th>
+                            <th>{{ 'PromotionSetting_UnlockWithdrawalMultiple' | translate }}</th>
+                            <!--<th>UnlockLossPercentage</th>-->
+                            <th>{{ 'PromotionSetting_BonusPercentage' | translate }}</th>
+                            <th>{{ 'PromotionSetting_MinDepositMoney' | translate }}</th>
+                            <th>{{ 'PromotionSetting_MaxBonus' | translate}}</th>
+                            <th>{{ 'PromotionSetting_LotteryType' | translate }}</th>
+                            <th>{{ 'PromotionSetting_StartDate' | translate }}</th>
+                            <th>{{ 'PromotionSetting_EndDate' | translate }}</th>
+                            <th>{{ 'PromotionSetting_Status' | translate }}</th>
+                            <!--<th>{{ 'PromotionSetting_IsFirstPromotion' | translate }}</th>-->
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="promotion in dataSource.listData">
+                            <td>{{$index+1}}</td>
+                            <td>{{promotion.PromotionName}}</td>
+                            <td>{{promotion.ConfigName}}</td>
+                            <td>{{promotion.LevelName}}</td>
+                            <td>{{promotion.UnlockWithdrawalMultiple}}</td>
+                            <!--<td>{{promotion.UnlockLossPercentage}}%</td>-->
+                            <td>{{promotion.BonusPercentage}}%</td>
+                            <td>{{promotion.MinDepositMoney}}</td>
+                            <td>{{promotion.MaxBonus}}</td>
+                            <td>{{promotion.LotteryTypeName}}</td>
+                            <td>{{promotion.PromotionPeriodS | date:'yyyy-MM-dd'}}</td>
+                            <td>{{promotion.PromotionPeriodE | date:'yyyy-MM-dd'}}</td>
+                            <td>
+                                <input class="form-control" type="checkbox" ng-model="promotion.Status"
+                                       ng-change="changeAndSave(promotion)" />
+                            </td>
+                            <!--<td>
+                            <input class="form-control" type="checkbox" ng-model="promotion.IsFirstPromotion"
+                                   ng-change="changeAndSave(promotion)" />
+                        </td>-->
+                            <td>
+                                <input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEdit(promotion)">
+                                <input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}" ng-click="deletePromotion(promotion)">
+                                <input type="button" class="btn btn-info" value="{{ 'PromotionSetting_Member' | translate }}" ng-click="showMemberList(promotion)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin:0px auto;">
+                <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)">
+                </pagination>
+            </div>
+        </div>
+    </div>
+    <div class="" ng-if="dataSource.pageStatus == 'addView' || dataSource.pageStatus == 'editView'">
+        <!-- left column -->
+        <!-- <div class="col-md-3">
+                <div class="text-center">
+                    <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+                    <h6>Upload a different photo...</h6>
+
+                    <input type="file" class="form-control">
+                </div>
+            </div> -->
+        <!-- edit form column -->
+
+        <div class="col-md-12 col-sm-12 col-xs-12 personal-info">
+            <!-- <div class="alert alert-info alert-dismissable">
+                      <a class="panel-close close" data-dismiss="alert">×</a>
+                      <i class="fa fa-coffee"></i>
+                      This is an <strong>.alert</strong>. Use this to show important messages to the user.
+                  </div> -->
+            <form name="form" class="" role="form">
+                <h3>{{ 'PromotionSetting_Promotion' | translate }}</h3>
+                <hr>
+                <div class="list_area">
+                    <div class="list_style ">
+                        <ul class="">
+                            <li class="col-md-4 col-sm-6 col-xs-12">
+                                <label class="control-label">{{ 'PromotionSetting_PromotionName' | translate }}:</label>
+                                <input name="PromotionName" class="form-control" type="text"
+                                       ng-model="dataSource.promotion.PromotionName">
+                            </li>
+                            <li class="col-md-4 col-sm-6 col-xs-12">
+                                <div>
+                                    <label class=" control-label">{{ 'PromotionSetting_PromotionType' | translate }}:</label>
+                                    <select name="SystemConfigTypeID" class="form-control"
+                                            ng-model="dataSource.promotion.SystemConfigTypeID"
+                                            ng-options="option.ID as option.ConfigName for option in dataSource.promotionTypeDropDown"
+                                            my-validator="dropdown">
+                                    </select>
+                                </div>
+                            </li>
+                            <li class="col-md-4 col-sm-6 col-xs-12">
+                                <label class="control-label">{{ 'DateS' | translate }}:</label>
+                                <input name="PromotionPeriodS" class="form-control" type="date"
+                                       ng-model="dataSource.promotion.PromotionPeriodS" required />
+                            </li>
+                            <li class="col-md-4 col-sm-6 col-xs-12 ">
+                                <label class="control-label">{{ 'DateE' | translate }}:</label>
+                                <input name="PromotionPeriodE" class="form-control" type="date"
+                                       ng-model="dataSource.promotion.PromotionPeriodE" required />
+                            </li>
+                            <li class="col-md-4  col-sm-6 col-xs-12">
+                                <label class="control-label">{{ 'PromotionSetting_MinDepositMoney' | translate }}:</label>
+                                <input name="MinDepositMoney" class="form-control" type="text"
+                                       ng-model="dataSource.promotion.MinDepositMoney" my-validator="numeric" />
+                            </li>
+                            <li class="col-md-4  col-sm-6 col-xs-12">
+                                <label class="control-label">{{ 'PromotionSetting_UnlockWithdrawalMultiple' | translate }}:</label>
+                                <input name="UnlockWithdrawalMultiple" class="form-control" type="number"
+                                       ng-model="dataSource.promotion.UnlockWithdrawalMultiple" my-validator="numeric">
+                            </li>
+                            <!--<li class="col-md-4  col-sm-6 col-xs-6">
+                                <label class="control-label">UnlockWithdrawalTask:</label>
+                                <input name="UnlockWithdrawalTask" class="form-control" type="text"
+                                       ng-model="dataSource.promotion.UnlockWithdrawalTask" my-validator="numeric">
+                            </li>-->
+                            <li class="col-md-4  col-sm-6 col-xs-6">
+                                <label class="control-label">{{ 'PromotionSetting_BonusPercentage' | translate }}:</label>
+                                <div class="clearfix"></div>
+                                <div class="col-md-11 col-sm-11 col-xs-11 p-0">
+                                    <input name="BonusPercentage" class="form-control" type="text"
+                                           ng-model="dataSource.promotion.BonusPercentage" allow-numbers-only required />
+                                </div>
+                                %
+                            </li>
+                            <li class="col-md-4  col-sm-6 col-xs-6">
+                                <label class="control-label">{{ 'PromotionSetting_MaxBonus' | translate }}:</label>
+                                <input name="BonusPercentage" class="form-control" type="text"
+                                        ng-model="dataSource.promotion.MaxBonus" required />
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                        <ul class="checkbox_area">
+                            <li class="col-md-4">
+                                <label class="control-label">{{ 'PromotionSetting_Enable' | translate }}:</label>
+                                <input name="Status" class="form-control" type="checkbox" ng-model="dataSource.promotion.Status"
+                                       ng-init="dataSource.promotion.Status = true">
+                            </li>
+                            <!--<li class="col-md-4 mb-10">
+                                <label class="control-label mb-10">{{ 'PromotionSetting_FirstTimeDeposit' | translate }}:</label>
+                                <input name="Status" class="form-control" type="checkbox" ng-model="dataSource.promotion.IsFirstPromotion">
+                            </li>-->
+                            <li class="col-md-12">
+                                <label class=" control-label mb-10">{{ 'PromotionSetting_UserLevel' | translate }}:</label>
+                                <ul>
+                                   
+                                
+                                <li ng-repeat="option in dataSource.userTypeDropDown">
+                                  <input type="checkbox" id="userLevel{{$index}}" name="scales" ng-model="option.checked">
+                                  <label for="userLevel{{$index}}">{{option.LevelName}}</label>
+                                </li>
+                            </ul>
+                            </li>
+                            <li class="col-md-12">
+                                <label class=" control-label">{{ 'PromotionSetting_LotteryTypeName' | translate }}:</label>
+                                <ul>
+                                   
+                                
+                                <li ng-repeat="option in dataSource.lotteryTypeDropDown">
+                                    <input type="checkbox" id="lotteryType{{$index}}" name="scales" ng-model="option.checked">
+                                    <label for="lotteryType{{$index}}">{{option.LotteryTypeName}}</label>
+                                </li>
+                            </ul>
+                            </li>
+                            <!--<li class="col-md-4 col-sm-6 col-xs-12">
+                                <label class="control-label">Image:</label>
+                                <input-upload-base64 file-model="dataSource.imageModel"></input-upload-base64>
+                            </li>-->
+                        </ul>
+                        <div class="col-xs-12" ng-if="dataSource.pageStatus == 'editView'">
+                            <div class="btn_area">
+                                <ul>
+                                    <li>
+                                        <input type="button" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-click="updatePromotion(form)">
+                                    </li>
+                                    <li>
+                                        <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-xs-12" ng-if="dataSource.pageStatus == 'addView'">
+                            <div class="btn_area">
+                                <ul>
+                                    <li> <input type="button" class="btn btn-primary" value="{{ 'Add' | translate }}" ng-click="addPromotion(form)"></li>
+                                    <li><input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div ng-if="dataSource.pageStatus == 'memberListView'">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"></h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-4">
+                    <label>{{ 'PromotionSetting_PromotionName' | translate }}:</label>
+                    <label>{{dataSource.promotion.PromotionName}}</label>
+                </div>
+                <div class="col-md-8">
+                    <label>{{ 'PromotionSetting_GameType' | translate }}:</label>
+                    <label>{{dataSource.promotion.LotteryTypeName}}</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-6">
+                        <input type="button" class="btn btn-primary btn-block mb-10" value="{{ 'Add' | translate }}" ng-click="showMemberDialog()" />
+                    </div>
+                    <div class="col-md-6">
+                        <input type="button" class="btn btn-default btn-block" value="{{ 'Cancel' | translate }}"
+                               ng-click="dataSource.pageStatus = 'searchView'" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ 'PromotionSetting_UserName' | translate }}</th>
+                        <th>{{ 'PromotionSetting_DepositAmount' | translate }}</th>
+                        <th>{{ 'PromotionSetting_TotalLossAmount' | translate }}</th>
+                        <th>{{ 'PromotionSetting_TurnOverAmount' | translate }}</th>
+                        <th>{{ 'PromotionSetting_UnlockWithdrawalTask' | translate }}</th>
+                        <th>{{ 'PromotionSetting_JoinDate' | translate }}</th>
+                        <th>{{ 'PromotionSetting_IsLockWithdrawal' | translate }}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="mPromotion in dataSource.mPromotionList">
+                        <td>{{mPromotion.MemberShip.UserName | userName}}</td>
+                        <td>{{mPromotion.DepositAmount | currency : "" : 2}}</td>
+                        <td>{{mPromotion.TotalPlayerAmount | currency : "" : 2}}</td>
+                        <td>{{mPromotion.TurnOverAmount | currency : "" : 2}}</td>
+                        <td>{{mPromotion.UnlockWithdrawalTask}}</td>
+                        <td>{{mPromotion.JoinDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>
+                            <input type="checkbox" class="form-control" value="{{ 'Del' | translate }}" ng-checked="mPromotion.IslockWithdrawal" disabled>
+                        </td>
+                        <td>
+                            <input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEditMemberDialog(mPromotion)">
+                            <!--<input type="button" class="btn btn-danger" value="{{ 'Cancel' | translate }}" ng-click="cancelMember(mPromotion)">-->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <button id="ShowMemberDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#MemberDialog"
+            style="display:none"></button>
+    <div class="modal fade" id="MemberDialog" tabindex="-1" role="dialog" aria-labelledby="MemberDialogTitle"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{dataSource.modalMsg.title | translate}}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form name="form" class="form-horizontal" role="form">
+                        <div class="list_style">
+                            <ul>
+                                <li>
+                                    <div class="col-md-12">
+                                        <label class="">{{ 'PromotionSetting_UserName' | translate }}:</label>
+                                        <input name="UserName" class="form-control" type="text"
+                                               ng-model="dataSource.mPromotion.MemberShip.UserName" ng-disabled="dataSource.memberDialogStatus == 'edit'">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="col-md-12">
+                                        <label class="">{{ 'PromotionSetting_DepositAmount' | translate }}:</label>
+
+                                        <input name="DepositAmount" class="form-control" type="text"
+                                               ng-model="dataSource.mPromotion.DepositAmount" ng-disabled="dataSource.memberDialogStatus == 'edit'">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="col-md-12">
+                                        <label class="">{{ 'PromotionSetting_TurnOverAmount' | translate }}:</label>
+                                        <input name="TurnOverAmount" class="form-control" type="text"
+                                               ng-model="dataSource.mPromotion.TurnOverAmount" ng-disabled="dataSource.memberDialogStatus == 'edit'">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="col-md-12">
+                                        <label class="">{{ 'PromotionSetting_TotalLossAmount' | translate }}:</label>
+                                        <input name="TotalPlayerAmount" class="form-control" type="text"
+                                               ng-model="dataSource.mPromotion.TotalPlayerAmount" ng-disabled="dataSource.memberDialogStatus == 'edit'">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="col-md-12">
+                                        <label class="">{{ 'PromotionSetting_UnlockWithdrawalTask' | translate }}:</label>
+                                        <input name="UnlockWithdrawalTask" class="form-control" type="text"
+                                               ng-model="dataSource.mPromotion.UnlockWithdrawalTask" ng-disabled="dataSource.memberDialogStatus == 'edit'">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="col-md-12">
+                                        <label class="">{{ 'PromotionSetting_JoinDate' | translate }}:</label>
+                                        <input name="JoinDate" class="form-control" type="date" ng-model="dataSource.mPromotion.JoinDate"
+                                               ng-disabled="dataSource.memberDialogStatus == 'edit'" />
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="col-md-12">
+                                        <label class="">{{ 'PromotionSetting_IsLockWithdrawal' | translate }}:</label>
+                                        <input name="IsLockWithDrawal" class="form-control" type="checkbox"
+                                               ng-model="dataSource.mPromotion.IslockWithdrawal" ng-disabled="dataSource.memberDialogStatus != 'edit'">
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(false)">Cancel</button>-->
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal"
+                            ng-if="dataSource.memberDialogStatus=='add'" ng-click="addMPromotion(form)">
+                        {{ 'Confirm' | translate }}
+                    </button>
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal"
+                            ng-if="dataSource.memberDialogStatus=='edit'" ng-click="updateMPromotion(form)">
+                        {{ 'Confirm' | translate }}
+                    </button>
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal">
+                        {{ 'Cancel' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

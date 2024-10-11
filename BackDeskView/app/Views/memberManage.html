@@ -1,0 +1,919 @@
+﻿<!-- Text input-->
+<div>
+    <!-- 平台&對接 Tab -->
+    <ul ng-if="dataSource.isMaster" class="nav nav-pills" ng-disabled="dataSource.pageStatus != 'searchView'">
+        <li ng-class="{'active':dataSource.apiType == 'Platform'}"
+            ng-if="dataSource.memberInfo.AgentLevelSCID === 28 || dataSource.memberInfo.AgentLevelSCID === 38 || dataSource.apiType === 'Platform'">
+            <a href="javascript:void(0)" ng-click="handleChangeApiType('Platform')">{{ 'Platform' | translate }}</a>
+        </li>
+        <li ng-class="{'active':dataSource.apiType == 'API'}"
+            ng-if="dataSource.memberInfo.AgentLevelSCID === 28 || dataSource.memberInfo.AgentLevelSCID === 38 || dataSource.apiType === 'API'">
+            <a href="javascript:void(0)" ng-click="handleChangeApiType('API')">{{ 'API_Integration' | translate }}</a>
+        </li>
+    </ul>
+    <div name="searchView" ng-if="dataSource.pageStatus == 'searchView'">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-2 col-sm-12 col-xs-12">
+                    <label class="control-label" for="Customer:">{{ 'MemberManage_UserName' | translate }}:</label>
+                    <input type="text" placeholder="" class="form-control input-md"
+                           ng-model="dataSource.searchCondition.UserName">
+                </div>
+                <div class="col-md-2 col-sm-12 col-xs-12">
+                    <label class="control-label">{{ 'MemberManage_Email' | translate }}:</label>
+                    <input type="text" placeholder="" class="form-control input-md"
+                           ng-model="dataSource.searchCondition.EMail">
+                </div>
+                <div class="col-md-2 col-sm-12 col-xs-12">
+                    <label class="control-label">{{ 'MemberManage_Phone' | translate }}:</label>
+                    <input type="text" placeholder="" class="form-control input-md"
+                           ng-model="dataSource.searchCondition.Phone">
+                </div>
+                <div class="col-md-2 col-sm-12 col-xs-12">
+                    <label class="control-label">{{ 'RegisterDateS' | translate }}:</label>
+                    <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateS">
+                </div>
+                <div class="col-md-2 col-sm-12 col-xs-12">
+                    <label class="control-label">{{ 'RegisterDateE' | translate }}:</label>
+                    <input type="date" placeholder="" class="form-control input-md" ng-model="dataSource.searchCondition.DateE">
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="btn_area">
+                        <ul>
+                            <li><input type="button" class="btn btn-default btn-block" value="{{ 'Today' | translate }}" ng-click="dateSearch(0,0)" /></li>
+                            <li>
+                                <input type="button" class="btn btn-default btn-block" value="{{ 'Yesterday' | translate }}" ng-click="dateSearch(-1,-1)" />
+                            </li>
+                            <li name="showAdd" ng-if="!dataSource.isHideAdd">
+                                <input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}"
+                                       ng-click="showAdd()" />
+                            </li>
+                            <li name="clear">
+                                <input type="button" class="btn btn-default btn-block" value="{{ 'Clear' | translate }}"
+                                       ng-click="clear()" />
+                            </li>
+                            <li name="search">
+                                <input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}"
+                                       ng-click="search()" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <h3>
+            <span ng-click="changeMember(bread,$index)" ng-repeat="bread in dataSource.selMemberInfoList">
+                <span ng-if="$index!==0">=></span><a>{{bread.UserName | userName}}</a>
+            </span>
+        </h3>
+
+        <div class="css_table">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <!--<th>IsEmailValidator</th>-->
+                            <!--<th>IsEditEmail</th>-->
+                            <!--<th>IsEditPhone</th>-->
+                            <th>{{ 'MemberManage_IsLock' | translate }}</th>
+                            <th>{{ 'MemberManage_IsEnable' | translate }}</th>
+                            <th>{{ 'MemberManage_UserName' | translate }}</th>
+                            <th>{{ 'MemberManage_FullName' | translate }}</th>
+                            <th>{{ 'MemberManage_AgentLevel' | translate }}</th>
+                            <th>{{ 'MemberManage_LoginTime' | translate }}</th>
+                            <th>{{ 'MemberManage_IP' | translate }}</th>
+                            <th>{{ 'MemberManage_Email' | translate }}</th>
+                            <th>{{ 'MemberManage_Phone' | translate }}</th>
+                            <th>{{ 'MemberManage_TotalBalance' | translate }}</th>
+                            <!--<th>{{ 'MemberManage_Bank' | translate }}</th>
+                            <th>{{ 'MemberManage_Wallet' | translate }}</th>-->
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="member in dataSource.listData">
+                            <!--<td><input class="form-control" type="checkbox" ng-model="member.IsEmailValidator" ng-change="changeAndSave(member)" /></td>-->
+                            <!--<td><input class="form-control" type="checkbox" ng-model="member.IsEditEmail" ng-change="changeAndSave(member)" /></td>-->
+                            <!--<td><input class="form-control" type="checkbox" ng-model="member.IsEditPhone" ng-change="changeAndSave(member)" /></td>-->
+                            <td><input class="form-control" type="checkbox" ng-model="member.IsLock" ng-disabled="!member.IsLock" ng-change="changeAndSave(member)" /></td>
+                            <td><input class="form-control" type="checkbox" ng-model="member.IsEnable" ng-change="changeAndSave(member)" /></td>
+                            <td><a ng-click="getSubMember(member)">{{member.UserName | userName}}</a></td>
+                            <td>
+                                <div ng-if="!member.isShowChangePassword">
+                                    {{member.FullName}}<br>
+                                </div>
+                                <input name="showChangePassword" type="button" class="btn btn-default" value="{{ 'MemberManage_ChangePassword' | translate }}"
+                                       ng-click="showChangePassword(member)" ng-if="!member.isShowChangePassword && !member.isLockEdit" />
+                                <div ng-if="member.isShowChangePassword">
+                                    <form name="newPwdForm" class="form-horizontal" role="form">
+                                        <span style="white-space: nowrap;">{{ 'MemberManage_ChangePassword' | translate }}</span>
+                                        <input name="ChangePassword" langkey="MemberManage_ChangePassword" type="{{ member.isShowPwd ? 'text' : 'password'}}" autocomplete="new-password" class="form-control" style="margin-bottom: 5px;"
+                                               ng-model="member.MemberNewPwd" placeholder="{{ 'Password' | translate }}" my-validator="password" required>
+                                        <div class="input-group-prepend" style="margin-top: -40px;">
+                                            <div class="input-group-text" ng-click="showEyeEvent(member)">
+                                                <i class="fa fa-eye" aria-hidden="true" alt="睜開眼睛標誌" ng-show="member.isShowPwd"></i>
+                                                <i class="fa fa-eye-slash" aria-hidden="true" alt="眼睛標誌" ng-show="!member.isShowPwd"></i>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; flex-direction: column; align-items: center;">
+                                            <span class="mb-5"
+                                                  ng-class="{'text-red': ((newPwdForm.ChangePassword.$touched || member.clickChangePwd) && newPwdForm.ChangePassword.$invalid)}"
+                                                  ng-if="!member.NewPwdError">
+                                                *{{ 'Verify_Password' | translate }}
+                                            </span>
+                                            <span class="text-red mb-5" ng-if="member.NewPwdError">{{member.NewPwdError}}</span>
+                                            <input name="changePassword" type="button" class="btn square-btn" value="{{ 'Confirm' | translate }}"
+                                                   ng-click="changePassword(newPwdForm, member)" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </td>
+                            <td>{{member.AgentLevel}}</td>
+                            <td>{{member.LoginTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>{{member.LoginIP}}</td>
+                            <td>{{member.Email}}</td>
+                            <td>{{member.Phone}}</td>
+                            <td>{{member.TotalBalance | currency : "" : 2}}</td>
+                            <!--<td>
+                                <input name="showBank" type="button" class="btn btn-info" value="{{ 'Detail' | translate }}"
+                                       ng-click="showBank(member)" />
+                            </td>
+                            <td>
+                                <input name="showWallet" type="button" class="btn btn-info" value="{{ 'Detail' | translate }}"
+                                       ng-click="showWallet(member)" />
+                            </td>-->
+                            <td>
+                                <input name="showEdit" type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEdit(member)">
+                                <!--<input name="deleteMember" type="button" class="btn btn-danger" value="{{ 'Del' | translate }}"
+                                       ng-click="deleteMember(member)">-->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin:10px auto;">
+                <!-- ng-if="dataSource.selMemberInfoList.length > 1"> 有問題 暫時移除-->
+                <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)">
+                </pagination>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="row">
+            <ul class="nav nav-pills" ng-if="dataSource.pageStatus != 'searchView' && dataSource.pageStatus != 'addView'">
+                <li ng-class="{'active':dataSource.pageStatus == 'editView' || dataSource.pageStatus == 'personEditView'}">
+                    <a href="javascript:void(0)" ng-click="dataSource.pageStatus = editType">{{ 'MemberManage_MemberInfo' | translate }}</a>
+                </li>
+                <li ng-class="{'active':dataSource.pageStatus == 'bankView'}">
+                    <a href="javascript:void(0)" ng-click="dataSource.pageStatus = 'bankView'">{{ 'MemberManage_BankList' | translate }}</a>
+                </li>
+                <li ng-class="{'active':dataSource.pageStatus == 'transactionView'}">
+                    <a href="javascript:void(0)" ng-click="showTransaction()">{{ 'MemberManage_TransactionsRecord' | translate }}</a>
+                </li>
+                <li ng-class="{'active':dataSource.pageStatus == 'promotionView'}">
+                    <a href="javascript:void(0)" ng-click="showPromotion('promotionView')">{{ 'MemberManage_Promotion' | translate }}</a>
+                </li>
+                <li ng-class="{'active':dataSource.pageStatus == 'promotionTurnOverView'}">
+                    <a href="javascript:void(0)" ng-click="showPromotion('promotionTurnOverView')">{{ 'MemberManage_PromotionTurnOver' | translate }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <input ng-if="dataSource.pageStatus != 'searchView'" name="showSearch" type="button" class="btn btn-primary" value="{{ 'Back' | translate }}" ng-click="showSearch()">
+
+    <!--會員新增修改-->
+    <div name="editView" ng-if="dataSource.pageStatus == 'addView' || dataSource.pageStatus == 'editView' || dataSource.pageStatus == 'personEditView'">
+        <div class="col-md-12 col-sm-12 col-xs-12 personal-info">
+            <div class="row">
+                <form name="form" class="form-horizontal" role="form">
+                    <div class="list_area">
+                        <div class="list_style">
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                <label>{{ 'MemberManage_Account' | translate }}:</label>
+                                <span ng-class="{'text-red': ((form.UserName.$touched || dataSource.clickRegister) && form.UserName.$invalid)}">  *{{ 'MemberManage_UserName_Detail' | translate }}</span>
+                                <input name="UserName" class="form-control" type="text" langkey="MemberManage_Account"
+                                       ng-class="{'red-box': ((form.UserName.$touched || dataSource.clickRegister) && form.UserName.$invalid) || dataSource.ConfirmMsg.UserName}"
+                                       ng-model="dataSource.selMemberInfo.Account"
+                                       ng-blur="checkRegisterData('UserName')"
+                                       ng-disabled="dataSource.pageStatus == 'editView'" required my-validator="userName" />
+                                <div class="text-red" ng-class="{'mt--10':dataSource.ConfirmMsg.UserName }">{{dataSource.ConfirmMsg.UserName | translate }}</div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <label>{{ 'MemberManage_FullName' | translate }}:</label>
+                                <input name="FullName" class="form-control" type="text" langkey="MemberManage_FullName"
+                                       ng-class="{'red-box': ((form.FullName.$touched || dataSource.clickRegister) && form.FullName.$invalid) || dataSource.ConfirmMsg.FullName}"
+                                       ng-model="dataSource.selMemberInfo.FullName"
+                                       required />
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6  col-xs-6">
+                                <label>{{ 'MemberManage_UserLevel' | translate }}:</label>
+                                <!--<input name="UserLevel" class="form-control" type="text" ng-model="dataSource.selMemberInfo.UserLevelName" />-->
+                                <select name="UserLevel" class="form-control" ng-model="dataSource.selMemberInfo.UserLevelID"
+                                        ng-options="option.LevelID as option.LevelName for option in dataSource.userLevels"></select>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                                <label>{{ 'MemberManage_NickName' | translate }}:</label>
+                                <input name="NickName" class="form-control" type="text" langkey="MemberManage_NickName"
+                                       ng-class="{'red-box': ((form.NickName.$touched || dataSource.clickRegister) && form.NickName.$invalid) || dataSource.ConfirmMsg.NickName}"
+                                       ng-model="dataSource.selMemberInfo.NickName"
+                                       required />
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                                <label>{{ 'MemberManage_AgentLevel' | translate }}:</label>
+                                <select name="AgentLevel" class="form-control" ng-model="dataSource.selMemberInfo.AgentLevelSCID"
+                                        ng-options="option.ID as option.ConfigName for option in dataSource.showAgentLevelDropDown"
+                                        ng-disabled="dataSource.pageStatus !== 'addView'"
+                                        ng-change="changeAgentLevel()"></select>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                                <label>{{ 'MemberManage_AgentParent' | translate }}:</label>
+                                <input class="form-control" type="text" ng-model="dataSource.selMemberInfo.AgentParentName"
+                                       disabled />
+                                <input class="form-control" type="text" ng-model="dataSource.selMemberInfo.AgentParentID"
+                                       ng-show="false" />
+                            </div>
+                            <!--<li class="col-md-6">
+                                <label>AgentParentMap:</label>
+                                <input class="form-control" type="text" ng-model="dataSource.selMemberInfo.AgentParentMap" disabled />
+                            </li>-->
+                            <div class="col-md-6  col-sm-6 col-xs-6">
+                                <label>{{ 'MemberManage_ReferralMap' | translate }}:</label>
+                                <input class="form-control" type="text" ng-model="dataSource.selMemberInfo.ReferralMap"
+                                       disabled />
+                            </div>
+                            <!-- <div class="col-md-6  col-sm-6 col-xs-6">
+                                <label>{{ 'MemberManage_ReferralPayType' | translate }}:</label>
+                                <select name="ReferralPayType" class="form-control" langkey="MemberManage_ReferralPayType"
+                                        ng-class="{'red-box': ((form.ReferralPayType.$touched || dataSource.clickRegister) && form.ReferralPayType.$invalid) || dataSource.ConfirmMsg.ReferralPayType}"
+                                        ng-model="dataSource.selMemberInfo.ReferralPayType"
+                                        ng-options="option.ID as option.ConfigName for option in dataSource.payTypeDropDown" my-validator="dropdown">
+                                </select>
+                            </div> -->
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-if="dataSource.pageStatus === 'editView' && dataSource.selMemberInfo.AgentLevelSCID == 32">
+                                <label>{{ 'MemberManage_ReferralLink' | translate }}:</label>
+                                <input name="ReferralLink" class="form-control" type="text"
+                                       ng-model="dataSource.selMemberInfo.ReferralLink" disabled />
+
+                                <!--<div class="col-lg-1">
+                                    <input class="btn btn-primary" type="button" value="Select" onclick="$('#ShowMemberDialog').click()">
+                                </div>-->
+                            </div>
+                            <!-- <div class="col-lg-6 col-md-4  col-sm-6 col-xs-6">
+                                <label>{{ 'MemberManage_CashRebatePayType' | translate }}:</label>
+                                <select name="CashRebatePayType" class="form-control" langkey="MemberManage_CashRebatePayType"
+                                        ng-class="{'red-box': ((form.CashRebatePayType.$touched || dataSource.clickRegister) && form.CashRebatePayType.$invalid) || dataSource.ConfirmMsg.CashRebatePayType}"
+                                        ng-model="dataSource.selMemberInfo.CashRebatePayType" my-validator="dropdown"
+                                        ng-options="option.ID as option.ConfigName for option in dataSource.payTypeDropDown">
+                                </select>
+                            </div> -->
+                            <!-- <div class="col-lg-6 col-md-4 col-sm-6 col-xs-6">
+                                <label>{{ 'MemberManage_CashBackPayType' | translate }}:</label>
+                                <select name="CashBackPayType" class="form-control" langkey="MemberManage_CashBackPayType"
+                                        ng-class="{'red-box': ((form.CashBackPayType.$touched || dataSource.clickRegister) && form.CashBackPayType.$invalid) || dataSource.ConfirmMsg.CashBackPayType}"
+                                        ng-model="dataSource.selMemberInfo.CashBackRebatePayType" my-validator="dropdown"
+                                        ng-options="option.ID as option.ConfigName for option in dataSource.payTypeDropDown">
+                                </select>
+                            </div> -->
+                            <!-- <div class="col-md-6">
+                                <label>{{ 'MemberManage_Birthday' | translate }}:</label>
+                                <input name="Birthday" class="form-control" type="date" langkey="MemberManage_Birthday"
+                                        ng-change="changeConsole()"
+                                        ng-model="dataSource.selMemberInfo.Birthday" required />
+                            </div> -->
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <label>{{ 'MemberManage_Phone' | translate }}:</label>
+                                <input name="Phone" class="form-control" type="text" langkey="MemberManage_Phone"
+                                       ng-class="{'red-box': ((form.Phone.$touched || dataSource.clickRegister) && form.Phone.$invalid) || dataSource.ConfirmMsg.Phone}"
+                                       ng-model="dataSource.selMemberInfo.Phone"
+                                       my-validator="tel" ng-blur="checkRegisterData('Phone')"
+                                       ng-disabled="!dataSource.selMemberInfo.IsEditPhone" /> <!--my-validator="mobile">-->
+                                <div class="text-red" ng-class="{'mt--10':dataSource.ConfirmMsg.Phone}">{{dataSource.ConfirmMsg.Phone | translate }}</div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <label>{{ 'MemberManage_Email' | translate }}:</label>
+                                <input name="Email" class="form-control" type="text" langkey="MemberManage_Email"
+                                       ng-class="{'red-box': ((form.Email.$touched || dataSource.clickRegister) && form.Email.$invalid) || dataSource.ConfirmMsg.Email}"
+                                       ng-model="dataSource.selMemberInfo.Email"
+                                       ng-blur="checkRegisterData('Email')"
+                                       ng-disabled="!dataSource.selMemberInfo.IsEditEmail && (dataSource.pageStatus == 'editView' || dataSource.pageStatus == 'personEditView')"
+                                       my-validator="email">
+                                <div class="text-red" ng-class="{'mt--10':dataSource.ConfirmMsg.Email}">{{dataSource.ConfirmMsg.Email | translate }}</div>
+                            </div>
+
+                            <!-- <div class="col-xs-12" ng-if="dataSource.isShowPlatform">
+                                <label>{{ 'MemberManage_AgentPlatform' | translate }}:</label>
+                                <select name="selPlatformCode" class="form-control" langkey="MemberManage_AgentPlatform"
+                                        ng-model="dataSource.selMemberInfo.selPlatformCode"
+                                        ng-options="option.value as option.label for option in dataSource.platformOptions"
+                                        ng-disabled="dataSource.pageStatus == 'editView' || dataSource.isPlatformLock"
+                                        ng-change="checkRegisterData('UserName');">
+                                </select>
+                            </div> -->
+
+                            <div class="col-xs-12 mb-10 mt-10" ng-if="dataSource.isShowSelPlatform || dataSource.isShowPlatform">
+                                <hr class="mb-10">
+                                <h5 class="text-theme col-xs-12 p-0">
+                                    {{ dataSource.apiType === 'API' ? 'API_Integration' : 'Platform' | translate }}:
+                                </h5>
+                                <p ng-if="dataSource.isShowPlatform && dataSource.pageStatus == 'addView'">*{{'MemberManage_Platform_Detail' | translate}}</p>
+                                <!-- <div class="clearfix"></div> -->
+                                <div class="platform__area">
+                                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 p-0" ng-repeat="item in dataSource.selMemberInfo.selPlatform">
+                                        <div class="flex">
+                                            <input type="checkbox" ng-model="item.IsEnable" ng-disabled="item.IsDisabled" ng-change="updateSelPlatform(item)" />
+                                            <label>{{ item.label }}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12"
+                                 ng-if="dataSource.pageStatus == 'editView' || dataSource.pageStatus == 'personEditView'">
+
+                                <input name="saveMember" type="button" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-disabled="dataSource.isLockEdit"
+                                       ng-click="saveMember(form)">
+                                <input type="button" class="btn btn-default" value="{{ 'MemberManage_ResetInfo' | translate }}" ng-click="resetInfo()"
+                                       ng-if="dataSource.pageStatus == 'editView'">
+                                <input type="button" class="btn btn-primary" value="{{ 'Cancel' | translate }}" ng-click="showSearch()"
+                                       ng-if="dataSource.pageStatus != 'personEditView'">
+                                <input name="changePwd" type="button" class="btn btn-default" value="{{ 'MemberManage_ChangePassword' | translate }}"
+                                       ng-click="openPasswordEditView()" ng-if="dataSource.pageStatus == 'personEditView'">
+                                <!-- <input name="resetPwd" type="button" class="btn btn-default" value="{{ 'MemberManage_ResetPassword' | translate }}" ng-click="resetPwd()"
+                                       ng-if="dataSource.pageStatus == 'editView'"> -->
+                            </div>
+                            <div class="col-xs-12 mt-20" ng-if="dataSource.pageStatus == 'addView'">
+
+                                <input name="addMember" type="button" class="btn btn-primary" value="{{ 'Add' | translate }}" ng-click="addMember(form)">
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--個人會員修改-->
+    <div ng-if="dataSource.pageStatus == 'passwordEditView'">
+        <!-- left column -->
+        <!-- <div class="col-md-3">
+            <div class="text-center">
+                <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+                <h6>Upload a different photo...</h6>
+
+                <input type="file" class="form-control">
+            </div>
+        </div> -->
+        <!-- edit form column -->
+        <div class="col-md-9 personal-info">
+            <!-- <div class="alert alert-info alert-dismissable">
+                <a class="panel-close close" data-dismiss="alert">×</a>
+                <i class="fa fa-coffee"></i>
+                This is an <strong>.alert</strong>. Use this to show important messages to the user.
+            </div> -->
+            <h3>{{ 'MemberManage_PasswordModify' | translate }}</h3>
+            <span ng-class="{'text-red': ((pwdForm.nPwd.$touched || dataSource.clickSavePwd) && pwdForm.nPwd.$invalid)}">
+                *{{ 'Verify_Password' | translate }}
+            </span>
+            <hr>
+            <form name="pwdForm" class="form-horizontal" role="form">
+                <div>
+                    <label class="col-md-3 control-label">{{ 'OldPassword' | translate }}:</label>
+                    <div class="col-md-8">
+                        <input name="oPwd" langkey="OldPassword" class="form-control" type="{{ dataSource.isShowModifyPwd ? 'text' : 'password'}}" ng-model="dataSource.changePwdObj.MemberOldPwd" />
+                        <div class="input-group-prepend" style="margin-top: -45px;">
+                            <div class="input-group-text" ng-click="showModifyPwdEyeEvent()">
+                                <i class="fa fa-eye" aria-hidden="true" alt="睜開眼睛標誌" ng-show="dataSource.isShowModifyPwd"></i>
+                                <i class="fa fa-eye-slash" aria-hidden="true" alt="眼睛標誌" ng-show="!dataSource.isShowModifyPwd"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="col-md-3 control-label">{{ 'NewPassword' | translate }}:</label>
+                    <div class="col-md-8">
+                        <input name="nPwd" langkey="NewPassword" class="form-control" type="{{ dataSource.isShowModifyPwd ? 'text' : 'password'}}" ng-model="dataSource.changePwdObj.MemberNewPwd"
+                               my-validator="password" />
+                        <div class="input-group-prepend" style="margin-top: -45px;">
+                            <div class="input-group-text" ng-click="showModifyPwdEyeEvent()">
+                                <i class="fa fa-eye" aria-hidden="true" alt="睜開眼睛標誌" ng-show="dataSource.isShowModifyPwd"></i>
+                                <i class="fa fa-eye-slash" aria-hidden="true" alt="眼睛標誌" ng-show="!dataSource.isShowModifyPwd"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="col-md-3 control-label">{{ 'ConfirmPassword' | translate }}:</label>
+                    <div class="col-md-8">
+                        <input name="cPwd" langkey="ConfirmPassword" class="form-control" type="{{ dataSource.isShowModifyPwd ? 'text' : 'password'}}" ng-model="dataSource.changePwdObj.ConfirmPwd"
+                               my-validator="password" />
+                        <div class="input-group-prepend" style="margin-top: -45px;">
+                            <div class="input-group-text" ng-click="showModifyPwdEyeEvent()">
+                                <i class="fa fa-eye" aria-hidden="true" alt="睜開眼睛標誌" ng-show="dataSource.isShowModifyPwd"></i>
+                                <i class="fa fa-eye-slash" aria-hidden="true" alt="眼睛標誌" ng-show="!dataSource.isShowModifyPwd"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="col-md-3 control-label"></label>
+                    <div class="col-md-8">
+                        <input type="button" class="btn btn-primary" value="{{ 'SaveChanges' | translate }}" ng-click="savePwd(pwdForm)" ng-disabled="dataSource.isLockEdit">
+                        <span></span>
+                        <input type="reset" class="btn btn-default" value="{{ 'Cancel' | translate }}" ng-click="dataSource.pageStatus = editType">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--銀行列表-->
+    <div ng-if="dataSource.pageStatus == 'bankView'">
+
+        <div class="col-md-3 col-md-offset-9 col-sm-3 col-sm-offset-9 col-xs-4 col-xs-offset-4">
+            <div class="row">
+                <input type="button" class="btn btn-primary btn-block" value="{{ 'Add' | translate }}" ng-click="showBankDialog()" ng-disabled="dataSource.isLockEdit" />
+            </div>
+        </div>
+        <br>
+        <div class="col-md-12 col-sm-12 col-xs-12 mt-10">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <!--<th>{{ 'MemberManage_BankCode' | translate }}</th>-->
+                                <th>{{ 'MemberManage_BankName' | translate }}</th>
+                                <th>{{ 'MemberManage_BankNumber' | translate }}</th>
+                                <th>{{ 'MemberManage_CreateDate' | translate }}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="bank in dataSource.selMemberInfo.Banks">
+                                <!--<td>{{bank.BankCode}}</td>-->
+                                <td>{{bank.BankName}}</td>
+                                <td>{{bank.BankNumber}}</td>
+                                <td>{{bank.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                <td>
+                                    <input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showBankDialog(bank)" ng-disabled="dataSource.isLockEdit">
+                                    <input type="button" class="btn btn-danger" value="{{ 'Del' | translate }}" ng-click="deleteBank(bank)" ng-disabled="dataSource.isLockEdit">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--交易歷史紀錄-->
+    <div ng-if="dataSource.pageStatus == 'transactionView'">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>{{ 'MemberManage_TransactionDate' | translate }}</th>
+                                <th>{{ 'MemberManage_TransID' | translate }}</th>
+                                <th>{{ 'MemberManage_TransactionType' | translate }}</th>
+                                <th>{{ 'MemberManage_BankName' | translate }}</th>
+                                <th>{{ 'MemberManage_Status' | translate }}</th>
+                                <th>{{ 'MemberManage_Remark' | translate }}</th>
+                                <th>{{ 'MemberManage_Debit' | translate }}</th>
+                                <th>{{ 'MemberManage_Credit' | translate }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="transaction in dataSource.transactionData">
+                                <td>{{transaction.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                <td>{{transaction.TransactionsID}}</td>
+                                <td>{{transaction.DebitAmount == 0 ? 'Deposit':'Withdrawal'}}</td>
+                                <td>{{transaction.BankName}}-{{transaction.BankNumber}}</td>
+                                <td>{{transaction.Status}}</td>
+                                <td>{{transaction.Remark}}</td>
+                                <td>{{transaction.DebitAmount | currency : "" : 2}}</td>
+                                <td>{{transaction.CreditAmount | currency : "" : 2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="margin:0px auto;">
+                    <pagination options="dataSource.PagerObj2" page-changed="PageChanged2(dataSource.PagerObj2.CurrentPage)"></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--流水表-->
+    <div ng-if="dataSource.pageStatus == 'statementView'">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>{{ 'MemberManage_Time' | translate }}</th>
+                                <th>{{ 'MemberManage_BillNo' | translate }}</th>
+                                <th>{{ 'MemberManage_OpeningBalance' | translate }}</th>
+                                <th>{{ 'MemberManage_Detail' | translate }}</th>
+                                <th>{{ 'MemberManage_Amount' | translate }}</th>
+                                <th>{{ 'MemberManage_Accumulative' | translate }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="dataSource.statementData.length === 0">
+                                <td colspan="6">{{ 'NoData' | translate }}</td>
+                            </tr>
+                            <tr ng-repeat="statement in dataSource.statementData">
+                                <td>{{statement.Time | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                                <td>
+                                    <button class="design_btn" ng-click="showDetail(statement,'lotto')" data-toggle="modal" data-target="#ReceiptModal">
+                                        {{statement.CurrentPeriod}}
+                                        <i class="fa fa-external-link " aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                                <td>{{statement.Balance | currency : "" : 2}}</td>
+                                <td>
+                                    {{statement.Detail}}
+                                </td>
+                                <td>
+                                    <span ng-if="!statement.Detail.includes('Reject')">{{statement.Amount | currency : "" : 2}}</span>
+                                    <span ng-if="statement.Detail.includes('Reject')" style="text-decoration:line-through;">{{statement.Amount | currency : "" : 2}}</span>
+                                </td>
+                                <td>{{statement.Accumulative | currency : "" : 2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="margin:0px auto;">
+                    <pagination options="dataSource.PagerObj3" page-changed="PageChanged3(dataSource.PagerObj3.CurrentPage)"></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--活動表-->
+    <div ng-if="dataSource.pageStatus == 'promotionView'">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>{{ 'No' | translate }}</th>
+                                <th>{{ 'MemberManage_TransactionDate' | translate }}</th>
+                                <th>{{ 'MemberManage_FundMethods' | translate }}</th>
+                                <th>{{ 'MemberManage_Status' | translate }}</th>
+                                <th>{{ 'MemberManage_PromotionEndDate' | translate }}</th>
+                                <th>{{ 'MemberManage_Credit' | translate }}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="dataSource.mPromotionList.length === 0">
+                                <td colspan="7">{{ 'NoData' | translate }}</td>
+                            </tr>
+                            <tr ng-repeat="promotion in dataSource.mPromotionList">
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ promotion.JoinDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                                <td>{{ promotion.promotion.PromotionName }}</td>
+                                <td>{{ promotion.Status }}</td>
+                                <td ng-if="!promotion.InProgress">{{ promotion.promotion.PromotionPeriodE | date : "yyyy-MM-dd HH:mm:ss" }}</td>
+                                <td ng-if="promotion.InProgress">InProgress</td>
+                                <td>{{ promotion.TotalBonus | currency : "" : 2 }}</td>
+                                <td>
+                                    <button ng-if="promotion.IslockWithdrawal" type="button" class="btn btn-danger" ng-click="cancelPromotion(promotion)">Cancel</button>
+                                    <span ng-if="!promotion.IslockWithdrawal"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="margin:0px auto;">
+                    <pagination options="dataSource.PagerObj3" page-changed="PageChanged3(dataSource.PagerObj3.CurrentPage)"></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--活動流水表-->
+    <div ng-if="dataSource.pageStatus == 'promotionTurnOverView'">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>{{ 'No' | translate }}</th>
+                                <th>{{ 'MemberManage_TransactionDate' | translate }}</th>
+                                <th>{{ 'MemberManage_PromotionAmount' | translate }}</th>
+                                <th>{{ 'MemberManage_Multiply' | translate }}</th>
+                                <th>{{ 'MemberManage_Deposit' | translate }}</th>
+                                <th>{{ 'MemberManage_TurnOver' | translate }}</th>
+                                <th>{{ 'MemberManage_RemainingTurnover' | translate }}</th>
+                                <th>{{ 'MemberManage_WinLose' | translate }}</th>
+                                <th>{{ 'MemberManage_Rollover' | translate }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="dataSource.mPromotionList.length === 0">
+                                <td colspan="9">{{ 'NoData' | translate }}</td>
+                            </tr>
+                            <tr ng-repeat="promotion in dataSource.mPromotionList">
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ promotion.JoinDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                                <td>{{ promotion.TotalDepositAmount  | currency : "" : 2}}</td>
+                                <td>{{ promotion.promotion.UnlockWithdrawalMultiple}}</td>
+                                <td>{{ promotion.LossUnlockAmount | currency : "" : 2 }}</td>
+                                <td>{{ promotion.UnlockWithdrawalTask  | currency : "" : 2}}</td>
+                                <td>{{ promotion.RemainingTurnover | currency : "" : 2 }}</td>
+                                <td>{{ promotion.WinLoseMoney | currency : "" : 2 }}</td>
+                                <td>{{ promotion.TurnOverAmount  | currency : "" : 2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="margin:0px auto;">
+                    <pagination options="dataSource.PagerObj3" page-changed="PageChanged3(dataSource.PagerObj3.CurrentPage)"></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--上級選擇視窗-->
+    <button id="ShowMemberDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#MemberDialog"
+            style="display:none"></button>
+    <div class="modal fade" id="MemberDialog" tabindex="-1" role="dialog" aria-labelledby="MemberDialogTitle"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{ dataSource.modalMsg.title | translate }} {{ 'MemberManage_Level' | translate }}:{{dataSource.parentInfo.level}} {{ 'MemberManage_Status' | translate }}:{{dataSource.status}}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row-form">
+                        <div ng-if="dataSource.status <= 1">
+                            <div class="col-md-6">
+                                <label for="Customer:">{{ 'MemberManage_SM' | translate }}:</label>
+                                <div class="clearfix"></div>
+                                <select ng-model="dataSource.parentData[0].selData" ng-change="changeParent(dataSource.parentData[0],2)"
+                                        ng-options="option as option.UserName for option in dataSource.parentData[0].listData" class="form-control">
+                                    <!--<option value="-1">Please Choose</option>
+                                          <option value="SM1">SM1</option>
+                                          <option value="SM2">SM2</option>
+                                          <option value="SM3">SM3</option>-->
+                                </select>
+                            </div>
+                        </div>
+                        <div ng-if="dataSource.parentInfo.level > 2 && dataSource.status <= 2">
+                            <div class="col-md-6">
+                                <label class="control-label" for="Customer:">{{ 'MemberManage_M' | translate }}:</label>
+                                <select ng-model="dataSource.parentData[1].selData" ng-change="changeParent(dataSource.parentData[1],3)"
+                                        ng-options="option as option.UserName for option in dataSource.parentData[1].listData" class="form-control"></select>
+
+                            </div>
+                        </div>
+                        <div ng-if="dataSource.parentInfo.level > 3 && dataSource.status <= 3">
+                            <div class="col-md-6 mt-10">
+                                <label for="Customer:">{{ 'MemberManage_AG' | translate }}:</label>
+                                <select ng-model="dataSource.parentData[2].selData" ng-change="changeParent(dataSource.parentData[2],4)"
+                                        ng-options="option as option.UserName for option in dataSource.parentData[2].listData" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="col-md-12 mt-10" for="Customer:">{{ 'MemberManage_SelectParent' | translate }}:</label>
+                            <div class="col-md-12 mt-5">
+                                <div>{{dataSource.parentInfo.agentParent.UserName | userName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(false)">Cancel</button>-->
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal"
+                            ng-click="confirmAgent(true)">
+                        {{ 'Confirm' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--顯示銀行,錢包視窗-->
+    <button id="ShowDetailDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#DetailDialog"
+            style="display:none"></button>
+    <div class="modal fade" id="DetailDialog" tabindex="-1" role="dialog" aria-labelledby="DetailDialogTitle"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{ dataSource.modalMsg.title | translate }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row-form">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered" ng-if="dataSource.modalMsg.type =='Bank'">
+                                <thead>
+                                    <tr>
+                                        <!--<th>{{ 'MemberManage_BankCode' | translate }}</th>-->
+                                        <th>{{ 'MemberManage_BankName' | translate }}</th>
+                                        <th>{{ 'MemberManage_BankNumber' | translate }}</th>
+                                        <th>{{ 'MemberManage_BankNotice' | translate }}</th>
+                                        <th>{{ 'MemberManage_BankURL' | translate }}</th>
+                                        <th>{{ 'MemberManage_IsEnable' | translate }}</th>
+                                        <th>{{ 'MemberManage_MaxAmount' | translate }}</th>
+                                        <th>{{ 'MemberManage_MinAmount' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="bank in dataSource.selMemberInfo.Banks">
+                                        <!--<td>{{bank.BankCode}}</td>-->
+                                        <td>{{bank.BankName}}</td>
+                                        <td>{{bank.BankNumber}}</td>
+                                        <td>{{bank.BankNotic}}</td>
+                                        <td>{{bank.BankUrl}}</td>
+                                        <td>{{bank.IsEnable}}</td>
+                                        <td>{{bank.MaxAmount | currency : "" : 2}}</td>
+                                        <td>{{bank.MinAmount | currency : "" : 2}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-striped table-bordered" ng-if="dataSource.modalMsg.type =='Wallet'">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'MemberManage_CompanyID' | translate }}</th>
+                                        <th>{{ 'MemberManage_LotteryClassName' | translate }}</th>
+                                        <th>{{ 'MemberManage_TotalPrice' | translate }}</th>
+                                        <th>{{ 'MemberManage_TodayTotalWin' | translate }}</th>
+                                        <th>{{ 'MemberManage_TodayTotalLost' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="wallet in dataSource.selMemberInfo.Wallets">
+                                        <td>{{wallet.CompanyID}}</td>
+                                        <td>{{wallet.LotteryClassName}}</td>
+                                        <td>{{wallet.TotalPrice}}</td>
+                                        <td>{{wallet.TodayTotalWin}}</td>
+                                        <td>{{wallet.TodayTotalLost}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(false)">Cancel</button>-->
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal">
+                        {{ 'Confirm' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--顯示銀行編輯視窗-->
+    <button id="ShowBankDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#BankDialog"
+            style="display:none"></button>
+    <div class="modal fade" id="BankDialog" tabindex="-1" role="dialog" aria-labelledby="BankDialogTitle"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{ dataSource.modalMsg.title | translate }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row-form">
+                        <div>
+                            <label class="col-xs-12 control-label" for="Customer:">{{ 'MemberManage_BankName' | translate }}:</label>
+                            <div class="col-xs-12">
+                                <!--<input class="form-control" ng-model="dataSource.selBank.BankName" />-->
+                                <select class="form-control" name="AcceptedBanks" ng-model="dataSource.selBank.BankInfo" required
+                                        ng-options="ABank.BankName for ABank in dataSource.AcceptedBanks"></select>
+                            </div>
+                        </div>
+                        <!--<div>
+                            <label class="col-md-2 col-md-offset-2 control-label" for="Customer:">{{ 'MemberManage_BankCode' | translate }}:</label>
+                            <div class="col-md-8">
+                                <input class="form-control" ng-model="dataSource.selBank.BankCode" />
+                            </div>
+                        </div>-->
+                        <div>
+                            <label class="col-xs-12 control-label" for="Customer:">{{ 'MemberManage_BankNumber' | translate }}:</label>
+                            <div class="col-xs-12">
+                                <input class="form-control" ng-model="dataSource.selBank.BankNumber" />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="col-xs-12 control-label" for="Customer:">{{ 'MemberManage_AccountName' | translate }}:</label>
+                            <div class="col-xs-12">
+                                <input class="form-control" ng-model="dataSource.selMemberInfo.FullName" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(false)">Cancel</button>-->
+                    <button type="button" class="btn rectangle-btn" data-dismiss="modal"
+                            ng-click="addOrEditBank(true)">
+                        {{ 'Confirm' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--顯示Statement明細視窗-->
+    <div class="modal fade bet_area" id="ReceiptModal" tabindex="-1" role="dialog"
+         aria-labelledby="ReceiptModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                    <h5 class="modal-title">{{ 'MemberManage_BetDetail' | translate }}</h5>
+                </div>
+                <div class="modal-body" ng-if="dataSource.selStatement.statements.length > 0">
+                    <div class="col-md-6 nopadding text-yellow">
+                        <span>{{ 'MemberManage_BillNo' | translate }}:</span>
+                        {{dataSource.selStatement.CurrentPeriod}}
+                    </div>
+                    <div class="col-md-6 nopadding bet_text">
+                        <span>{{ 'MemberManage_Time' | translate }}:</span>
+                        {{dataSource.selStatement.Time | date : "yyyy/MM/dd HH:mm:ss"}}
+                    </div>
+                    <div class="col-md-6 nopadding bet_text">
+                        <span>{{ 'MemberManage_Detail' | translate }}:</span>
+                        {{dataSource.selStatement.Detail}}
+                    </div>
+                    <div class="col-md-6 nopadding bet_text">
+                        <span>{{ 'MemberManage_Balance' | translate }}:</span>
+                        {{dataSource.selStatement.Balance | number: 2}}
+                    </div>
+                    <div class="col-md-6 nopadding bet_text">
+                        <span>{{ 'MemberManage_Accumulative' | translate }}:</span>
+                        {{dataSource.selStatement.Accumulative | number: 2}}
+                    </div>
+                    <div class="col-md-6 nopadding bet_text">
+                        <span>{{ 'MemberManage_Amount' | translate }}:</span>
+                        {{dataSource.selStatement.Amount | number: 2 }}
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12">
+                        <div class="table-responsive">
+                            <table class="mt-0 table table-striped table-bordere">
+                                <tr>
+                                    <th>{{ 'MemberManage_Time' | translate }}</th>
+                                    <th ng-if="dataSource.detailStatus==='lotto'">{{ 'MemberManage_LotteryTypeName' | translate }}</th>
+                                    <th ng-if="dataSource.detailStatus==='slot'">{{ 'MemberManage_RoundID' | translate }}</th>
+                                    <th>{{ 'MemberManage_Balance' | translate }}</th>
+                                    <th ng-if="dataSource.detailStatus==='lotto'">{{ 'MemberManage_Detail' | translate }}</th>
+                                    <th>{{ 'MemberManage_Amount' | translate }}</th>
+                                    <th>{{ 'MemberManage_Accumulative' | translate }}</th>
+                                </tr>
+                                <tr ng-repeat="detail in dataSource.selStatement.statements">
+                                    <td>{{detail.CreateDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                                    <td ng-if="dataSource.detailStatus==='lotto'">{{detail.LotteryTypeName}}</td>
+                                    <td ng-if="dataSource.detailStatus==='slot'">{{detail.RoundId}}</td>
+                                    <td>{{detail.Balance | number: 2}}</td>
+                                    <td ng-if="dataSource.detailStatus==='lotto'">{{detail.TypeCode}}</td>
+                                    <td>
+                                        {{detail.ValueMoney | number: 2 }}
+                                    </td>
+                                    <td>{{detail.Total | number: 2}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

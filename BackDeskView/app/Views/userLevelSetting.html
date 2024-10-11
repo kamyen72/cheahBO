@@ -1,0 +1,101 @@
+﻿<div>
+    <div class="css_table">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ 'UserLevelSetting_LevelName' | translate }}</th>
+                        <th>{{ 'UserLevelSetting_LevelNotice' | translate }}</th>
+                        <th>{{ 'UserLevelSetting_MinAddCredit' | translate }}</th>
+                        <th>{{ 'UserLevelSetting_MinTotalRealBet' | translate }}</th>
+                        <!--<th>{{ 'UserLevelSetting_SPCashBack' | translate }}</th>
+                        <th>{{ 'UserLevelSetting_Sort' | translate }}</th>-->
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="level in dataSource.listData">
+                        <td>{{level.LevelName}}</td>
+                        <td>{{level.LevelNotice}}</td>
+                        <td>{{level.MinAddCredit}}</td>
+                        <td>{{level.MinTotalRealBet}}</td>
+                        <!--<td>{{level.SPCashBack}}</td>
+                        <td>{{level.Sort}}</td>-->
+                        <td><input type="button" class="btn btn-success" value="{{ 'Edit' | translate }}" ng-click="showEdit(level)"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<button id="ShowLevelDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#LevelDialog"
+        style="display:none"></button>
+<div class="modal fade" id="LevelDialog" tabindex="-1" role="dialog" aria-labelledby="LevelDialogTitle"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    {{dataSource.modalMsg.title | translate }}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+         
+                <form name="form" class="form-horizontal" role="form">
+                    <div class="modal-body">
+                    <div class="list_style">
+                        <ul class="mb-0">
+                            <li class="col-xs-6">
+                                <label class=" control-label">{{ 'UserLevelSetting_LevelName' | translate }}:</label>
+
+                                <input name="LevelName" class="form-control" type="text" ng-model="dataSource.userLevel.LevelName"
+                                       required />
+                            </li>
+                            <li class="col-xs-6">
+                                <label class=" control-label">{{ 'UserLevelSetting_LevelNotice' | translate }}:</label>
+                                <input name="LevelNotice" class="form-control" type="text" ng-model="dataSource.userLevel.LevelNotice"
+                                       required />
+                            </li>
+                            <li class="col-xs-6">
+                                <label class="control-label">{{ 'UserLevelSetting_MinAddCredit' | translate }}:</label>
+
+                                <input name="MinAddCredit" class="form-control" type="text" ng-model="dataSource.userLevel.MinAddCredit"
+                                       required />
+                            </li>
+                            <li class="col-xs-6">
+                                <label class=" control-label">{{ 'UserLevelSetting_MinTotalRealBet' | translate }}:</label>
+
+                                <input name="MinTotalRealBet" class="form-control" type="text"
+                                       ng-model="dataSource.userLevel.MinTotalRealBet" required />
+                            </li>
+                            <!--<li class="col-xs-6">
+                                <label class=" control-label">{{ 'UserLevelSetting_SPCashBack' | translate }}:</label>
+
+                                <input name="SPCashBack" class="form-control" type="text" ng-model="dataSource.userLevel.SPCashBack"
+                                       required />
+                            </li>
+                            <li class="col-xs-6">
+                                <label class=" control-label">{{ 'UserLevelSetting_Sort' | translate }}:</label>
+
+                                <input name="Sort" class="form-control" type="text" ng-model="dataSource.userLevel.Sort" required>
+                            </li>-->
+                        </ul>
+                    </div>
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn rectangle-btn" data-dismiss="modal"
+                                ng-click="updateUserLevel(form)">
+                            {{ 'Confirm' | translate }}
+                        </button>
+                        <button type="button" class="btn rectangle-btn" data-dismiss="modal">
+                            {{ 'Cancel' | translate }}
+                        </button>
+                    </div>
+                </form>
+           
+        </div>
+    </div>
+</div>
